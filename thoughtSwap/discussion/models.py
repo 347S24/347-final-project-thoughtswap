@@ -1,3 +1,45 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
+class Facilitator(models.Model):
+    """Model representing a facilitator."""
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.last_name}, {self.first_name}'
+    
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this facilitator."""
+        return reverse('facilitator-detail', args=[str(self.id)])
+    
+class Student(models.Model):
+    """Model representing a student."""
+    username = models.CharField(max_length=100) # This is the anonymous username given to the student 
+    
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.username}'
+    
+    # def get_absolute_url(self):
+    #     """Returns the url to access a detail record for this student."""
+    #     return reverse('facilitator-detail', args=[str(self.id)])
+    
+class Discussion(models.Model):
+    """Model representing a discussion."""
+    facilitator = models.ForeignKey('Facilitator', on_delete=models.SET_NULL, null=True)
+    title = models.CharField(max_length=200)
+    date = models.DateField(null=True, blank=True)
+    prompt = models.TextField(max_length=1000, help_text='Enter a the prompt of the discussion')
+    answers = models.TextField(max_length=1000, help_text='Enter a the answers of the discussion')
+    
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.title
+    
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this discussion."""
+        return reverse('discussion-detail', args=[str(self.id)])
+
