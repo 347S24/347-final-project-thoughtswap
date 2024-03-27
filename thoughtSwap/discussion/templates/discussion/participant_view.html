@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+
+{% block header %}
+<h1 class="discussion-header">Welcome to the participant discussion page</h1>
+{% endblock %}
+
+{% block prompt %}
+<div class="discussion-board">
+    <h1>Prompt:</h1>
+    <div class="prompt-display">
+        This will eventually read the prompt
+    </div>
+    <h1>Answer:</h1>
+    <form method="GET">
+        <div class="prompt-container">
+            <!-- fix submit on enter -->
+            <input type="text" name="answer" placeholder="Enter Your Answer">
+        </div>
+        <div class="prompt-btn-container">
+            <button class="prompt-btn" type="submit">Submit Answer</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block response %}
+<div class="discussion-board">
+    <h1>Responses</h1>
+    <div id="response-board">
+        <!-- {% for response in responses %}
+        {{ response }}
+    </div>
+    {% endfor %} -->
+        <div class="response-item">
+            response 1: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+        <div class="response-item">
+            response 2: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+        <div class="response-item">
+            response 3: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+        <div class="response-item">
+            response 4: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+        <div class="response-item">
+            response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+        <div class="response-item">
+            response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+        <div class="response-item">
+            response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+        <div class="response-item">
+            response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+        <div class="response-item">
+            response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+        <div class="response-item">
+            response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+    </div>
+</div>
+{% endblock %}
