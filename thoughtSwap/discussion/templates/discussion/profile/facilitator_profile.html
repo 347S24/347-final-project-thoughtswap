@@ -1,0 +1,70 @@
+{% extends "index.html" %}
+{% block header %}
+{% endblock %}
+{% block content %}
+<!-- from https://dev.to/codeply/bootstrap-5-sidebar-examples-38pb -->
+<div class="profile-container">
+    <div class="facilitator-nav">
+        <div>
+            <div class="">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'facilitator-prompts' %}"><span class="">Prompts</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'facilitator-discussions' %}" data-bs-toggle="collapse">
+                            <span class="ms-1 d-none d-sm-inline">Discussions</span>
+                        </a>
+                        <!-- <ul class="nav-list" id="submenu1" data-bs-parent="#menu">
+                            <li class="nav-item">
+                                <a class="nav-link"href="#" class=""> <span class="">Item</span> 1
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class=""> <span class="">Item</span> 2
+                                </a>
+                            </li>
+                        </ul> -->
+                    </li>
+                </ul>
+                <hr>
+                <div class="dropdown pb-4">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'facilitator-profile' %}">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Sign out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block profileContent %}
+    <div class="facilitator-profile">
+        <div class="col py-3">
+            <h1 class="discussion-header">Welcome {{user}}</h1>
+            <h2 class="discussion-header">This is the profile area to display info like past discussions and prompts
+            </h2>
+            <div class="profile-container" id="profile-info">
+                <div class="info-display">
+                    <a class="nav-link" href="{% url 'facilitator-prompts' %}"><span>This will display prompts</span></a>
+                    <!-- {% for prompt in prompts %}
+                    <div class="prompt-item">
+                        <a class="nav-link"href="#"><span>{{ prompt }}</span></a>
+                    </div>
+                    {% endfor %} -->
+                </div>
+                <div class="info-display">
+                    <a class="nav-link" href="{% url 'facilitator-discussions' %}"><span>This will display discussions</span></a>
+                    <!-- {% for discussion in discussions %}
+                    <div class="discussion">
+                        <a class="nav-link"href="#"><span>{{ discussion }}</span></a>
+                    </div>
+                    {% endfor %} -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endblock %}
+</div>
+{% endblock %}

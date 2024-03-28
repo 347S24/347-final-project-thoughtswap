@@ -30,10 +30,8 @@ class Student(models.Model):
 class Discussion(models.Model):
     """Model representing a discussion."""
     facilitator = models.ForeignKey('Facilitator', on_delete=models.SET_NULL, null=True)
-    title = models.CharField(max_length=200)
-    date = models.DateField(null=True, blank=True)
+    code = models.CharField(max_length=200)
     prompt = models.TextField(max_length=1000, help_text='Enter a the prompt of the discussion')
-    answers = models.TextField(max_length=1000, help_text='Enter a the answers of the discussion')
     
     def __str__(self):
         """String for representing the Model object."""

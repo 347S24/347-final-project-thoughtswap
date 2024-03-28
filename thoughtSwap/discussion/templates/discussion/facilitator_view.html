@@ -4,7 +4,7 @@
 <h1 class="discussion-header">Welcome to the facilitator discussion page</h1>
 {% endblock %}
 
-{% block prompt %}
+{% block leftside %}
 <div class="discussion-board">
     <h1>Enter A Prompt</h1>
     <form method="GET">
@@ -14,13 +14,13 @@
         </div>
         <div class="prompt-btn-container">
             <button class="prompt-btn" type="submit">Submit Prompt</button>
-            <button class="prompt-btn">Distribute Answers</button>
+            <button class="prompt-btn" type="button">Distribute Answers</button>
         </div>
     </form>
 </div>
 {% endblock %}
 
-{% block response %}
+{% block rightside %}
 <div class="discussion-board">
     <h1>Responses</h1>
     <div id="response-board">

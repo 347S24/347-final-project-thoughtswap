@@ -1,10 +1,10 @@
 {% extends "index.html" %}
 
 {% block header %}
-<h1 class="discussion-header">Welcome to the participant discussion page</h1>
+<h1 class="discussion-header">Participant Discussion</h1>
 {% endblock %}
 
-{% block prompt %}
+{% block leftside %}
 <div class="discussion-board">
     <h1>Prompt:</h1>
     <div class="prompt-display">
@@ -14,7 +14,7 @@
     <form method="GET">
         <div class="prompt-container">
             <!-- fix submit on enter -->
-            <input type="text" name="answer" placeholder="Enter Your Answer">
+            <textarea rows="5" cols="33" name="answer" placeholder="Enter Your Answer"></textarea>
         </div>
         <div class="prompt-btn-container">
             <button class="prompt-btn" type="submit">Submit Answer</button>
@@ -23,7 +23,7 @@
 </div>
 {% endblock %}
 
-{% block response %}
+{% block rightside %}
 <div class="discussion-board">
     <h1>Responses</h1>
     <div id="response-board">
