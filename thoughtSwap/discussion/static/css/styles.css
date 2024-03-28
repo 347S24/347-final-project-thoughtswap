@@ -6,7 +6,20 @@ Off White: #eeecdd
 Light Blue: #87bcc7
 Dark Blue: #23596d
 */
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+}
 
+.facilitator-nav {
+    width: 30%;
+    max-width: 200px;
+}
+
+.facilitator-profile {
+    width: 100%;
+}
 .discussion-header {
     padding: 1rem;
 }

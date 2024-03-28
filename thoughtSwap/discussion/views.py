@@ -17,6 +17,14 @@ class FacilitatorDiscussionView(generic.ListView):
     template_name = 'discussion/facilitator_view.html'
     # paginate_by = 10
 
+class FacilitatorProfileView(generic.ListView):
+    # eventually need LoginRequiredMixin
+    model = Facilitator
+    # context_object_name = 'facilitator_list'
+    # queryset = Facilitator.objects.all()
+    template_name = 'discussion/facilitator_profile.html'
+    # paginate_by = 10
+
 class ParticipantDiscussionView(generic.ListView):
     model = Student
     template_name = 'discussion/participant_view.html'

@@ -1,32 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-
-
-<head>
-    {% block title %}
-    <title>ThoughtSwap</title>
-    {% endblock %}
-    <link rel="stylesheet" href="../../static/css/styles.css">
-</head>
-
+{% extends "base_generic.html" %}
 
 {% block content %}
 
 <body>
-    <div class="topnav">
-        <a id="logo" href="homepage.html">ThoughtSwap</a>
-        <!--login.html is blank right now-->
-        <a href="login.html">Log In</a>
-        <!--eventually link the page for inserting a code-->
-        <a href="">Quick Swap</a>
-    </div>
     <div>
         {% block header %}
-        <h1 class="discussion-header"> Welcome to facilitator view</h1>
+        <h1 class="discussion-header"> Welcome to index.html</h1>
         {% endblock %}
     </div>
     <div class="discussion-container">
-        {% block prompt %}
+        {% block leftside %}
         <div class="discussion-board">
             <div class="prompt-container" id="front-page-mission">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
@@ -34,7 +17,7 @@
         </div>
         {% endblock %}
         <!--Eventually we can pick some kind of picture to put here just for aethetic value-->
-        {% block response %}
+        {% block rightside %}
         <div class="response-board">
             <img src="https://loremflickr.com/360/680" alt="Place Holder Image For Now.">
         </div>
