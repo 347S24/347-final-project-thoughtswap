@@ -22,7 +22,15 @@ class FacilitatorProfileView(generic.ListView):
     model = Facilitator
     # context_object_name = 'facilitator_list'
     # queryset = Facilitator.objects.all()
-    template_name = 'discussion/facilitator_profile.html'
+    template_name = 'discussion/profile/facilitator_profile.html'
+    # paginate_by = 10
+
+class FacilitatorPromptView(generic.ListView):
+    # eventually need LoginRequiredMixin
+    model = Facilitator
+    # context_object_name = 'facilitator_list'
+    # queryset = Facilitator.objects.all()
+    template_name = 'discussion/profile/prompt_display.html'
     # paginate_by = 10
 
 class ParticipantDiscussionView(generic.ListView):

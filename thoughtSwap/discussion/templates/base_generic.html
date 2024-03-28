@@ -6,7 +6,7 @@
     {% block title %}
     <title>ThoughtSwap</title>
     {% endblock %}
-    <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
 <body>
@@ -17,10 +17,11 @@
         <!--eventually link the page for inserting a code-->
         <a href="">Quick Swap</a>
     </div>
-    {% block content %}
     {% block header %}
-    <h1 class="discussion-header"> Welcome to the Base Page</h1>
+        <h1 class="discussion-header"> Welcome to the Base Page</h1>
     {% endblock %}
+    {% block content %}
+
     {% endblock %}
 </body>
 

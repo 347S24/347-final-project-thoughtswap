@@ -9,17 +9,48 @@ Dark Blue: #23596d
 .profile-container {
     display: flex;
     justify-content: space-between;
-    padding: 1em;
+}
+
+#profile-info {
+    justify-content: space-around;
+}
+
+.info-display {
+    height: fit-content !important;
+    width: 100%;
+    border: solid 1px grey;
+    border-radius: 15px;
+    background: rgb(235, 235, 235);
+    padding: 1rem;
+    margin: 1em;
 }
 
 .facilitator-nav {
     width: 30%;
     max-width: 200px;
+    background-color: #f0caa4;
+    height: 100vh;
+}
+
+.nav-list {
+    padding-left: 1em;
+}
+
+.nav-item {
+    list-style: georgian inside url('../media/chevron-right-svgrepo-com.svg');
+    padding-top: 0.5em;
+}
+
+.nav-link {
+    color: #000;
+    text-decoration: none;
 }
 
 .facilitator-profile {
     width: 100%;
+    margin-left: 1em;
 }
+
 .discussion-header {
     padding: 1rem;
 }
@@ -28,11 +59,13 @@ Dark Blue: #23596d
     margin: 1em;
     width: 100%;
 }
+
 #response-board {
     /* fix to sixe of container */
     max-height: 550px;
     overflow-y: scroll;
 }
+
 .discussion-container {
     display: flex;
     justify-content: space-around;
@@ -47,7 +80,8 @@ Dark Blue: #23596d
     min-height: 500px;
     margin: 1em;
 }
-.prompt-container > input {
+
+.prompt-container>input {
     background: none;
     border: none;
     width: 100%;
@@ -56,6 +90,7 @@ Dark Blue: #23596d
     vertical-align: top;
     text-indent: 0;
 }
+
 .prompt-display {
     height: fit-content !important;
     border: solid 1px grey;
@@ -64,6 +99,7 @@ Dark Blue: #23596d
     padding: 1rem;
     margin: 1em;
 }
+
 .response-item {
     border: solid 1px grey;
     border-radius: 15px;
@@ -146,6 +182,11 @@ body {
 }
 
 .start-swap-btn a {
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
     color: #f2f2f2;
 }
 
