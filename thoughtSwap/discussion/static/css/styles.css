@@ -194,6 +194,7 @@ Dark Blue: #23596d
 .prompt-btn-container {
     display: flex;
     justify-content: center;
+    margin-right: 1em;
 }
 
 .textarea {
