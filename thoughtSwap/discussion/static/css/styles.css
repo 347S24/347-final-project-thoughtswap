@@ -60,6 +60,10 @@ Dark Blue: #23596d
     width: 100%;
 }
 
+.response-board {
+    padding: 1rem;
+}
+
 #response-board {
     /* fix to sixe of container */
     max-height: 550px;
@@ -110,6 +114,7 @@ Dark Blue: #23596d
 #front-page-mission {
     margin: 0;
 }
+
 .prompt-display {
     height: fit-content !important;
     border: solid 1px grey;
@@ -210,7 +215,6 @@ Dark Blue: #23596d
     border-radius: 15px;
     padding: 1em;
     font-family: 'Times New Roman', Times, serif;
-    margin: 1em;
 }
 
 /* HOME PAGE / DEFAULT VALUES */
