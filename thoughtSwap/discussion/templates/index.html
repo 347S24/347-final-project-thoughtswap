@@ -1,3 +1,31 @@
-{% block content %}
-<h1>Welcome</h1>
+{% extends "base_generic.html" %}
+
+{% block header %}
+<h1 class="discussion-header"> Welcome to index.html</h1>
 {% endblock %}
+{% block content %}
+
+<div class="discussion-container">
+    {% block leftside %}
+    <div class="discussion-board">
+        <div class="prompt-container" id="front-page-mission">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        </div>
+    </div>
+    {% endblock %}
+    <!--Eventually we can pick some kind of picture to put here just for aethetic value-->
+    {% block rightside %}
+    <div class="response-board">
+        <img src="https://loremflickr.com/360/680" alt="Place Holder Image For Now.">
+    </div>
+    {% endblock %}
+</div>
+
+<div class="start-swap-btn">
+    <!--eventually link the page for inserting a code/starting a thought swap activity-->
+    <a href="{% url 'participant-view' %}">Start Swap</a>
+</div>
+{% endblock %}
+
+
+<!-- what's the point of an application rather than adding everything to the root folder? -->
