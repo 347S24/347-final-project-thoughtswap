@@ -37,8 +37,8 @@ Dark Blue: #23596d
 }
 
 .nav-item {
-    list-style: georgian inside url('../media/chevron-right-svgrepo-com.svg');
     padding-top: 0.5em;
+    list-style: none;
 }
 
 .nav-link {
@@ -85,7 +85,7 @@ Dark Blue: #23596d
 .discussion-container {
     display: flex;
     justify-content: space-around;
-    /* margin-top: 2rem; */
+    margin: 0.5rem;
 }
 
 .prompt-container {
@@ -107,6 +107,9 @@ Dark Blue: #23596d
     text-indent: 0;
 }
 
+#front-page-mission {
+    margin: 0;
+}
 .prompt-display {
     height: fit-content !important;
     border: solid 1px grey;
@@ -187,8 +190,9 @@ Dark Blue: #23596d
     text-decoration: none;
     display: inline-block;
     text-align: center;
-    font-family: 'Times New Roman', Times, serif;
     font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
 }
 
 .prompt-btn-container {
@@ -209,9 +213,26 @@ Dark Blue: #23596d
     margin: 1em;
 }
 
+/* HOME PAGE / DEFAULT VALUES */
 body {
     background: #eeecdd;
     margin: 0;
+}
+
+h1 {
+    font-family: Arial Black, verdana, sans-serif;
+}
+
+a {
+    font-family: arial;
+    font-weight: bold;
+}
+
+p,
+div,
+span {
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .topnav {
@@ -252,8 +273,8 @@ body {
     width: 15rem;
     margin: auto;
     margin-top: 2rem;
+    margin-bottom: 2rem;
     height: 2rem;
-    padding-top: .75rem;
     color: white;
 }
 
@@ -263,11 +284,12 @@ body {
 
 .start-swap-btn a {
     text-decoration: none;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
     text-align: center;
     color: #f2f2f2;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .start-swap-btn a:hover {
