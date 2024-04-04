@@ -6,23 +6,26 @@
     {% block title %}
     <title>ThoughtSwap</title>
     {% endblock %}
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="script" href="../static/js/script.js">
 
 </head>
 
 
 <body>
     <div class="topnav">
-        <a id="logo" href="homepage.html">ThoughtSwap</a>
+        <a class="nav-link" href="index.html">ThoughtSwap</a>
         <!--login.html is blank right now-->
-        <a href="login.html">Log In</a>
+        <a class="nav-link" href="login.html">Log In</a>
         <!--eventually link the page for inserting a code-->
-        <a href="">Quick Swap</a>
+        <button class="nav-link" onclick="quickSwap()">Quick Swap</button>
+        <span class="popuptext" id="myPopup">Popup text...</span>
     </div>
     {% block header %}
     <h1 class="discussion-header"> Welcome to index.html</h1>
     {% endblock %}
     {% block content %}
+    
 
     <div class="discussion-container">
         {% block leftside %}
