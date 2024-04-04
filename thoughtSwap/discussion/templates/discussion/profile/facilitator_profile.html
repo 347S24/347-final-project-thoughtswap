@@ -9,12 +9,21 @@
             <div class="">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'facilitator-prompts' %}"><span class="">Prompts</span>
+                        <a class="nav-link" href="{% url 'facilitator-groups' %}"><img
+                                src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
+                                class="ms-1 d-none d-sm-inline">Groups</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'facilitator-prompts' %}"><img
+                                src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
+                                class="ms-1 d-none d-sm-inline">Prompts</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'facilitator-discussions' %}" data-bs-toggle="collapse">
-                            <span class="ms-1 d-none d-sm-inline">Discussions</span>
+                            <img src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
+                                class="ms-1 d-none d-sm-inline">Discussions</span>
                         </a>
                         <!-- <ul class="nav-list" id="submenu1" data-bs-parent="#menu">
                             <li class="nav-item">
@@ -31,8 +40,12 @@
                 <hr>
                 <div class="dropdown pb-4">
                     <ul class="nav-list">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'facilitator-profile' %}">Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Sign out</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'facilitator-profile' %}"><img
+                                    src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
+                                    class="ms-1 d-none d-sm-inline">Profile</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><img
+                                    src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
+                                    class="ms-1 d-none d-sm-inline">Sign out</span></a></li>
                     </ul>
                 </div>
             </div>
@@ -46,7 +59,8 @@
             </h2>
             <div class="profile-container" id="profile-info">
                 <div class="info-display">
-                    <a class="nav-link" href="{% url 'facilitator-prompts' %}"><span>This will display prompts</span></a>
+                    <a class="nav-link" href="{% url 'facilitator-prompts' %}"><span>This will display
+                            prompts</span></a>
                     <!-- {% for prompt in prompts %}
                     <div class="prompt-item">
                         <a class="nav-link"href="#"><span>{{ prompt }}</span></a>
@@ -54,7 +68,8 @@
                     {% endfor %} -->
                 </div>
                 <div class="info-display">
-                    <a class="nav-link" href="{% url 'facilitator-discussions' %}"><span>This will display discussions</span></a>
+                    <a class="nav-link" href="{% url 'facilitator-discussions' %}"><span>This will display
+                            discussions</span></a>
                     <!-- {% for discussion in discussions %}
                     <div class="discussion">
                         <a class="nav-link"href="#"><span>{{ discussion }}</span></a>

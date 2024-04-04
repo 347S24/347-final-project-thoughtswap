@@ -45,3 +45,14 @@ class ParticipantDiscussionView(generic.ListView):
     model = Student
     template_name = 'discussion/participant_view.html'
     # paginate_by = 10
+
+class ParticipantGroupView(generic.ListView):
+    model = Student
+    template_name = 'discussion/participant_groups.html'
+    # paginate_by = 10
+
+
+class FacilitatorGroupView(generic.ListView):
+    model = Student
+    template_name = 'discussion/profile/facilitator_groups.html'
+    # paginate_by = 10
