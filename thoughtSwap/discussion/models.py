@@ -6,7 +6,9 @@ class Facilitator(models.Model):
     """Model representing a facilitator."""
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    
+    discussions = models.ForeignKey('Discussion', on_delete=models.RESTRICT, null=True)
+    prompt = models.ForeignKey('Prompt', on_delete=models.SET_NULL, null=True)
+
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.last_name}, {self.first_name}'
@@ -14,7 +16,14 @@ class Facilitator(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this facilitator."""
         return reverse('facilitator-detail', args=[str(self.id)])
-    
+
+class Prompt(models.Model):
+    title = models.TextField(max_length=1000, help_text='Enter a the prompt of the discussion')
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.title}'
+
 class Student(models.Model):
     """Model representing a student."""
     username = models.CharField(max_length=100) # This is the anonymous username given to the student 
@@ -29,9 +38,9 @@ class Student(models.Model):
     
 class Discussion(models.Model):
     """Model representing a discussion."""
-    facilitator = models.ForeignKey('Facilitator', on_delete=models.SET_NULL, null=True)
     code = models.CharField(max_length=200)
-    prompt = models.TextField(max_length=1000, help_text='Enter a the prompt of the discussion')
+    prompt = models.ForeignKey('Prompt', on_delete=models.SET_NULL, null=True)
+    participants = models.ForeignKey('Student', on_delete=models.SET_NULL, null=True)
     
     def __str__(self):
         """String for representing the Model object."""
