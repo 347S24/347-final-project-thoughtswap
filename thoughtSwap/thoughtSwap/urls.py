@@ -29,9 +29,9 @@ urlpatterns += [
     path('discussion/', include('discussion.urls')),
 ]
 
-# urlpatterns += [
-#     path('', RedirectView.as_view(url='discussion/', permanent=True)),
-# ]
+urlpatterns += [
+    path('', RedirectView.as_view(url='discussion/', permanent=True)),
+]
 urlpatterns += [
     path('', RedirectView.as_view(url='discussion/', permanent=True)),
 ]
