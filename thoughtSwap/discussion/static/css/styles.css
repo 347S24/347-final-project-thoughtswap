@@ -207,7 +207,7 @@ Dark Blue: #23596d
 }
 
 .textarea {
-    /* need to fix width, overflow because of padding ? */
+    /* need to fix width, overflow because of margin */
     width: 100%;
     height: 100%;
     border: solid 1px grey;
@@ -215,6 +215,137 @@ Dark Blue: #23596d
     border-radius: 15px;
     padding: 1em;
     font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 1rem;
+}
+
+.btn-group {
+    margin: 1em;
+    width: 90%;
+}
+
+.btn-sm {
+    background: rgb(235, 235, 235);
+    color: black;
+    text-align: start;
+    width: 100%;
+}
+.btn-sm:hover {
+    background: rgb(235, 235, 235);
+    color: black;
+}
+
+.dropdown-toggle {
+    width: 5%;
+    text-align: center;
+}
+
+.dropdown-toggle:hover {
+    background: rgb(214, 213, 213);
+    color: black;
+
+}
+
+.input {
+    width: 50%;
+    min-height: 36px;
+    margin: 0.5rem;
+}
+
+.create-group-btn {
+    border: none;
+    background-color: #23596d;
+    border: solid 1px grey;
+    border-radius: 15px;
+    width: 10rem;
+    margin: 0rem 1rem 2rem 3rem;
+    height: 2rem;
+    color: white;
+
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.create-group-btn:hover {
+    background-color: #c29568;
+}
+
+.tip-container {
+    position: relative;
+    display: inline-block;
+    /* If you want dots under the hoverable text */
+    /* border-bottom: 1px dotted black; */
+}
+
+/* groups display page css */
+.group-header {
+    font-size: x-large;
+    display: flex;
+    justify-content: center;
+}
+
+.group-board {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.group-crud {
+    border: solid 1px grey;
+    border-radius: 15px;
+    background: rgb(235, 235, 235);
+    padding: 1rem;
+    margin: 1em;
+    width: 30%;
+    justify-content: space-between;
+}
+
+.group-ud {
+    display: flex;
+    justify-content: space-around;
+}
+
+.ud-tool {
+    visibility: hidden;
+    min-width: 200px;
+    background-color: #e2bd9879;
+    color: #000000;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    margin-left: -60px;
+    /* Use half of the width (120/2 = 60), to center the tooltip */
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.start-disc:hover .ud-tool,
+.edit-group:hover .ud-tool,
+.delete-group:hover .ud-tool {
+    visibility: visible;
+}
+
+/* Tooltip text */
+.tooltext {
+    visibility: hidden;
+    min-width: 200px;
+    background-color: #e2bd9879;
+    color: #000000;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    left: 150%;
+    bottom: -100%;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tip-container:hover .tooltext {
+    visibility: visible;
 }
 
 /* HOME PAGE / DEFAULT VALUES */
