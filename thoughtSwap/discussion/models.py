@@ -16,14 +16,7 @@ class Facilitator(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this facilitator."""
         return reverse('facilitator-detail', args=[str(self.id)])
-
-class Prompt(models.Model):
-    title = models.TextField(max_length=1000, help_text='Enter a the prompt of the discussion')
-
-    def __str__(self):
-        """String for representing the Model object."""
-        return f'{self.title}'
-
+    
 class Student(models.Model):
     """Model representing a student."""
     username = models.CharField(max_length=100) # This is the anonymous username given to the student 
@@ -35,6 +28,14 @@ class Student(models.Model):
     # def get_absolute_url(self):
     #     """Returns the url to access a detail record for this student."""
     #     return reverse('facilitator-detail', args=[str(self.id)])
+
+class Prompt(models.Model):
+    title = models.TextField(max_length=1000, help_text='Enter a the prompt of the discussion')
+    author = models.TextField(max_length=50)
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return f'{self.title}'
     
 class Discussion(models.Model):
     """Model representing a discussion."""
@@ -50,3 +51,13 @@ class Discussion(models.Model):
         """Returns the url to access a detail record for this discussion."""
         return reverse('discussion-detail', args=[str(self.id)])
 
+class Thought(models.Model):
+    content = models.TextField(max_length=1000, help_text='Enter a response')
+    prompt = models.ForeignKey('Prompt', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.content
+    
+    def get_absolute_url(self):
+        return reverse('prompt-detail', args=[str(self.id)])
+    
