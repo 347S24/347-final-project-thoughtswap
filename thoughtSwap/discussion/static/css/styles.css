@@ -211,12 +211,14 @@ th {
     background: rgb(235, 235, 235);
     padding: 1rem;
     margin: 1em;
+    min-width: fit-content;
 }
 
 .thought-container {
     border: solid 1px grey;
     border-radius: 15px;
     background: rgb(235, 235, 235);
+    min-width: fit-content;
     padding: 1rem;
     margin: 1em;
     display: flex;
@@ -348,7 +350,9 @@ th {
     margin: 1em;
     width: 30%;
     justify-content: space-between;
+    min-width: fit-content;
 }
+
 
 .group-ud {
     display: flex;

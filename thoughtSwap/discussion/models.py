@@ -17,8 +17,8 @@ class Facilitator(models.Model):
     last_name = models.CharField(max_length=100, null=True, blank=True)
     username = models.CharField(
         max_length=100, unique=True, null=False, blank=False, default='username')
-    discussions = models.ForeignKey(
-        'Discussion', on_delete=models.SET_NULL, null=True, blank=True)
+    # discussion = models.ForeignKey(
+    #     'Discussion', on_delete=models.SET_NULL, null=True, blank=True)
     # prompt = models.ForeignKey('Prompt', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):

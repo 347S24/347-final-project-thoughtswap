@@ -32,257 +32,259 @@
             </form> -->
             <!-- <h1>Add participants</h1> -->
         </div>
-        <div class="response-board">
-            {% for group in facilitator.groups %}
-            <h1 class="group-header">{group}</h1>
-            <p class="group-content">Size: {group.size}</p>
-            <div class="group-ud">
-                <div class="tip-container">
-                    <button class="ud-button start-disc" type="button"><img
-                            src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
+        <h2 class="discussion-header">Existing groups</h2>
+        <div class="group-board">
+            {% for group in facilitator.group_set.all %}
+            <div class="group-crud">
+                <h1 class="group-header">{{ group }}</h1>
+                <p class="group-content">Size: {{ group.size }}</p>
+                <div class="group-ud">
+                    <div class="tip-container">
+                        <button class="ud-button start-disc" type="button"><img
+                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
 
-                        <span class="ud-tool">Start New Discussion</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button view-group" type="button"><img
-                            src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
+                            <span class="ud-tool">Start New Discussion</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button view-group" type="button" onclick="window.location.href = '{% url 'view-group' pk=facilitator.pk name=group %}'"><img
+                                src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
 
-                        <span class="ud-tool">View Group</span></button>
+                            <span class="ud-tool">View Group</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Group</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></button>
+                    </div>
                 </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button">
-                        <span class="ud-tool">Edit Group</span></button>
+            </div>
+            {% endfor %}
+        </div>
+        <h2 class="discussion-header">Static groups</h2>
+        <div class="group-board">
+            <div class="group-crud">
+                <h1 class="group-header">CS 149</h1>
+                <p>Size: </p>
+                <div class="group-ud">
+                    <div class="tip-container">
+                        <button class="ud-button start-disc" type="button"><img
+                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
+
+                            <span class="ud-tool">Start New Discussion</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button view-group" type="button"><img
+                                src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
+
+                            <span class="ud-tool">View Group</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Group</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></button>
+                    </div>
                 </div>
-                <div class="tip-container">
-                    <button class="ud-button delete-group" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                        <span class="ud-tool">Delete Group</span></button>
+            </div>
+            <div class="group-crud">
+                <h1 class="group-header">CS 159</h1>
+                <p class="group-content">Size: </p>
+                <div class="group-ud">
+                    <div class="tip-container">
+                        <button class="ud-button start-disc" type="button"><img
+                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
+
+                            <span class="ud-tool">Start New Discussion</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button view-group" type="button"><img
+                                src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
+
+                            <span class="ud-tool">View Group</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Participants</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="group-crud">
+                <h1 class="group-header">CS 240</h1>
+
+                <p class="group-content">Size: </p>
+                <div class="group-ud">
+                    <div class="tip-container">
+                        <button class="ud-button start-disc" type="button"><img
+                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
+
+                            <span class="ud-tool">Start New Discussion</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button view-group" type="button"><img
+                                src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
+
+                            <span class="ud-tool">View Group</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Participants</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="group-crud">
+                <h1 class="group-header">CS 261</h1>
+                <p class="group-content">Size: </p>
+                <div class="group-ud">
+                    <div class="tip-container">
+                        <button class="ud-button start-disc" type="button"><img
+                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
+
+                            <span class="ud-tool">Start New Discussion</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Participants</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="group-crud">
+                <h1 class="group-header">CS 361</h1>
+                <p class="group-content">Size: </p>
+                <div class="group-ud">
+                    <div class="tip-container">
+                        <button class="ud-button start-disc" type="button"><img
+                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
+
+                            <span class="ud-tool">Start New Discussion</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Participants</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="group-crud">
+                <h1 class="group-header">CS 343</h1>
+
+                <p class="group-content">Size: </p>
+                <div class="group-ud">
+                    <div class="tip-container">
+                        <button class="ud-button start-disc" type="button"><img
+                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
+
+                            <span class="ud-tool">Start New Discussion</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Participants</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="group-crud">
+                <h1 class="group-header">CS 347</h1>
+
+                <p class="group-content">Size: </p>
+                <div class="group-ud">
+                    <div class="tip-container">
+                        <button class="ud-button start-disc" type="button"><img
+                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
+
+                            <span class="ud-tool">Start New Discussion</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Participants</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="group-crud">
+                <h1 class="group-header">CS 444</h1>
+
+                <p class="group-content">Size: </p>
+                <div class="group-ud">
+                    <div class="tip-container">
+                        <button class="ud-button start-disc" type="button"><img
+                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
+                            <span class="ud-tool">Start New Discussion</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Participants</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="group-crud">
+                <h1 class="group-header">CS 445</h1>
+                <p class="group-content">Size: </p>
+                <div class="group-ud">
+                    <div class="tip-container">
+                        <button class="ud-button start-disc" type="button"><img
+                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
+                            <span class="ud-tool">Start New Discussion</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Participants</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></button>
+                    </div>
                 </div>
             </div>
         </div>
-        {% endfor %}
     </div>
-    <h2 class="discussion-header">Existing groups</h2>
-    <div class="group-board">
-        <div class="group-crud">
-            <h1 class="group-header">CS 149</h1>
-            <p>Size: </p>
-            <div class="group-ud">
-                <div class="tip-container">
-                    <button class="ud-button start-disc" type="button"><img
-                            src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
-
-                        <span class="ud-tool">Start New Discussion</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button view-group" type="button"><img
-                            src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
-
-                        <span class="ud-tool">View Group</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button">
-                        <span class="ud-tool">Edit Group</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button delete-group" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                        <span class="ud-tool">Delete Group</span></button>
-                </div>
-            </div>
-        </div>
-        <div class="group-crud">
-            <h1 class="group-header">CS 159</h1>
-            <p class="group-content">Size: </p>
-            <div class="group-ud">
-                <div class="tip-container">
-                    <button class="ud-button start-disc" type="button"><img
-                            src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
-
-                        <span class="ud-tool">Start New Discussion</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button view-group" type="button"><img
-                            src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
-
-                        <span class="ud-tool">View Group</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button">
-                        <span class="ud-tool">Edit Participants</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button delete-group" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                        <span class="ud-tool">Delete Group</span></button>
-                </div>
-            </div>
-        </div>
-        <div class="group-crud">
-            <h1 class="group-header">CS 240</h1>
-
-            <p class="group-content">Size: </p>
-            <div class="group-ud">
-                <div class="tip-container">
-                    <button class="ud-button start-disc" type="button"><img
-                            src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
-
-                        <span class="ud-tool">Start New Discussion</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button view-group" type="button"><img
-                            src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
-
-                        <span class="ud-tool">View Group</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button">
-                        <span class="ud-tool">Edit Participants</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button delete-group" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                        <span class="ud-tool">Delete Group</span></button>
-                </div>
-            </div>
-        </div>
-        <div class="group-crud">
-            <h1 class="group-header">CS 261</h1>
-            <p class="group-content">Size: </p>
-            <div class="group-ud">
-                <div class="tip-container">
-                    <button class="ud-button start-disc" type="button"><img
-                            src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
-
-                        <span class="ud-tool">Start New Discussion</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button">
-                        <span class="ud-tool">Edit Participants</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button delete-group" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                        <span class="ud-tool">Delete Group</span></button>
-                </div>
-            </div>
-        </div>
-        <div class="group-crud">
-            <h1 class="group-header">CS 361</h1>
-            <p class="group-content">Size: </p>
-            <div class="group-ud">
-                <div class="tip-container">
-                    <button class="ud-button start-disc" type="button"><img
-                            src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
-
-                        <span class="ud-tool">Start New Discussion</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button">
-                        <span class="ud-tool">Edit Participants</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button delete-group" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                        <span class="ud-tool">Delete Group</span></button>
-                </div>
-            </div>
-        </div>
-        <div class="group-crud">
-            <h1 class="group-header">CS 343</h1>
-
-            <p class="group-content">Size: </p>
-            <div class="group-ud">
-                <div class="tip-container">
-                    <button class="ud-button start-disc" type="button"><img
-                            src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
-
-                        <span class="ud-tool">Start New Discussion</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button">
-                        <span class="ud-tool">Edit Participants</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button delete-group" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                        <span class="ud-tool">Delete Group</span></button>
-                </div>
-            </div>
-        </div>
-        <div class="group-crud">
-            <h1 class="group-header">CS 347</h1>
-
-            <p class="group-content">Size: </p>
-            <div class="group-ud">
-                <div class="tip-container">
-                    <button class="ud-button start-disc" type="button"><img
-                            src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
-
-                        <span class="ud-tool">Start New Discussion</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button">
-                        <span class="ud-tool">Edit Participants</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button delete-group" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                        <span class="ud-tool">Delete Group</span></button>
-                </div>
-            </div>
-        </div>
-        <div class="group-crud">
-            <h1 class="group-header">CS 444</h1>
-
-            <p class="group-content">Size: </p>
-            <div class="group-ud">
-                <div class="tip-container">
-                    <button class="ud-button start-disc" type="button"><img
-                            src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
-                        <span class="ud-tool">Start New Discussion</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button">
-                        <span class="ud-tool">Edit Participants</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button delete-group" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                        <span class="ud-tool">Delete Group</span></button>
-                </div>
-            </div>
-        </div>
-        <div class="group-crud">
-            <h1 class="group-header">CS 445</h1>
-            <p class="group-content">Size: </p>
-            <div class="group-ud">
-                <div class="tip-container">
-                    <button class="ud-button start-disc" type="button"><img
-                            src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
-                        <span class="ud-tool">Start New Discussion</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button">
-                        <span class="ud-tool">Edit Participants</span></button>
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button delete-group" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                        <span class="ud-tool">Delete Group</span></button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
+    {% endblock %}

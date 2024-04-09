@@ -8,23 +8,25 @@
         <div>
             <div class="">
                 <ul class="fac-nav-list">
-                    <li class="fac-nav-item"><a class="fac-nav-link" href="{% url 'facilitator-profile' pk=facilitator.pk %}" ><img
+                    <li class="fac-nav-item"><a class="fac-nav-link"
+                            href="{% url 'facilitator-profile' pk=facilitator.pk %}"><img
                                 src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                 class="ms-1 d-none d-sm-inline">Profile</span></a></li>
                     <li class="fac-nav-item">
-                        <a class="fac-nav-link" href="{% url 'facilitator-groups' pk=facilitator.pk %}" ><img
+                        <a class="fac-nav-link" href="{% url 'facilitator-groups' pk=facilitator.pk %}"><img
                                 src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                 class="ms-1 d-none d-sm-inline">Groups</span>
                         </a>
                     </li>
                     <li class="fac-nav-item">
-                        <a class="fac-nav-link" href="{% url 'facilitator-prompts' pk=facilitator.pk %}" ><img
+                        <a class="fac-nav-link" href="{% url 'facilitator-prompts' pk=facilitator.pk %}"><img
                                 src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                 class="ms-1 d-none d-sm-inline">Prompts</span>
                         </a>
                     </li>
                     <li class="fac-nav-item">
-                        <a class="fac-nav-link" href="{% url 'facilitator-discussions' pk=facilitator.pk %}" data-bs-toggle="collapse">
+                        <a class="fac-nav-link" href="{% url 'facilitator-discussions' pk=facilitator.pk %}"
+                            data-bs-toggle="collapse">
                             <img src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                 class="ms-1 d-none d-sm-inline">Discussions</span>
                         </a>
@@ -60,20 +62,24 @@
             <div class="info-display">
                 <a class="fac-nav-link" href="{% url 'facilitator-prompts' pk=facilitator.pk %}"><span>This will display
                         prompts</span></a>
-                <!-- {% for prompt in prompts %}
-                    <div class="prompt-item">
-                        <a class="fac-nav-link"href="#"><span>{{ prompt }}</span></a>
-                    </div>
-                    {% endfor %} -->
+                {% for prompt in facilitator.prompt_set.all %}
+                <div class="prompt-item">
+                    <a class="fac-nav-link" href="#"><span>{{ prompt }}</span></a>
+                </div>
+                {% endfor %}
             </div>
             <div class="info-display">
-                <a class="fac-nav-link" href="{% url 'facilitator-discussions' pk=facilitator.pk %}" ><span>This will display
+                <a class="fac-nav-link" href="{% url 'facilitator-discussions' pk=facilitator.pk %}"><span>This will
+                        display
                         discussions</span></a>
-                <!-- {% for discussion in discussions %}
-                    <div class="discussion">
-                        <a class="fac-nav-link"href="#"><span>{{ discussion }}</span></a>
-                    </div>
-                    {% endfor %} -->
+
+                {% for group in facilitator.group_set.all %}
+                {% for discussion in group.discussion_set.all %}
+                <div class="discussion">
+                    <a class="fac-nav-link" href="#"><span>{{ discussion }}</span></a>
+                </div>
+                {% endfor %}
+                {% endfor %}
             </div>
         </div>
     </div>

@@ -1,4 +1,6 @@
+import random
 from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponse
 from .models import Facilitator, Participant, Group, Discussion, Prompt, Thought, Distribution, DistributedThought
@@ -51,7 +53,7 @@ class FacilitatorProfileView(generic.ListView):
         return context
 
 
-class FacilitatorPromptView(generic.edit.CreateView):
+class FacilitatorPromptView(CreateView):
     # eventually need LoginRequiredMixin
     model = Facilitator
     form_class = CreatePromptForm
@@ -145,10 +147,15 @@ def create_group(request, pk):
             name = form.cleaned_data['name']
             size = form.cleaned_data['size']
 
+
             group = Group(name=name, size=size,
                           facilitator=facilitator)
             # This saves the model to the DB
             group.save()
+            for _ in range(size):
+                participant = Participant(username=generate_username(group), group=group)
+                participant.save()
+
             return redirect(reverse('view-group', kwargs={'pk': pk, 'name': group.name}))
     return HttpResponse("Error creating group: Group with that name already exists")
     # else:
@@ -162,7 +169,7 @@ def create_group(request, pk):
     # }
 
 
-class GroupView(generic.edit.CreateView):
+class GroupView(CreateView):
     # create group form on profile page
     model = Facilitator
     form_class = GroupModelForm
@@ -197,3 +204,32 @@ def create_prompt(request, pk):
             prompt.save()
             return redirect(reverse('facilitator-prompts', kwargs={'pk': pk}))
     return HttpResponse("Error creating prompt")
+
+class GroupUpdate(CreateView):
+    model = Group
+    # Not recommended (potential security issue if more fields added)
+    fields = '__all__'
+    permission_required = 'catalog.change_author'
+
+class GroupDelete(DeleteView):
+    model = Group
+    # # success_url = 
+    # permission_required = 'catalog.delete_author'
+
+    # def form_valid(self, form):
+    #     try:
+    #         self.object.delete()
+    #         return HttpResponseRedirect(self.success_url)
+    #     except Exception as e:
+    #         return HttpResponseRedirect(
+    #             reverse("author-delete", kwargs={"pk": self.object.pk})
+    #         )
+
+# other methods
+# generates a numerical random username
+def generate_username(group):
+    id = str(random.randint(100000, 999999))
+    # Check if it already exists in the group
+    if id in group.participant_set.all().values_list('username', flat=True):
+        return generate_username(group)
+    return id
