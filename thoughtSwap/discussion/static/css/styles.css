@@ -76,14 +76,29 @@ Dark Blue: #23596d
 
 /* form design */
 table {
-    padding: 1rem;
+    /* padding: 1rem; */
     margin-bottom: 1rem;
     font-family: Arial, Helvetica, sans-serif;
+    justify-content: center;
 }
 
 th {
     padding: 0.5em;
 }
+
+.group-bio {
+    padding-bottom: 0.5rem;
+}
+
+.group-bio>p {
+    margin-left: 4rem;
+    font-size: 24px;
+}
+
+.group-info {
+    margin: 1rem;
+}
+
 
 /* hide scroll bar when unnecessary */
 @media (max-width: 550px) {
@@ -198,6 +213,26 @@ th {
     margin: 1em;
 }
 
+.thought-container {
+    border: solid 1px grey;
+    border-radius: 15px;
+    background: rgb(235, 235, 235);
+    padding: 1rem;
+    margin: 1em;
+    display: flex;
+    justify-content: space-around;
+}
+
+.thought-container>div {
+    margin: 0.5em;
+}
+
+.response-tip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .prompt-btn {
     border: solid 1px grey;
     border-radius: 15px;
@@ -288,7 +323,7 @@ th {
 .tip-container {
     position: relative;
     display: inline-block;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     /* If you want dots under the hoverable text */
     /* border-bottom: 1px dotted black; */
 }
@@ -471,7 +506,7 @@ span {
   .show {
     visibility: hidden;
   }
-  .popup label, input, button{
+  .popup label, .popup input, .popup button{
     margin-bottom: 1rem;
   }
   .popup input{

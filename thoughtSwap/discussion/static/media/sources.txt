@@ -1,1 +1,11 @@
 icons: https://www.svgrepo.com/
+
+Look for relationships/methods for models
+start shell: python manage.py shell
+import models: from app.models import *
+create object: facilitator = Facilitator.objects.all()
+search the methods: dir(facilitator[0])
+ex: f.prompt_set.all() = gets all prompts
+
+DO NOT COMBINE VIEWS/MODELS! Make a new one for every use (CRUD)
+

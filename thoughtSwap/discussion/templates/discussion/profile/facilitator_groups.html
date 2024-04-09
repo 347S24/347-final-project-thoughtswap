@@ -6,7 +6,7 @@
     <div class="profile-container" id="create-prompt">
         <h2 class="discussion-header">Create a class or group</h2>
         <div>
-            <form action="" method="post">
+            <form action="{% url 'create-group' pk=facilitator.pk %}" method="post">
                 {% csrf_token %}
                 <table>
                     {{ form.as_table }}
@@ -33,7 +33,7 @@
             <!-- <h1>Add participants</h1> -->
         </div>
         <div class="response-board">
-            {% for group in groups %}
+            {% for group in facilitator.groups %}
             <h1 class="group-header">{group}</h1>
             <p class="group-content">Size: {group.size}</p>
             <div class="group-ud">

@@ -6,22 +6,23 @@
 {% block leftside %}
 <div class="discussion-board">
     <h1>Enter A Prompt</h1>
-    <form method="GET">
+    <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk %}">
         <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
         <h1>Choose An Existing Prompt</h1>
         <!-- TODO: Add preview of past few prompts? -->
         <div class="btn-group">
             <button class="btn btn-secondary btn-sm" type="button">
-              Small split button
+                Small split button
             </button>
-            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             </button>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="#">Action</a>
                 <a class="dropdown-item" href="#">Another action</a>
                 <a class="dropdown-item" href="#">Something else here</a>
             </div>
-          </div>
+        </div>
         <div class="prompt-btn-container">
             <button class="prompt-btn" type="submit">Submit Prompt</button>
             <button class="prompt-btn" type="button">Distribute Thoughts</button>
@@ -37,20 +38,55 @@
         <!-- {% for response in responses %}
         {{ response }}
     {% endfor %} -->
-        <div class="response-item">
-            Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        <div class="thought-container">
+            <div>
+                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+            </div>
+            <div class="tip-container">
+                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
+                        alt="delete prompt button">
+                </button>
+            </div>
         </div>
-        <div class="response-item">
-            Thought2: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        <div class="thought-container">
+            <div>
+                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+            </div>
+            <div class="tip-container">
+                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
+                        alt="delete prompt button">
+                </button>
+            </div>
         </div>
-        <div class="response-item">
-            Thought3: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        <div class="thought-container">
+            <div>
+                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+            </div>
+            <div class="tip-container">
+                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
+                        alt="delete prompt button">
+                </button>
+            </div>
         </div>
-        <div class="response-item">
-            Thought4: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        <div class="thought-container">
+            <div>
+                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+            </div>
+            <div class="tip-container">
+                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
+                        alt="delete prompt button">
+                </button>
+            </div>
         </div>
-        <div class="response-item">
-            Thought5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        <div class="thought-container">
+            <div>
+                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+            </div>
+            <div class="tip-container">
+                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
+                        alt="delete prompt button">
+                </button>
+            </div>
         </div>
     </div>
 </div>

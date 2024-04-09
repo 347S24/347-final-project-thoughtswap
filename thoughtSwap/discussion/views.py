@@ -1,11 +1,11 @@
 from django.views import generic
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponse
 from .models import Facilitator, Participant, Group, Discussion, Prompt, Thought, Distribution, DistributedThought
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 # from .forms import CreateGroupForm
-from .forms import GroupModelForm
+from .forms import GroupModelForm, CreatePromptForm
 
 
 def index(request):
@@ -21,6 +21,19 @@ class FacilitatorDiscussionView(generic.ListView):
     # queryset = Facilitator.objects.all()
     template_name = 'discussion/facilitator_view.html'
     # paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(FacilitatorDiscussionView,
+                        self).get_context_data(**kwargs)
+        context['facilitator'] = Facilitator.objects.get(
+            pk=self.kwargs['pk'])
+        
+        if 'group_name' in self.kwargs:
+            context['group'] = Group.objects.get(
+                name=self.kwargs['group_name'])
+        else:
+            context['group'] = None
+        return context
 
 
 class FacilitatorProfileView(generic.ListView):
@@ -38,9 +51,10 @@ class FacilitatorProfileView(generic.ListView):
         return context
 
 
-class FacilitatorPromptView(generic.ListView):
+class FacilitatorPromptView(generic.edit.CreateView):
     # eventually need LoginRequiredMixin
     model = Facilitator
+    form_class = CreatePromptForm
     # context_object_name = 'facilitator_list'
     # queryset = Facilitator.objects.all()
     template_name = 'discussion/profile/prompt_display.html'
@@ -49,8 +63,13 @@ class FacilitatorPromptView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(FacilitatorPromptView,
                         self).get_context_data(**kwargs)
+        pk = self.kwargs['pk']
         context['facilitator'] = Facilitator.objects.get(
-            pk=self.kwargs['pk'])
+            pk=pk)
+        facilitator = get_object_or_404(Facilitator, pk=pk)
+        form = CreatePromptForm(
+            initial={'content': None, 'author': facilitator, 'discussion': None})
+        context['form'] = form
         return context
 
 
@@ -69,11 +88,25 @@ class PastDiscussionView(generic.ListView):
             pk=self.kwargs['pk'])
         return context
 
-
 class ParticipantDiscussionView(generic.ListView):
     model = Participant
     template_name = 'discussion/participant_view.html'
     # paginate_by = 10
+
+class ParticipantSwapView(generic.ListView):
+    # eventually need LoginRequiredMixin
+    model = Distribution
+    # context_object_name = 'facilitator_list'
+    # queryset = Facilitator.objects.all()
+    template_name = 'discussion/post_swap.html'
+    # paginate_by = 10
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(PastDiscussionView,
+    #                     self).get_context_data(**kwargs)
+    #     context['distribution'] = Facilitator.objects.get(
+    #         id=self.kwargs['swapid'])
+    #     return context
 
 
 class ParticipantGroupView(generic.ListView):
@@ -84,8 +117,9 @@ class ParticipantGroupView(generic.ListView):
 
 # @permission_required('discussion.can_create_groups', raise_exception=True)
 class FacilitatorGroupView(generic.ListView):
-    model = Participant
+    model = Facilitator
     template_name = 'discussion/profile/facilitator_groups.html'
+    # success_url = '/discussion/groups/'
     # paginate_by = 10
 
     def get_context_data(self, **kwargs):
@@ -100,38 +134,66 @@ class FacilitatorGroupView(generic.ListView):
         context['form'] = form
         return context
 
-    # create group form on profile page
-    def create_group(request, pk):
-        facilitator = get_object_or_404(Facilitator, pk=pk)
-        print(facilitator)
-        if request.method == 'POST':
-            form = GroupModelForm(request.POST)
 
-            if form.is_valid():
-                group_name = form.cleaned_data['group_name']
-                group_size = form.cleaned_data['group_size']
+def create_group(request, pk):
+    facilitator = get_object_or_404(Facilitator, pk=pk)
+    print(facilitator)
+    if request.method == 'POST':
+        form = GroupModelForm(request.POST)
 
-            group = Group(name=group_name, size=group_size,
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            size = form.cleaned_data['size']
+
+            group = Group(name=name, size=size,
                           facilitator=facilitator)
+            # This saves the model to the DB
             group.save()
+            return redirect(reverse('view-group', kwargs={'pk': pk, 'name': group.name}))
+    return HttpResponse("Error creating group: Group with that name already exists")
+    # else:
+    #     form = GroupModelForm(
+    #         initial={'facilitator': facilitator, 'size': 0, 'name': 'Group Name'})
 
-            print("saved group", group)
-        else:
-            form = GroupModelForm(
-                initial={'facilitator': facilitator, 'size': 0, 'name': 'Group Name'})
+    # context = {
+    #     'facilitator': facilitator,
+    #     'form': form,
+    #     'group': group,
+    # }
 
-        context = {
-            'form': form,
-            'group': group,
-        }
-        return render(request, 'discussion/profile/facilitator_groups.html', context)
 
-# def edit_group_post(request, name):
-#     group = Group.objects.get(name=name)
-#     if request.method == 'POST':
-#         group_size = request.POST.get('group_size')
+class GroupView(generic.edit.CreateView):
+    # create group form on profile page
+    model = Facilitator
+    form_class = GroupModelForm
+    template_name = 'discussion/profile/group_view.html'
 
-#         group = Group(name=group_name, size=group_size)
-#         group.save()
+    # process context that is being passed in
 
-#         print("saved group", group)
+    def get_context_data(self, **kwargs):
+        context = super(GroupView,
+                        self).get_context_data(**kwargs)
+        context['facilitator'] = Facilitator.objects.get(
+            pk=self.kwargs['pk'])
+        context['group'] = Group.objects.get(
+            name=self.kwargs['name'])
+
+        return context
+
+
+def create_prompt(request, pk):
+    facilitator = get_object_or_404(Facilitator, pk=pk)
+    if request.method == 'POST':
+        form = CreatePromptForm(request.POST)
+
+        if form.is_valid():
+            facilitator = form.cleaned_data['author']
+            content = form.cleaned_data['content']
+            discussion = form.cleaned_data['discussion']
+
+            prompt = Prompt(content=content, author=facilitator,
+                            discussion=discussion)
+            # This saves the model to the DB
+            prompt.save()
+            return redirect(reverse('facilitator-prompts', kwargs={'pk': pk}))
+    return HttpResponse("Error creating prompt")
