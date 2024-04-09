@@ -11,4 +11,4 @@ class FacilitatorAdmin(admin.ModelAdmin):
 
     fields = ['first_last', 'last_name']
 
-admin.site.register(Facilitator, FacilitatorAdmin)
+#admin.site.register(Facilitator, FacilitatorAdmin)
