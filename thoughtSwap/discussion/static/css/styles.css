@@ -63,7 +63,9 @@ Dark Blue: #23596d
 }
 
 .response-board {
+    
     padding: 1rem;
+    display: grid;
 }
 
 #response-board {
@@ -275,6 +277,7 @@ Dark Blue: #23596d
 .tip-container {
     position: relative;
     display: inline-block;
+    margin-top: 1rem;
     /* If you want dots under the hoverable text */
     /* border-bottom: 1px dotted black; */
 }
@@ -323,6 +326,7 @@ Dark Blue: #23596d
 
 /* Show the tooltip text when you mouse over the tooltip container */
 .start-disc:hover .ud-tool,
+.view-group:hover .ud-tool,
 .edit-group:hover .ud-tool,
 .delete-group:hover .ud-tool {
     visibility: visible;
