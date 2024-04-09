@@ -1,20 +1,20 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Group, Prompt
+from .models import Group, Prompt, Facilitator, Discussion
 
 
 class GroupModelForm(ModelForm):
     # add logged in user
     def clean_name(self):
-        name = self.cleaned_data['group_name']
+        name = self.cleaned_data['name']
 
         # if the name already exists in our database
-        if name in Group.objects.all():
-            raise forms.ValidationError("Name already exists")
+        if name in Group.objects.all().values_list('name', flat=True):
+            raise forms.ValidationError("Name already exists. Please enter another one")
         return name
 
     def clean_size(self):
-        size = self.cleaned_data['group_size']
+        size = self.cleaned_data['size']
 
         # no negative group sizes
         if size < 0:
@@ -29,6 +29,14 @@ class CreatePromptForm(ModelForm):
     class Meta:
         model = Prompt
         fields = ['content', 'author', 'discussion']
+
+    def clean_author(self):
+        author = self.cleaned_data['author']
+
+        # if the name already exists in our database
+        if author in Facilitator.objects.all().values_list('username', flat=True):
+            raise forms.ValidationError("Author does not exist. Please enter another one")
+        return author
 # class CreateGroupForm(forms.Form):
 #     group_name = forms.CharField(label='Group Name', max_length=100)
 #     group_size = forms.IntegerField(label='Group Size', min_value=1, max_value=10)

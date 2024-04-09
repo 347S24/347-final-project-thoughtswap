@@ -1,6 +1,5 @@
 from django.db import models
 from django.urls import reverse
-
 # relationship help
 # can only have one: ForeignKey, OneToOneField
 # foot/M side has the foreign key
@@ -20,29 +19,28 @@ class Facilitator(models.Model):
         max_length=100, unique=True, null=False, blank=False, default='username')
     discussions = models.ForeignKey(
         'Discussion', on_delete=models.SET_NULL, null=True, blank=True)
-    prompt = models.ForeignKey('Prompt', on_delete=models.SET_NULL, null=True, blank=True)
+    # prompt = models.ForeignKey('Prompt', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.id}: {self.last_name}, {self.first_name}'
+        return f'{self.first_name} {self.last_name}'
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this facilitator."""
         return reverse('facilitator-profile', args=[str(self.id)])
     
-    def get_fac_discussion_url(self):
-        """Returns the url to access a detail record for this facilitator."""
-        return reverse('facilitator-discussions', args=[str(self.id)])
+    # def get_fac_discussion_url(self):
+    #     """Returns the url to access a detail record for this facilitator."""
+    #     return reverse('facilitator-discussions', args=[str(self.id)])
     
-    def get_fac_prompt_url(self):
-        """Returns the url to access a detail record for this facilitator."""
-        return reverse('facilitator-prompts', args=[str(self.id)])
+    # def get_fac_prompt_url(self):
+    #     """Returns the url to access a detail record for this facilitator."""
+    #     return reverse('facilitator-prompts', args=[str(self.id)])
     
-    def get_fac_group_url(self):
-        """Returns the url to access a detail record for this facilitator."""
-        return reverse('facilitator-groups', args=[str(self.id)])
+    # def get_fac_group_url(self):
+    #     """Returns the url to access a detail record for this facilitator."""
+    #     return reverse('facilitator-groups', args=[str(self.id)])
     
-
     class Meta:
         permissions = (("can_create_groups", "Create Groups"),)
 # A Participant is able to join groups and participate in discussions
@@ -75,6 +73,10 @@ class Group(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.name}'
+    
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this group."""
+        return reverse('view-group', args=[str(self.id)])
 
 # Thoughts are responses to prompts
 class Thought(models.Model):
@@ -93,14 +95,15 @@ class Thought(models.Model):
 
 class Prompt(models.Model):
     content = models.TextField(
-        max_length=1000, help_text='Enter a the prompt of the discussion')
-    author = models.TextField(max_length=50)
+        max_length=1000, help_text='Enter a prompt for the discussion', blank=False, null=False)
+    # author = models.TextField(max_length=50)
     discussion = models.ForeignKey(
-        'Discussion', on_delete=models.SET_NULL, null=True)
+        'Discussion', on_delete=models.SET_NULL, null=True, blank=True)
+    author = models.ForeignKey('Facilitator', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.title}'
+        return f'{self.content}'
 
 # A discussion is a collection of thoughts and prompts
 # A discussion may have one group, and many prompts

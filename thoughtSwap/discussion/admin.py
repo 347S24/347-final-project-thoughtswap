@@ -13,9 +13,9 @@ admin.site.register(Prompt)
 
 
 class FacilitatorAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name')
+    list_display = ('last_name', 'first_name', 'id', 'username')
 
-    fields = ['first_last', 'last_name']
+    fields = ['first_last', 'last_name', 'id', 'username']
 
 
 class DiscussionAdmin(admin.ModelAdmin):

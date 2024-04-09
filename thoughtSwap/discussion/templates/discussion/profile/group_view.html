@@ -2,13 +2,20 @@
 
 {% block profileContent %}
 <div class="facilitator-profile">
-    <h1 class="discussion-header">Welcome {{ user }}</h1>
-    <div class="profile-container" id="create-prompt">
-        <h2 class="discussion-header">Create a class or group</h2>
-        <div>
-            Class View
-            <p>{{ group.name }}</p>
-            <p>{{ group.size }}</p>
-        </div>
+    <h1 class="discussion-header">{{ group.name }}</h1>
+    <div class="group-bio">
+        <p>Size: {{ group.size }}</p>
+        <p>Facilitated by: {{ group.facilitator }}</p>
+    </div>
+    <div class="group-info" id="create-prompt">
+        <h3>Discussions: </h3>
+        <ul>
+            {% for discussion in group.discussions.all %}
+            {% if discussion.group.name == group.name %}
+            <li>{{ discussion }}</li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endblock %}
