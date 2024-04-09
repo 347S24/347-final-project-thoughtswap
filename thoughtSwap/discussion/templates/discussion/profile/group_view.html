@@ -6,6 +6,12 @@
     <div class="group-bio">
         <p>Size: {{ group.size }}</p>
         <p>Facilitated by: {{ group.facilitator }}</p>
+        <p>Users in group:</p>
+        <ul>
+            {% for user in group.participant_set.all %}
+            <li>{{ user }}</li>
+            {% endfor %}
+        </ul>
     </div>
     <div class="group-info" id="create-prompt">
         <h3>Discussions: </h3>
