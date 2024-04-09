@@ -1,0 +1,14 @@
+{% extends "discussion/profile/facilitator_profile.html" %}
+
+{% block profileContent %}
+<div class="facilitator-profile">
+    <h1 class="discussion-header">Welcome {{ user }}</h1>
+    <div class="profile-container" id="create-prompt">
+        <h2 class="discussion-header">Create a class or group</h2>
+        <div>
+            Class View
+            <p>{{ group.name }}</p>
+            <p>{{ group.size }}</p>
+        </div>
+</div>
+{% endblock %}

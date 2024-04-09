@@ -7,30 +7,33 @@
     <div class="facilitator-nav">
         <div>
             <div class="">
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'facilitator-groups' %}"><img
+                <ul class="fac-nav-list">
+                    <li class="fac-nav-item"><a class="fac-nav-link" href="{% url 'facilitator-profile' pk=facilitator.pk %}" ><img
+                                src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
+                                class="ms-1 d-none d-sm-inline">Profile</span></a></li>
+                    <li class="fac-nav-item">
+                        <a class="fac-nav-link" href="{% url 'facilitator-groups' pk=facilitator.pk %}" ><img
                                 src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                 class="ms-1 d-none d-sm-inline">Groups</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'facilitator-prompts' %}"><img
+                    <li class="fac-nav-item">
+                        <a class="fac-nav-link" href="{% url 'facilitator-prompts' pk=facilitator.pk %}" ><img
                                 src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                 class="ms-1 d-none d-sm-inline">Prompts</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'facilitator-discussions' %}" data-bs-toggle="collapse">
+                    <li class="fac-nav-item">
+                        <a class="fac-nav-link" href="{% url 'facilitator-discussions' pk=facilitator.pk %}" data-bs-toggle="collapse">
                             <img src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                 class="ms-1 d-none d-sm-inline">Discussions</span>
                         </a>
-                        <!-- <ul class="nav-list" id="submenu1" data-bs-parent="#menu">
-                            <li class="nav-item">
-                                <a class="nav-link"href="#" class=""> <span class="">Item</span> 1
+                        <!-- <ul class="fac-nav-list" id="submenu1" data-bs-parent="#menu">
+                            <li class="fac-nav-item">
+                                <a class="fac-nav-link"href="#" class=""> <span class="">Item</span> 1
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="fac-nav-item">
                                 <a href="#" class=""> <span class="">Item</span> 2
                                 </a>
                             </li>
@@ -39,11 +42,8 @@
                 </ul>
                 <hr>
                 <div class="dropdown pb-4">
-                    <ul class="nav-list">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'facilitator-profile' %}"><img
-                                    src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
-                                    class="ms-1 d-none d-sm-inline">Profile</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><img
+                    <ul class="fac-nav-list">
+                        <li class="fac-nav-item"><a class="fac-nav-link" href="{% url 'index' %}"><img
                                     src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                     class="ms-1 d-none d-sm-inline">Sign out</span></a></li>
                     </ul>
@@ -53,32 +53,29 @@
     </div>
     {% block profileContent %}
     <div class="facilitator-profile">
-        <div class="col py-3">
-            <h1 class="discussion-header">Welcome {{user}}</h1>
-            <h2 class="discussion-header">This is the profile area to display info like past discussions and prompts
-            </h2>
-            <div class="profile-container" id="profile-info">
-                <div class="info-display">
-                    <a class="nav-link" href="{% url 'facilitator-prompts' %}"><span>This will display
-                            prompts</span></a>
-                    <!-- {% for prompt in prompts %}
+        <h1 class="discussion-header">Welcome {{user}}</h1>
+        <h2 class="discussion-header">This is the profile area to display info like past discussions and prompts
+        </h2>
+        <div class="profile-container" id="profile-info">
+            <div class="info-display">
+                <a class="fac-nav-link" href="{% url 'facilitator-prompts' pk=facilitator.pk %}"><span>This will display
+                        prompts</span></a>
+                <!-- {% for prompt in prompts %}
                     <div class="prompt-item">
-                        <a class="nav-link"href="#"><span>{{ prompt }}</span></a>
+                        <a class="fac-nav-link"href="#"><span>{{ prompt }}</span></a>
                     </div>
                     {% endfor %} -->
-                </div>
-                <div class="info-display">
-                    <a class="nav-link" href="{% url 'facilitator-discussions' %}"><span>This will display
-                            discussions</span></a>
-                    <!-- {% for discussion in discussions %}
+            </div>
+            <div class="info-display">
+                <a class="fac-nav-link" href="{% url 'facilitator-discussions' pk=facilitator.pk %}f" ><span>This will display
+                        discussions</span></a>
+                <!-- {% for discussion in discussions %}
                     <div class="discussion">
-                        <a class="nav-link"href="#"><span>{{ discussion }}</span></a>
+                        <a class="fac-nav-link"href="#"><span>{{ discussion }}</span></a>
                     </div>
                     {% endfor %} -->
-                </div>
             </div>
         </div>
-
     </div>
     {% endblock %}
 </div>
