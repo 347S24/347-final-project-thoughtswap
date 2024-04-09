@@ -13,6 +13,7 @@ def index(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html')
 
+
 class FacilitatorDiscussionView(generic.ListView):
     # eventually need LoginRequiredMixin
     model = Facilitator
@@ -20,6 +21,7 @@ class FacilitatorDiscussionView(generic.ListView):
     # queryset = Facilitator.objects.all()
     template_name = 'discussion/facilitator_view.html'
     # paginate_by = 10
+
 
 class FacilitatorProfileView(generic.ListView):
     # eventually need LoginRequiredMixin
@@ -35,6 +37,7 @@ class FacilitatorProfileView(generic.ListView):
         context['facilitator'] = Facilitator.objects.get(pk=self.kwargs['pk'])
         return context
 
+
 class FacilitatorPromptView(generic.ListView):
     # eventually need LoginRequiredMixin
     model = Facilitator
@@ -49,6 +52,7 @@ class FacilitatorPromptView(generic.ListView):
         context['facilitator'] = Facilitator.objects.get(
             pk=self.kwargs['pk'])
         return context
+
 
 class PastDiscussionView(generic.ListView):
     # eventually need LoginRequiredMixin
@@ -87,8 +91,13 @@ class FacilitatorGroupView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(FacilitatorGroupView,
                         self).get_context_data(**kwargs)
+        pk = self.kwargs['pk']
         context['facilitator'] = Facilitator.objects.get(
-            pk=self.kwargs['pk'])
+            pk=pk)
+        facilitator = get_object_or_404(Facilitator, pk=pk)
+        form = GroupModelForm(
+            initial={'facilitator': facilitator, 'size': 0, 'name': f"{pk}'s Group"})
+        context['form'] = form
         return context
 
     # create group form on profile page
@@ -103,7 +112,7 @@ class FacilitatorGroupView(generic.ListView):
                 group_size = form.cleaned_data['group_size']
 
             group = Group(name=group_name, size=group_size,
-                        facilitator=facilitator)
+                          facilitator=facilitator)
             group.save()
 
             print("saved group", group)
