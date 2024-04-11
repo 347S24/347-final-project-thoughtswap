@@ -2,3 +2,5 @@
 
 function Swaps() {
   const popup = document.getElementById("quickSwap");
+  popup.classList.toggle("show");
+}
