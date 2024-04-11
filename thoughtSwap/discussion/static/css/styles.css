@@ -32,16 +32,16 @@ Dark Blue: #23596d
     min-height: 100vh;
 }
 
-.nav-list {
+.fac-nav-list {
     padding-left: 1em;
 }
 
-.nav-item {
+.fac-nav-item {
     padding-top: 0.5em;
     list-style: none;
 }
 
-.nav-link {
+.fac-nav-link {
     color: #000;
     text-decoration: none;
 }
