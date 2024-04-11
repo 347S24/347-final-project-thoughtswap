@@ -15,15 +15,17 @@
 
 <body>
     <div class="topnav">
-        <a class="nav-link" id="logo" href="{% url 'index' %}">ThoughtSwap</a>
+        <a id="logo" href="{% url 'index' %}">ThoughtSwap</a>
+        <div id="top-nav-flex">
         {% if user.is_authenticated %}
-        <a class="nav-link" href="{% url 'facilitator-profile' %}">Profile</a>
+        <a class="nav-link" href="{% url 'index' %}">Profile</a>
         {%else%}
         <!--login.html is blank right now-->
-        <a class="nav-link" href="{% url 'facilitator-profile' %}">Log In</a>
+        <a class="nav-link" href="{% url 'index' %}">Log In</a>
         {%endif%}
         <!--eventually link the page for inserting a code-->
         <button class="nav-link" onclick="Swaps(this)">Quick Swap</button>
+    </div>
     </div>
     {% block header %}
     <h1 class="discussion-header"> Welcome to index.html</h1>
