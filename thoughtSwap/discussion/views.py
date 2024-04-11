@@ -37,3 +37,7 @@ class ParticipantDiscussionView(generic.ListView):
     model = Student
     template_name = 'discussion/participant_view.html'
     # paginate_by = 10
+
+class LoginPromptView(generic.ListView):
+    
+    template_name = 'discussion/registration/login.html'
