@@ -10,70 +10,91 @@
     <div class="profile-container" id="create-prompt">
         <h2 class="discussion-header">Create Prompts</h2>
         <div class="response-board">
-            <textarea class="textarea" placeholder="Enter a prompt"></textarea>
+            <!-- <textarea class="textarea" placeholder="Enter a prompt"></textarea> -->
+            <form action="{% url 'create-prompt' pk=facilitator.pk %}" method="post">
+                {% csrf_token %}
+                <table>
+                    {{ form.as_table }}
+                </table>
+                <button class="create-group-btn" type="submit">Create Prompt</button>
+            </form>
         </div>
         <h2 class="discussion-header">Saved Prompts</h2>
         <div class="response-board">
+            {% for prompt in facilitator.prompt_set.all %}
             <div class="prompt-crud">
-                <p class="prompt-content">Prompt 1 Which is super super super super super super super super super super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
+                <p class="prompt-content">{{ prompt }}</p>
+                <!-- <a class="prompt-content" href="#"><span>{{ prompt }}</span></a> -->
                 <div class="prompt-ud">
-                    <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button"></button>
-                    <button class="ud-button" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button"></button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Prompt 2</p>
-                <div class="prompt-ud">
-                    <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button"></button>
-                    <button class="ud-button" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button"></button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Prompt 3</p>
-                <div class="prompt-ud">
-                    <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button"></button>
-                    <button class="ud-button" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button"></button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Prompt 4</p>
-                <div class="prompt-ud">
-                    <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button"></button>
-                    <button class="ud-button" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button"></button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Prompt 5</p>
-                <div class="prompt-ud">
-                    <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button"></button>
-                    <button class="ud-button" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button"></button>
-                </div>
-            </div>
-        </div>
-        <div class="response-board">
-            {% for prompt in prompts %}
-            <div class="prompt-crud">
-                <a class="prompt-content" href="#"><span>{{ prompt }}</span></a>
-                <div class="prompt-ud">
-                    <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
-                            alt="edit prompt button"></button>
-                    <button class="ud-button" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                            alt="delete prompt button"></button>
+                    <div class="tip-container">
+                        <button class="ud-button edit-group" type="button"><img
+                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Prompt</span></button>
+                    </div>
+                    <div class="tip-container">
+                        <button class="ud-button delete-group" type="button"><img
+                                src="/static//media/trash-svgrepo-com.svg" alt="delete prompt button"></button>
+                    </div>
                 </div>
             </div>
             {% endfor %}
+            <h2 class="discussion-header">Static Prompts</h2>
+            <div class="response-board">
+                <div class="prompt-crud">
+                    <p class="prompt-content">Prompt 1 Which is super super super super super super super super super
+                        super
+                        super super super super super super super super super super super super super super super super
+                        super super super super super super super super super super super super long</p>
+                    <div class="prompt-ud">
+                        <div class="tip-container">
+                            <button class="ud-button edit-group" type="button"><img
+                                    src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                                <span class="ud-tool">Edit Group</span></button>
+                        </div>
+                        <div class="tip-container">
+                            <button class="ud-button edit-group" type="button"><img
+                                    src="/static//media/trash-svgrepo-com.svg" alt="delete prompt button">
+                                <span class="ud-tool">Delete Group</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="prompt-crud">
+                    <p class="prompt-content">Prompt 2</p>
+                    <div class="prompt-ud">
+                        <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
+                                alt="edit prompt button"></button>
+                        <button class="ud-button" type="button"><img src="/static/media/trash-svgrepo-com.svg"
+                                alt="delete prompt button"></button>
+                    </div>
+                </div>
+                <div class="prompt-crud">
+                    <p class="prompt-content">Prompt 3</p>
+                    <div class="prompt-ud">
+                        <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
+                                alt="edit prompt button"></button>
+                        <button class="ud-button" type="button"><img src="/static/media/trash-svgrepo-com.svg"
+                                alt="delete prompt button"></button>
+                    </div>
+                </div>
+                <div class="prompt-crud">
+                    <p class="prompt-content">Prompt 4</p>
+                    <div class="prompt-ud">
+                        <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
+                                alt="edit prompt button"></button>
+                        <button class="ud-button" type="button"><img src="/static/media/trash-svgrepo-com.svg"
+                                alt="delete prompt button"></button>
+                    </div>
+                </div>
+                <div class="prompt-crud">
+                    <p class="prompt-content">Prompt 5</p>
+                    <div class="prompt-ud">
+                        <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
+                                alt="edit prompt button"></button>
+                        <button class="ud-button" type="button"><img src="/static/media/trash-svgrepo-com.svg"
+                                alt="delete prompt button"></button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {% endblock %}

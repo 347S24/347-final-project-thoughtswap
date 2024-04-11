@@ -1,0 +1,27 @@
+{% extends "discussion/profile/facilitator_profile.html" %}
+
+{% block profileContent %}
+<div class="facilitator-profile">
+    <h1 class="discussion-header">{{ group.name }}</h1>
+    <div class="group-bio">
+        <p>Size: {{ group.size }}</p>
+        <p>Facilitated by: {{ group.facilitator }}</p>
+        <p>Users in group:</p>
+        <ul>
+            {% for user in group.participant_set.all %}
+            <li>{{ user }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="group-info" id="create-prompt">
+        <h3>Discussions: </h3>
+        <ul>
+            {% for discussion in group.discussions.all %}
+            {% if discussion.group.name == group.name %}
+            <li>{{ discussion }}</li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

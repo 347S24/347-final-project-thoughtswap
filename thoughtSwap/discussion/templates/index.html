@@ -20,8 +20,10 @@
         <a class="nav-link" href="{% url 'facilitator-profile' %}">Profile</a>
         {%else%}
         <!--login.html is blank right now-->
-        <a class="nav-link" href="{% url 'facilitator-profile' %}">Log In</a>
+     
+        <a class="nav-link" href="{% url 'index' %}">Log In</a>
         {%endif%}
+
         <!--eventually link the page for inserting a code-->
         <button class="nav-link" onclick="Swaps(this)">Quick Swap</button>
     </div>

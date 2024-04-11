@@ -7,7 +7,7 @@
 <div class="facilitator-profile">
     <h1 class="discussion-header">Welcome {{ user }}</h1>
     <div class="start-discussion">
-        <h2 class="discussion-header" id="discussion-bio">View past discussions or create one from scratch.</h2>
+        <h2 class="discussion-header">View past discussions or create one from scratch.</h2>
         <div class="prompt-btn-container">
             <button class="prompt-btn" type="submit">Start Discussion</button>
         </div>
@@ -15,49 +15,8 @@
     <div class="profile-container" id="create-prompt">
         <h2 class="discussion-header">Past Disucssions</h2>
         <div class="response-board">
-            <div class="prompt-crud">
-                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
-                <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
-                <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
-                <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
-                <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
-                <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
-                </div>
-            </div>
-        </div>
-        <div class="response-board">
-            {% for discussion in discussions %}
+            {% for group in facilitator.group_set.all %}
+            {% for discussion in group.discussion_set.all %}
             <div class="prompt-crud">
                 <a class="prompt-content" href="#"><span>{{ discussion }}</span></a>
                 <div class="prompt-ud">
@@ -65,14 +24,63 @@
                 </div>
             </div>
             {% endfor %}
+            {% endfor %}
+        </div>
+        <h2 class="discussion-header">Static Disucssions</h2>
+        <div class="response-board">
+            <div class="prompt-crud">
+                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super
+                    super
+                    super super super super super super super super super super super super super super super super
+                    super super super super super super super super super super super super long</p>
+                <div class="prompt-ud">
+                    <button class="view-response-btn" type="button">View Responses</button>
+                </div>
+            </div>
+            <div class="prompt-crud">
+                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super
+                    super
+                    super super super super super super super super super super super super super super super super
+                    super super super super super super super super super super super super long</p>
+                <div class="prompt-ud">
+                    <button class="view-response-btn" type="button">View Responses</button>
+                </div>
+            </div>
+            <div class="prompt-crud">
+                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super
+                    super
+                    super super super super super super super super super super super super super super super super
+                    super super super super super super super super super super super super long</p>
+                <div class="prompt-ud">
+                    <button class="view-response-btn" type="button">View Responses</button>
+                </div>
+            </div>
+            <div class="prompt-crud">
+                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super
+                    super
+                    super super super super super super super super super super super super super super super super
+                    super super super super super super super super super super super super long</p>
+                <div class="prompt-ud">
+                    <button class="view-response-btn" type="button">View Responses</button>
+                </div>
+            </div>
+            <div class="prompt-crud">
+                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super
+                    super
+                    super super super super super super super super super super super super super super super super
+                    super super super super super super super super super super super super long</p>
+                <div class="prompt-ud">
+                    <button class="view-response-btn" type="button">View Responses</button>
+                </div>
+            </div>
         </div>
     </div>
 
-            <!-- {% for discussion in discussions %}
+    <!-- {% for discussion in discussions %}
             <div class="response-item">
                 <a class="nav-link" href="#"><span>{{ discussion }}</span></a>
             </div>
             {% endfor %} -->
-        <!-- </div> -->
-    </div>
-    {% endblock %}
+    <!-- </div> -->
+</div>
+{% endblock %}
