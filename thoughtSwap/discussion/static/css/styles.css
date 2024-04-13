@@ -537,3 +537,13 @@ span {
     background-color: #c29568;
     color: #000;
   }
+  .start-discussion-popup{
+    border: solid 1px grey;
+    border-radius: 6px;
+    background-color: #eeecdd;
+    width: 400px;
+    height: 300px;
+    position: fixed;
+    z-index: 2;
+    left: 40%;
+  }

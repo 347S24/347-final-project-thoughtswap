@@ -5,6 +5,11 @@
 
 {% block profileContent %}
 <div class="facilitator-profile">
+    <form class="popup show" id="swaps">
+        <label for="swapCode">Code:</label>
+        <input type="text" id="swapCode" name="swapCode" maxlength="6" inputmode="numeric">
+        <button class="swap-code-submit" >Discuss!</button>
+    </form>
     <h1 class="discussion-header">Welcome {{ user }}</h1>
     <h2 class="discussion-header">Create discussion prompts for future use.</h2>
     <div class="profile-container" id="create-prompt">
