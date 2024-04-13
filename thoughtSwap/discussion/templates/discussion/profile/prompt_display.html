@@ -37,9 +37,14 @@
                             <span class="ud-tool">Edit Prompt</span></button>
                     </div>
                     <div class="tip-container">
-                        <button class="ud-button delete-group" type="button"><img
+                        <button class="ud-button delete-group" type="button" onclick="Popup()"><img
                                 src="/static//media/trash-svgrepo-com.svg" alt="delete prompt button"></button>
                     </div>
+                </div>
+                <div id="pop" class="sure-delete-btn show">
+                    Are you sure you want to delete this prompt?
+                    <button class="delete-confirm-btns">Yes</button>
+                    <button class="delete-confirm-btns" onclick="Popup()">No</button>
                 </div>
             </div>
             {% endfor %}

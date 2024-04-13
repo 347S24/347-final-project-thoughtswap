@@ -547,3 +547,25 @@ span {
     z-index: 2;
     left: 40%;
   }
+  .sure-delete-btn{
+    z-index: 2;
+    position: fixed;
+    left: 40%;
+    top: 50%;
+    background-color: #eeecdd;
+    border: solid 1px gray;
+    border-radius: 6px;
+    width: 500px;
+    text-align: center;
+    padding: 1rem;
+  }
+  .delete-confirm-btns{
+    background-color: #23596d;
+    border: solid 1px grey;
+    border-radius: 15px;
+    color: white;
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    width: 50px;
+  }
