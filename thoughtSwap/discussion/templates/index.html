@@ -24,14 +24,14 @@
         <a class="nav-link" href="{% url 'index' %}">Log In</a>
         {%endif%}
         <!--eventually link the page for inserting a code-->
-        <button class="nav-link" onclick="Swaps(this)">Quick Swap</button>
+        <button class="nav-link" onclick="quickSwap(this)">Quick Swap</button>
     </div>
     </div>
     {% block header %}
     <h1 class="discussion-header"> Welcome to index.html</h1>
     {% endblock %}
     {% block content %}
-    <form class="popup show" id="quickSwap">
+    <form class="popup show" id="swaps">
         <label for="swapCode">Code:</label>
         <input type="text" id="swapCode" name="swapCode" maxlength="6" inputmode="numeric">
         <button class="swap-code-submit" >Discuss!</button>
