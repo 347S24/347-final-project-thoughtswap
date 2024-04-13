@@ -82,7 +82,8 @@ class Group(models.Model):
 class Thought(models.Model):
     content = models.TextField(max_length=1000, help_text='Enter a response')
     prompt = models.ForeignKey('Prompt', on_delete=models.RESTRICT, null=True)
-
+    author = models.ForeignKey('Participant', on_delete=models.SET_NULL, null=True)
+    
     def __str__(self):
         return self.content
 

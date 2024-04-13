@@ -14,6 +14,7 @@ urlpatterns = [
     path('<int:pk>/groups/', views.FacilitatorGroupView.as_view(), name='facilitator-groups'),
     path('<int:pk>/create-group', views.create_group, name='create-group'),
     path('<int:pk>/<str:name>', views.GroupView.as_view(), name='view-group'),
+    path('<int:pk>/<str:name>/<int:code>', views.DiscussionDetailView.as_view(), name='view-responses'),
     path('participant/', views.ParticipantDiscussionView.as_view(), name='participant-view'),
     path('participant/swap', views.ParticipantSwapView.as_view(), name='participant-swap-view'),
     # path('participant/swap<int:swapid>', views.ParticipantDiscussionView.as_view(), name='participant-view'),

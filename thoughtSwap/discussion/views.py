@@ -89,7 +89,19 @@ class PastDiscussionView(generic.ListView):
         context['facilitator'] = Facilitator.objects.get(
             pk=self.kwargs['pk'])
         return context
+    
+class DiscussionDetailView(generic.DetailView):
+    model = Discussion
+    template_name = 'discussion/profile/discussion_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(DiscussionDetailView,
+                        self).get_context_data(**kwargs)
+        context['discussion'] = Discussion.objects.get(
+            code=self.kwargs['code'])
+        context['name'] = self.kwargs['name']
+        return context
+    
 class ParticipantDiscussionView(generic.ListView):
     model = Participant
     template_name = 'discussion/participant_view.html'
@@ -136,7 +148,7 @@ class FacilitatorGroupView(generic.ListView):
         context['form'] = form
         return context
 
-
+# Crud things
 def create_group(request, pk):
     facilitator = get_object_or_404(Facilitator, pk=pk)
     print(facilitator)

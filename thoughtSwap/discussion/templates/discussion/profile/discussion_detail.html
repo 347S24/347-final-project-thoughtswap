@@ -1,0 +1,26 @@
+{% extends "discussion/profile/facilitator_profile.html" %}
+
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<div class="facilitator-profile">
+    <h1 class="discussion-header">Discussion {{ discussion.code }}</h1>
+    <h2 class="discussion-bio"> Group: {{ name }} </h2>
+    <div class="response-board">
+        {% for prompt in discussion.prompt_set.all %}
+        {% if prompt.thought_set.count != 0 %}
+        <div class="response-item">
+            <h1 class="prompt-header">Prompt: {{ prompt.content }}</h1>
+            {% for thought in prompt.thought_set.all %}
+            <div>
+                <h2 class="prompt-bio">User {{ thought.author }}: {{ thought.content }}</h2>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

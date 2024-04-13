@@ -40,26 +40,25 @@
                 <p class="group-content">Size: {{ group.size }}</p>
                 <div class="group-ud">
                     <div class="tip-container">
-                        <button class="ud-button start-disc" type="button"><img
-                                src="/static//media/swap-fill-svgrepo-com.svg" alt="start swap button">
-
-                            <span class="ud-tool">Start New Discussion</span></button>
+                        <a class="ud-link start-disc" href="{% url 'view-group' pk=facilitator.pk name=group %}"
+                            alt="View Group"><img src="/static//media/swap-fill-svgrepo-com.svg"
+                                alt="start swap button">
+                            <span class="ud-tool">Start New Discussion</span></a>
                     </div>
                     <div class="tip-container">
-                        <button class="ud-button view-group" type="button" onclick="window.location.href = '{% url 'view-group' pk=facilitator.pk name=group %}'"><img
-                                src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
-
-                            <span class="ud-tool">View Group</span></button>
+                        <a class="ud-link view-group" href="{% url 'view-group' pk=facilitator.pk name=group %}"
+                            alt="View Group"><img src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
+                            <span class="ud-tool">View Group</span></a>
                     </div>
                     <div class="tip-container">
-                        <button class="ud-button edit-group" type="button"><img
-                                src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
-                            <span class="ud-tool">Edit Group</span></button>
+                        <a class="ud-link edit-group" href="{% url 'view-group' pk=facilitator.pk name=group %}"
+                            alt="View Group"><img src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
+                            <span class="ud-tool">Edit Group</span></a>
                     </div>
                     <div class="tip-container">
-                        <button class="ud-button delete-group" type="button"><img
-                                src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
-                            <span class="ud-tool">Delete Group</span></button>
+                        <a class="ud-link delete-group" href="{% url 'view-group' pk=facilitator.pk name=group %}"
+                            alt="View Group"><img src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
+                            <span class="ud-tool">Delete Group</span></a>
                     </div>
                 </div>
             </div>

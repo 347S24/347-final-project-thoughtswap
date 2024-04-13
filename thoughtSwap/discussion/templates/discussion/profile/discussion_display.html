@@ -18,9 +18,13 @@
             {% for group in facilitator.group_set.all %}
             {% for discussion in group.discussion_set.all %}
             <div class="prompt-crud">
-                <a class="prompt-content" href="#"><span>{{ discussion }}</span></a>
+                <div>
+                    <h1 class="discussion-header">{{ discussion }}</h1>
+                    <h2 class="discussion-bio">Group: {{ group }}</h2>
+                </div>
                 <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
+                    <a class="view-response-btn" href="{% url 'view-responses' pk=facilitator.pk name=group.name code=discussion.code %}" alt="View Responses">View
+                        Responses</a>
                 </div>
             </div>
             {% endfor %}
