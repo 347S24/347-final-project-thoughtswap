@@ -323,17 +323,10 @@ def GroupUpdate(request, pk, name):
 
 class GroupDelete(DeleteView):
     model = Group
-    success_url = reverse_lazy('<int:pk>/groups/')
-    template_name ='discussion/profile/group_confirm_delete.html'
-    
-    def form_valid(self, form):
-        try:
-            self.object.delete()
-            return HttpResponseRedirect(self.success_url)
-        except Exception as e:
-            return HttpResponseRedirect(
-                reverse("delete-group", kwargs={"pk": self.object.pk})
-            )
+    template_name = 'discussion/profile/group_confirm_delete.html'
+    def get_success_url(self):
+        facilitator_pk = self.object.facilitator.pk
+        return reverse_lazy('facilitator-groups', kwargs={'pk': facilitator_pk})
     # # success_url = 
     # permission_required = 'catalog.delete_author'
 
