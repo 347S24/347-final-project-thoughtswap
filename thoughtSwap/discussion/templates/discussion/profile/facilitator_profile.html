@@ -54,7 +54,7 @@
                                     src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                     class="ms-1 d-none d-sm-inline">Sign out</span></a></li>
                     <ul class="nav-list">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'facilitator-profile' %}">Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'facilitator-profile' pk=facilitator.pk %}">Profile</a></li>
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Sign out</a></li>
