@@ -617,3 +617,9 @@ span {
         color: #c29568;
     }
 }
+
+.discussion-view {
+    display: block;
+    width: 100%;
+    margin-left: 1em;
+}

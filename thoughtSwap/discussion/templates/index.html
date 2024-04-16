@@ -19,7 +19,7 @@
         <div id="top-nav-flex">
         {% if user.is_authenticated %}
         <a class="nav-link" href="{% url 'index' %}">Profile</a>
-        {%else%}
+        {% endif %}
         <!--login.html is blank right now-->
         <a href="{% url 'login-view' %}">Log In</a>        
         <!--eventually link the page for inserting a code-->
