@@ -29,7 +29,7 @@ Dark Blue: #23596d
     width: 30%;
     max-width: 200px;
     background-color: #f0caa4;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .nav-list {
@@ -37,8 +37,8 @@ Dark Blue: #23596d
 }
 
 .nav-item {
-    list-style: georgian inside url('../media/chevron-right-svgrepo-com.svg');
     padding-top: 0.5em;
+    list-style: none;
 }
 
 .nav-link {
@@ -60,16 +60,36 @@ Dark Blue: #23596d
     width: 100%;
 }
 
+.response-board {
+    padding: 1rem;
+}
+
 #response-board {
     /* fix to sixe of container */
     max-height: 550px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
+
+/* hide scroll bar when unnecessary */
+@media (max-width: 550px) {
+    #response-board {
+        /* Firefox */
+        scrollbar-width: none;
+        /* Internet Explorer and Edge */
+        -ms-overflow-style: none;
+    }
+
+    #response-board::-webkit-scrollbar {
+        /* Chrome, Safari and Opera */
+        display: none;
+    }
+}
+
 
 .discussion-container {
     display: flex;
     justify-content: space-around;
-    /* margin-top: 2rem; */
+    margin: 0.5rem;
 }
 
 .prompt-container {
@@ -91,6 +111,10 @@ Dark Blue: #23596d
     text-indent: 0;
 }
 
+#front-page-mission {
+    margin: 0;
+}
+
 .prompt-display {
     height: fit-content !important;
     border: solid 1px grey;
@@ -98,6 +122,57 @@ Dark Blue: #23596d
     background: rgb(235, 235, 235);
     padding: 1rem;
     margin: 1em;
+}
+
+#create-prompt {
+    display: block;
+}
+
+.prompt-crud {
+    border: solid 1px grey;
+    border-radius: 15px;
+    background: rgb(235, 235, 235);
+    padding: 1rem;
+    margin: 1em;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* .prompt-content {
+} */
+.prompt-ud {
+    display: flex;
+
+}
+
+.ud-button {
+    width: 75%;
+    padding: 5px;
+    margin: 5px;
+    background-color: transparent;
+    border: none;
+}
+
+.view-response-btn {
+    width: 75%;
+    padding: 5px;
+    margin: 1em;
+    background-color: transparent;
+    border: none;
+
+    &:hover {
+        color: #c29568;
+    }
+}
+
+.start-discussion {
+    display: flex;
+    justify-content: space-between;
+}
+
+#discussion-bio {
+    padding: 0;
+    padding-left: 1em;
 }
 
 .response-item {
@@ -120,19 +195,48 @@ Dark Blue: #23596d
     text-decoration: none;
     display: inline-block;
     text-align: center;
-    font-family: 'Times New Roman', Times, serif;
     font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
 }
 
 .prompt-btn-container {
     display: flex;
     justify-content: center;
+    margin-right: 1em;
 }
 
+.textarea {
+    /* need to fix width, overflow because of padding ? */
+    width: 100%;
+    height: 100%;
+    border: solid 1px grey;
+    background: rgb(235, 235, 235);
+    border-radius: 15px;
+    padding: 1em;
+    font-family: 'Times New Roman', Times, serif;
+}
 
+/* HOME PAGE / DEFAULT VALUES */
 body {
     background: #eeecdd;
     margin: 0;
+}
+
+h1 {
+    font-family: Arial Black, verdana, sans-serif;
+}
+
+a {
+    font-family: arial;
+    font-weight: bold;
+}
+
+p,
+div,
+span {
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .topnav {
@@ -141,16 +245,19 @@ body {
     max-height: 48px;
 }
 
-.topnav a {
+.nav-link {
+    border: none;
+    background-color: #23596d;
     float: left;
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
+    font-family: 'Times New Roman', Times, serif;
 }
 
-.topnav a:hover {
+.nav-link:hover {
     background-color: #f0caa4;
     color: black;
 }
@@ -173,8 +280,9 @@ body {
     width: 15rem;
     margin: auto;
     margin-top: 2rem;
+    margin-bottom: 2rem;
     height: 2rem;
-    padding-top: .75rem;
+    color: white;
 }
 
 .start-swap-btn:hover {
@@ -183,13 +291,66 @@ body {
 
 .start-swap-btn a {
     text-decoration: none;
-    display: inline-block;
-    width: 100%;
-    height: 100%;
     text-align: center;
     color: #f2f2f2;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .start-swap-btn a:hover {
     color: black;
 }
+/* working on it */
+/* Popup container */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  /* The actual popup (appears on top) */
+  .popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+  }
+  
+  /* Popup arrow */
+  .popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  /* Toggle this class when clicking on the popup container (hide and show the popup) */
+  .popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+  }
+  /* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+  
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+  }

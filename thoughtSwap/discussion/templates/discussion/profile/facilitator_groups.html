@@ -6,16 +6,19 @@
 {% block profileContent %}
 <div class="facilitator-profile">
     <h1 class="discussion-header">Welcome {{ user }}</h1>
-    <h2 class="discussion-header">Create discussion prompts for future use.</h2>
+    <h2 class="discussion-header">Below are you current classes.</h2>
     <div class="profile-container" id="create-prompt">
-        <h2 class="discussion-header">Create Prompts</h2>
+        <h2 class="discussion-header">Create a class or group</h2>
         <div class="response-board">
-            <textarea class="textarea" placeholder="Enter a prompt"></textarea>
+            <input type="text" class="input" placeholder="Enter a class name">
+            <button class="btn" type="button">Add Participants</button>
+            <!-- <h1>Add participants</h1> -->
+
         </div>
-        <h2 class="discussion-header">Saved Prompts</h2>
+        <h2 class="discussion-header">Choose an existing group</h2>
         <div class="response-board">
             <div class="prompt-crud">
-                <p class="prompt-content">Prompt 1 Which is super super super super super super super super super super
+                <p class="prompt-content">Group 1 Which is super super super super super super super super super super
                     super super super super super super super super super super super super super super super super
                     super super super super super super super super super super super super long</p>
                 <div class="prompt-ud">
@@ -26,7 +29,7 @@
                 </div>
             </div>
             <div class="prompt-crud">
-                <p class="prompt-content">Prompt 2</p>
+                <p class="prompt-content">Group 2</p>
                 <div class="prompt-ud">
                     <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
                             alt="edit prompt button"></button>
@@ -35,7 +38,7 @@
                 </div>
             </div>
             <div class="prompt-crud">
-                <p class="prompt-content">Prompt 3</p>
+                <p class="prompt-content">Group 3</p>
                 <div class="prompt-ud">
                     <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
                             alt="edit prompt button"></button>
@@ -44,7 +47,7 @@
                 </div>
             </div>
             <div class="prompt-crud">
-                <p class="prompt-content">Prompt 4</p>
+                <p class="prompt-content">Group 4</p>
                 <div class="prompt-ud">
                     <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
                             alt="edit prompt button"></button>
@@ -53,7 +56,7 @@
                 </div>
             </div>
             <div class="prompt-crud">
-                <p class="prompt-content">Prompt 5</p>
+                <p class="prompt-content">Group 5</p>
                 <div class="prompt-ud">
                     <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
                             alt="edit prompt button"></button>
@@ -63,9 +66,9 @@
             </div>
         </div>
         <div class="response-board">
-            {% for prompt in prompts %}
+            {% for group in groups %}
             <div class="prompt-crud">
-                <a class="prompt-content" href="#"><span>{{ prompt }}</span></a>
+                <a class="prompt-content" href="#"><span>{{ group }}</span></a>
                 <div class="prompt-ud">
                     <button class="ud-button" type="button"><img src="/static//media/edit-svgrepo-com.svg"
                             alt="edit prompt button"></button>
@@ -76,4 +79,5 @@
             {% endfor %}
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

@@ -1,5 +1,4 @@
 {% extends "index.html" %}
-
 {% block header %}
 <h1 class="discussion-header">Welcome to the facilitator discussion page</h1>
 {% endblock %}
@@ -8,9 +7,20 @@
 <div class="discussion-board">
     <h1>Enter A Prompt</h1>
     <form method="GET">
-        <div class="prompt-container">
-            <!-- fix submit on enter -->
-            <input type="text" name="prompt" placeholder="Enter A Prompt">
+        <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
+        <h1>Choose Existing Prompt</h1>
+        <!-- TODO: Add preview of past few prompts? -->
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
         </div>
         <div class="prompt-btn-container">
             <button class="prompt-btn" type="submit">Submit Prompt</button>
@@ -26,7 +36,6 @@
     <div id="response-board">
         <!-- {% for response in responses %}
         {{ response }}
-    </div>
     {% endfor %} -->
         <div class="response-item">
             response 1: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
