@@ -26,7 +26,7 @@ urlpatterns = [
     path('<int:pk>/view-group/<str:name>', views.GroupView.as_view(), name='view-group'),
     path('<int:pk>/change-group/<str:name>', views.GroupUpdateView.as_view(), name='change-group'),
     # path('<int:pk>/update-group/<str:name>', views.GroupUpdate, name='update-group'),
-    path('<int:pk>/update-group', views.GroupUpdate.as_view(), name='update-group'),
+    #path('<int:pk>/update-group', views.GroupUpdate.as_view(), name='update-group'),
     path('<int:pk>/delete-group', views.GroupDelete.as_view(), name='delete-group'),
     
     # Discussion CRUD/View
@@ -42,7 +42,7 @@ urlpatterns = [
     path('profile/groups/', views.FacilitatorGroupView.as_view(), name='facilitator-groups'),
     path('groups/', views.ParticipantGroupView.as_view(), name='groups'),
      # Login Pages
-    path('accounts/login', views.LoginPromptView.as_view(), name='login-view'),
+     #path('accounts/login', views.LoginPromptView.as_view(), name='login-view'),
     # path('facilitator/<int:pk>', views.FacilitatorDetailView.as_view(), name='facilitator-detail'),
     # path('<int:pk>', views.DiscussionDetailView.as_view(), name='discussion-detail'),
 ]
