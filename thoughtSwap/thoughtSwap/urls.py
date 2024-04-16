@@ -23,16 +23,9 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include("django.contrib.auth.urls")),
-]
-
-# Links to discussion pages
-urlpatterns += [
     path('discussion/', include('discussion.urls')),
 ]
 
-urlpatterns += [
-    path('', RedirectView.as_view(url='discussion/', permanent=True)),
-]
 urlpatterns += [
     path('', RedirectView.as_view(url='discussion/', permanent=True)),
 ]

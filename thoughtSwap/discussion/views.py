@@ -2,6 +2,7 @@ from django.views import generic
 from django.shortcuts import render
 from .models import Facilitator, Student
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 
 
 def index(request):
@@ -38,6 +39,5 @@ class ParticipantDiscussionView(generic.ListView):
     template_name = 'discussion/participant_view.html'
     # paginate_by = 10
 
-class LoginPromptView(generic.ListView):
-    
-    template_name = 'discussion/registration/login.html'
+class LoginPromptView(LoginView):
+    template_name = 'registration/login.html'
