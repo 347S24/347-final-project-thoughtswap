@@ -11,6 +11,7 @@ conda-package-handling @ file:///croot/conda-package-handling_1690999929514/work
 conda_package_streaming @ file:///croot/conda-package-streaming_1690987966409/work
 cryptography @ file:///croot/cryptography_1702070282333/work
 distro @ file:///croot/distro_1701455004953/work
+django-extensions==3.2.3
 idna @ file:///work/ci_py311/idna_1676822698822/work
 jsonpatch @ file:///tmp/build/80754af9/jsonpatch_1615747632069/work
 jsonpointer==2.1
