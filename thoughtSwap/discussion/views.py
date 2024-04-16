@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from .models import Facilitator, Participant, Group, Discussion, Prompt, Thought, Distribution, DistributedThought
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required, permission_required
 # from .forms import CreateGroupForm
 from .forms import GroupModelForm, CreatePromptForm
@@ -95,22 +96,6 @@ class ParticipantDiscussionView(generic.ListView):
     model = Participant
     template_name = 'discussion/participant_view.html'
     # paginate_by = 10
-
-class ParticipantSwapView(generic.ListView):
-    # eventually need LoginRequiredMixin
-    model = Distribution
-    # context_object_name = 'facilitator_list'
-    # queryset = Facilitator.objects.all()
-    template_name = 'discussion/post_swap.html'
-    # paginate_by = 10
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(PastDiscussionView,
-    #                     self).get_context_data(**kwargs)
-    #     context['distribution'] = Facilitator.objects.get(
-    #         id=self.kwargs['swapid'])
-    #     return context
-
 
 class ParticipantGroupView(generic.ListView):
     model = Participant

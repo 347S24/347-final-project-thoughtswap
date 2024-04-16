@@ -22,10 +22,7 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
-
-# Links to discussion pages
-urlpatterns += [
+    path('accounts/', include("django.contrib.auth.urls")),
     path('discussion/', include('discussion.urls')),
 ]
 
