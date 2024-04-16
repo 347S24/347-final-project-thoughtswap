@@ -1,31 +1,58 @@
-{% extends "base_generic.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block header %}
-<h1 class="discussion-header"> Welcome to index.html</h1>
-{% endblock %}
-{% block content %}
 
-<div class="discussion-container">
-    {% block leftside %}
-    <div class="discussion-board">
-        <div class="prompt-container" id="front-page-mission">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+<head>
+    {% block title %}
+    <title>ThoughtSwap</title>
+    {% endblock %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="script" href="../static/js/script.js">
+
+</head>
+
+
+<body>
+    <div class="topnav">
+        <a id="logo" href="{% url 'index' %}">ThoughtSwap</a>
+        <!--login.html is blank right now-->
+        <a href="{% url 'login-view' %}">Log In</a>        
+        <!--eventually link the page for inserting a code-->
+        <button class="nav-link" onclick="quickSwap()">Quick Swap</button>
+        <span class="popuptext" id="myPopup">Popup text...</span>
+    </div>
+    {% block header %}
+    <h1 class="discussion-header"> Welcome to index.html</h1>
+    {% endblock %}
+    {% block content %}
+    
+
+    <div class="discussion-container">
+        {% block leftside %}
+        <div class="discussion-board">
+            <div class="prompt-container" id="front-page-mission">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+            </div>
         </div>
+        {% endblock %}
+        <!--Eventually we can pick some kind of picture to put here just for aethetic value-->
+        {% block rightside %}
+        <div class="response-board">
+            <img src="https://loremflickr.com/360/680" alt="Place Holder Image For Now.">
+        </div>
+        {% endblock %}
     </div>
-    {% endblock %}
-    <!--Eventually we can pick some kind of picture to put here just for aethetic value-->
-    {% block rightside %}
-    <div class="response-board">
-        <img src="https://loremflickr.com/360/680" alt="Place Holder Image For Now.">
+
+    <!-- Only show swap button on home page -->
+    {% url 'index' as target %}
+    {% if request.path == target %}
+    <div class="start-swap-btn">
+        <!--eventually link the page for inserting a code/starting a thought swap activity-->
+        <a href="{% url 'participant-view' %}">Start Swap</a>
     </div>
+    {% endif %}
     {% endblock %}
-</div>
+</body>
 
-<div class="start-swap-btn">
-    <!--eventually link the page for inserting a code/starting a thought swap activity-->
-    <a href="{% url 'participant-view' %}">Start Swap</a>
-</div>
-{% endblock %}
-
-
-<!-- what's the point of an application rather than adding everything to the root folder? -->
+</html>
