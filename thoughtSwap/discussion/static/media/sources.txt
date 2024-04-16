@@ -1,4 +1,5 @@
 icons: https://www.svgrepo.com/
+forms/updating: https://openclassrooms.com/en/courses/6967196-create-a-web-application-with-django/7349667-update-a-model-object-with-a-modelform
 
 Look for relationships/methods for models
 start shell: python manage.py shell

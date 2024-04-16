@@ -95,6 +95,7 @@ class Thought(models.Model):
 
 
 class Prompt(models.Model):
+    id = models.AutoField(primary_key=True)
     content = models.TextField(
         max_length=1000, help_text='Enter a prompt for the discussion', blank=False, null=False)
     # author = models.TextField(max_length=50)
@@ -106,6 +107,9 @@ class Prompt(models.Model):
         """String for representing the Model object."""
         return f'{self.content}'
 
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this prompt."""
+        return reverse('prompt-detail', args=[str(self.id), str(self.author.id)])
 # A discussion is a collection of thoughts and prompts
 # A discussion may have one group, and many prompts
 
@@ -120,9 +124,9 @@ class Discussion(models.Model):
         """String for representing the Model object."""
         return self.code
 
-    # def get_absolute_url(self):
-    #     """Returns the url to access a detail record for this discussion."""
-    #     return reverse('discussion-detail', args=[str(self.id)])
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this discussion."""
+        return reverse('discussion-detail', args=[str(self.id)])
 
 # A distribution is a the swapping of the thoughts
 # A distribution has one prompt associated with it, and has many 'distributed thoughts' as well

@@ -456,8 +456,28 @@ span {
     overflow: hidden;
     max-height: 48px;
 }
+#top-nav-flex{
+    display: flex;
+    justify-content: end;
+}
 
 .nav-link {
+    border: none;
+    background-color: #23596d;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    font-family: 'Times New Roman', Times, serif;
+    left: 80%;
+}
+
+.nav-link:hover {
+    background-color: #f0caa4;
+    color: black;
+}
+#logo {
     border: none;
     background-color: #23596d;
     float: left;
@@ -467,22 +487,12 @@ span {
     text-decoration: none;
     font-size: 17px;
     font-family: 'Times New Roman', Times, serif;
-}
 
-.nav-link:hover {
-    background-color: #f0caa4;
-    color: black;
 }
 
 #logo:hover {
     color: #f0caa4;
     background-color: #23596d;
-}
-
-.topnav>a:nth-child(2) {
-    display: inline-block;
-    text-align: right;
-    margin-left: 80%;
 }
 
 .start-swap-btn {
@@ -552,3 +562,58 @@ span {
     background-color: #c29568;
     color: #000;
   }
+  .start-discussion-popup{
+    border: solid 1px grey;
+    border-radius: 6px;
+    background-color: #eeecdd;
+    width: 400px;
+    height: 300px;
+    position: fixed;
+    z-index: 2;
+    left: 40%;
+  }
+  .sure-delete-btn{
+    z-index: 2;
+    position: fixed;
+    /* left: 40%; */
+    top: 50%;
+    background-color: #eeecdd;
+    border: solid 1px gray;
+    border-radius: 6px;
+    width: 60%;
+    min-height: 200px;
+    text-align: center;
+    padding: 1rem;
+    display: grid;
+    justify-content: center;
+
+  }
+  .blur {
+    backdrop-filter: blur(5px);
+  }
+  .delete-confirm-btns{
+    background-color: #23596d;
+    border: solid 1px grey;
+    border-radius: 15px;
+    color: white;
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    width: 50px;
+    height: fit-content;
+    margin: auto;
+  }
+
+  #id_content_helptext {
+    display: none;
+  }
+
+.profile-list-header {
+    text-decoration: none;
+    color: black;
+    font-size: large;
+
+    &:hover {
+        color: #c29568;
+    }
+}

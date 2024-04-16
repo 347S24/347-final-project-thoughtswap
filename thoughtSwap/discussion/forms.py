@@ -25,7 +25,7 @@ class GroupModelForm(ModelForm):
         model = Group
         fields = ['name', 'size']
 
-class CreatePromptForm(ModelForm):
+class PromptModelForm(ModelForm):
     class Meta:
         model = Prompt
         fields = ['content', 'author', 'discussion']
@@ -37,6 +37,7 @@ class CreatePromptForm(ModelForm):
         if author in Facilitator.objects.all().values_list('username', flat=True):
             raise forms.ValidationError("Author does not exist. Please enter another one")
         return author
+    
 # class CreateGroupForm(forms.Form):
 #     group_name = forms.CharField(label='Group Name', max_length=100)
 #     group_size = forms.IntegerField(label='Group Size', min_value=1, max_value=10)

@@ -9,8 +9,15 @@
     <div class="start-discussion">
         <h2 class="discussion-header">View past discussions or create one from scratch.</h2>
         <div class="prompt-btn-container">
-            <button class="prompt-btn" type="submit">Start Discussion</button>
+            <button class="prompt-btn" type="submit" onclick="Popup()">Start Discussion</button>
         </div>
+    </div>
+    <form class="popup show" id="swaps">
+        <label for="swapCode">Code:</label>
+        <input type="text" id="swapCode" name="swapCode" maxlength="6" inputmode="numeric">
+        <button class="swap-code-submit" >Discuss!</button>
+    </form>
+    <div id="pop" class="start-discussion-popup show" >
     </div>
     <div class="profile-container" id="create-prompt">
         <h2 class="discussion-header">Past Disucssions</h2>
@@ -30,54 +37,6 @@
             {% endfor %}
             {% endfor %}
         </div>
-        <h2 class="discussion-header">Static Disucssions</h2>
-        <div class="response-board">
-            <div class="prompt-crud">
-                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super
-                    super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
-                <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super
-                    super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
-                <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super
-                    super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
-                <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super
-                    super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
-                <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
-                </div>
-            </div>
-            <div class="prompt-crud">
-                <p class="prompt-content">Discussion 1 Which is super super super super super super super super super
-                    super
-                    super super super super super super super super super super super super super super super super
-                    super super super super super super super super super super super super long</p>
-                <div class="prompt-ud">
-                    <button class="view-response-btn" type="button">View Responses</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- {% for discussion in discussions %}
@@ -86,5 +45,6 @@
             </div>
             {% endfor %} -->
     <!-- </div> -->
+    <script rel="script" src="/static/js/script.js"></script>
 </div>
 {% endblock %}

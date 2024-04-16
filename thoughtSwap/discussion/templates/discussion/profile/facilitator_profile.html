@@ -4,6 +4,11 @@
 {% block content %}
 <!-- from https://dev.to/codeply/bootstrap-5-sidebar-examples-38pb -->
 <div class="profile-container">
+    <form class="popup show" id="swaps">
+        <label for="swapCode">Code:</label>
+        <input type="text" id="swapCode" name="swapCode" maxlength="6" inputmode="numeric">
+        <button class="swap-code-submit" >Discuss!</button>
+    </form>
     <div class="facilitator-nav">
         <div>
             <div class="">
@@ -58,27 +63,33 @@
         <h1 class="discussion-header">Welcome {{user}}</h1>
         <h2 class="discussion-header">This is the profile area to display info like past discussions and prompts
         </h2>
-        <div class="profile-container" id="profile-info">
-            <div class="info-display">
-                <a class="fac-nav-link" href="{% url 'facilitator-prompts' pk=facilitator.pk %}"><span>This will display
-                        prompts</span></a>
-                {% for prompt in facilitator.prompt_set.all %}
-                <div class="prompt-item">
-                    <a class="fac-nav-link" href="#"><span>{{ prompt }}</span></a>
+        <div class="profile-container" id="create-prompt">
+            <div class="response-board">
+                <h1 class="discussion-header">Groups</h1>
+                <div class="group-board">
+                    {% for group in facilitator.group_set.all %}
+                    <div class="group-crud">
+                        <a class="profile-list-header" href="{% url 'view-group' pk=facilitator.pk name=group %}"><span>{{ group.name }}</span></a>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
-            <div class="info-display">
-                <a class="fac-nav-link" href="{% url 'facilitator-discussions' pk=facilitator.pk %}"><span>This will
-                        display
-                        discussions</span></a>
-
+                <h1 class="discussion-header">Discussions</h1>
                 {% for group in facilitator.group_set.all %}
                 {% for discussion in group.discussion_set.all %}
-                <div class="discussion">
-                    <a class="fac-nav-link" href="#"><span>{{ discussion }}</span></a>
+                <div class="prompt-crud">
+                    <div>
+                        <a class="profile-list-header" href="{% url 'view-responses' pk=facilitator.pk name=group code=discussion.code %}"><span>{{ discussion }}</span></a>
+                    </div>
                 </div>
                 {% endfor %}
+                {% endfor %}
+                <h1 class="discussion-header">Prompts</h1>
+                {% for prompt in facilitator.prompt_set.all %}
+                <div class="prompt-crud">
+                    <div>
+                        <a class="profile-list-header" href="{% url 'prompt-detail' pk=facilitator.pk id=prompt.id %}"><span>{{ prompt }}</span></a>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
         </div>
