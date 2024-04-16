@@ -23,4 +23,4 @@ class DiscussionAdmin(admin.ModelAdmin):
 
     fields = ['code', 'group']
 
-# admin.site.register(Facilitator, FacilitatorAdmin)
+# # admin.site.register(Facilitator, FacilitatorAdmin)

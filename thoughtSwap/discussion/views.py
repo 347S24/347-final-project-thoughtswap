@@ -2,9 +2,11 @@ import random
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render, get_object_or_404, redirect, reverse
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy
 from .models import Facilitator, Participant, Group, Discussion, Prompt, Thought, Distribution, DistributedThought
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required, permission_required
 # from .forms import CreateGroupForm
 from .forms import GroupModelForm, PromptModelForm
@@ -321,7 +323,18 @@ def GroupUpdate(request, pk, name):
 
 class GroupDelete(DeleteView):
     model = Group
-    # # success_url =
+    success_url = reverse_lazy('<int:pk>/groups/')
+    template_name ='discussion/profile/group_confirm_delete.html'
+    
+    def form_valid(self, form):
+        try:
+            self.object.delete()
+            return HttpResponseRedirect(self.success_url)
+        except Exception as e:
+            return HttpResponseRedirect(
+                reverse("delete-group", kwargs={"pk": self.object.pk})
+            )
+    # # success_url = 
     # permission_required = 'catalog.delete_author'
 
     # def form_valid(self, form):
