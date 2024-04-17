@@ -16,7 +16,7 @@
     <div class="group-info" id="create-prompt">
         <h3>Discussions: </h3>
         <ul>
-            {% for discussion in group.discussions.all %}
+            {% for discussion in group.discussion_set.all %}
             {% if discussion.group.name == group.name %}
             <li>{{ discussion }}</li>
             {% endif %}

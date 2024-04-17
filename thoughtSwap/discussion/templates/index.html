@@ -19,8 +19,9 @@
         <div id="top-nav-flex">
         {% if user.is_authenticated %}
         <a class="nav-link" href="{% url 'facilitator-profile' pk=facilitator.pk %}">Profile</a>
-        {%else%}
-        <!--login.html is blank right now--> 
+        {% endif %}
+        <!--login.html is blank right now-->
+        <a href="{% url 'login-view' %}">Log In</a>        
         <!--eventually link the page for inserting a code-->
         <button class="nav-link" onclick="quickSwap(this)">Quick Swap</button>
         {%endif%}

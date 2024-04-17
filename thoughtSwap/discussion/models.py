@@ -29,18 +29,6 @@ class Facilitator(models.Model):
         """Returns the url to access a detail record for this facilitator."""
         return reverse('facilitator-profile', args=[str(self.id)])
     
-    # def get_fac_discussion_url(self):
-    #     """Returns the url to access a detail record for this facilitator."""
-    #     return reverse('facilitator-discussions', args=[str(self.id)])
-    
-    # def get_fac_prompt_url(self):
-    #     """Returns the url to access a detail record for this facilitator."""
-    #     return reverse('facilitator-prompts', args=[str(self.id)])
-    
-    # def get_fac_group_url(self):
-    #     """Returns the url to access a detail record for this facilitator."""
-    #     return reverse('facilitator-groups', args=[str(self.id)])
-    
     class Meta:
         permissions = (("can_create_groups", "Create Groups"),)
 # A Participant is able to join groups and participate in discussions
@@ -56,9 +44,9 @@ class Participant(models.Model):
         """String for representing the Model object."""
         return f'{self.username}'
 
-    # def get_absolute_url(self):
-    #     """Returns the url to access a detail record for this participant."""
-    #     return reverse('facilitator-detail', args=[str(self.id)])
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this participant."""
+        return reverse('index')
 
 # A facilitator may create a group which holds participants and discussions
 
