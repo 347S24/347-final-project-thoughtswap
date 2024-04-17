@@ -1,7 +1,7 @@
 {% extends "discussion/profile/facilitator_profile.html" %}
 
 {% block profileContent %}
-<div class="facilitator-profile">
+<div class="discussion-view">
     <h1 class="discussion-header">Discussion {{ discussion.code }}</h1>
     <h2 class="discussion-bio"> Group: {{ name }} </h2>
     <div class="response-board">
@@ -14,8 +14,8 @@
                 <h2 class="prompt-bio">User {{ thought.author }}: {{ thought.content }}</h2>
             </div>
             {% endfor %}
-            {% endif %}
         </div>
+        {% endif %}
         {% endfor %}
     </div>
 </div>

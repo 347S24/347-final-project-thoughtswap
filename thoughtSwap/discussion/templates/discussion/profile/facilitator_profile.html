@@ -7,14 +7,14 @@
     <form class="popup show" id="swaps">
         <label for="swapCode">Code:</label>
         <input type="text" id="swapCode" name="swapCode" maxlength="6" inputmode="numeric">
-        <button class="swap-code-submit" >Discuss!</button>
+        <button class="swap-code-submit">Discuss!</button>
     </form>
     <div class="facilitator-nav">
         <div>
             <div class="">
                 <ul class="fac-nav-list">
                     <li class="fac-nav-item"><a class="fac-nav-link"
-                            href="{% url 'facilitator-profile' pk=facilitator.pk %}"><img
+                            href="{% url 'facilitator-profile' facilitator.pk %}"><img
                                 src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                 class="ms-1 d-none d-sm-inline">Profile</span></a></li>
                     <li class="fac-nav-item">
@@ -53,12 +53,14 @@
                         <li class="fac-nav-item"><a class="fac-nav-link" href="{% url 'index' %}"><img
                                     src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                     class="ms-1 d-none d-sm-inline">Sign out</span></a></li>
-                    <ul class="nav-list">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'facilitator-profile' %}">Profile</a></li>
+                        <!-- Alredy have these links above! -->
+
+                        <!-- <ul class="nav-list">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'facilitator-profile' pk=facilitator.pk %}">Profile</a></li>
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Sign out</a></li>
-                        </form>
+                        </form> -->
                     </ul>
                 </div>
             </div>
@@ -66,7 +68,7 @@
     </div>
     {% block profileContent %}
     <div class="facilitator-profile">
-        <h1 class="discussion-header">Welcome {{user}}</h1>
+        <h1 class="discussion-header">Welcome {{ facilitator }}</h1>
         <h2 class="discussion-header">This is the profile area to display info like past discussions and prompts
         </h2>
         <div class="profile-container" id="create-prompt">
