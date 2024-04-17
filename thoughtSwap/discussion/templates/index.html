@@ -18,12 +18,13 @@
         <a id="logo" href="{% url 'index' %}">ThoughtSwap</a>
         <div id="top-nav-flex">
         {% if user.is_authenticated %}
-        <a class="nav-link" href="{% url 'index' %}">Profile</a>
+        <a class="nav-link" href="{% url 'facilitator-profile' pk=facilitator.pk %}">Profile</a>
         {% endif %}
         <!--login.html is blank right now-->
         <a href="{% url 'login-view' %}">Log In</a>        
         <!--eventually link the page for inserting a code-->
         <button class="nav-link" onclick="quickSwap(this)">Quick Swap</button>
+        {%endif%}
     </div>
     </div>
     {% block header %}
