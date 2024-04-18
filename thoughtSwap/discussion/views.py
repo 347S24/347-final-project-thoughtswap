@@ -33,7 +33,7 @@ class FacilitatorDiscussionView(generic.ListView):
         context['facilitator'] = Facilitator.objects.get(
             pk=self.kwargs['pk'])
 
-        if 'discussion' in self.kwargs:
+        if 'code' in self.kwargs:
             context['discussion'] = Discussion(code=self.kwargs['code'])
         else:
             context['discussion'] = {'code': 0}
