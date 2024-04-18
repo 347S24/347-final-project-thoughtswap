@@ -6,6 +6,9 @@
 
 {% block leftside %}
 <div class="discussion-board">
+    <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
+    <h2 class="discussion-bio"> Group: {{ discussion.group }} </h2>
+    <h2 class="discussion-bio"> Facilitator: {{ discussion.group.facilitator }} </h2>
     <h1>Prompt:</h1>
     <div class="prompt-display">
         This will eventually read the prompt

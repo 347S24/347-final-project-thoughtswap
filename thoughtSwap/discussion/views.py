@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required, permission_required
 # from .forms import CreateGroupForm
-from .forms import GroupModelForm, PromptModelForm
+from .forms import DiscussionModelForm, GroupModelForm, PromptModelForm
 
 
 def index(request):
@@ -33,11 +33,10 @@ class FacilitatorDiscussionView(generic.ListView):
         context['facilitator'] = Facilitator.objects.get(
             pk=self.kwargs['pk'])
 
-        if 'group_name' in self.kwargs:
-            context['group'] = Group.objects.get(
-                name=self.kwargs['group_name'])
+        if 'discussion' in self.kwargs:
+            context['discussion'] = Discussion(code=self.kwargs['code'])
         else:
-            context['group'] = None
+            context['discussion'] = {'code': 0}
         return context
 
 
@@ -73,8 +72,7 @@ class FacilitatorPromptView(CreateView):
         context['facilitator'] = Facilitator.objects.get(
             pk=pk)
         facilitator = get_object_or_404(Facilitator, pk=pk)
-        form = PromptModelForm(
-            initial={'content': None, 'author': facilitator, 'discussion': None})
+        form = PromptModelForm(initial={'content': None, 'discussion': None})
         context['form'] = form
         return context
 
@@ -123,7 +121,7 @@ def DiscussionDetailView(request, pk, code, name):
     return render(request, 'discussion/profile/discussion_detail.html', context=context)
     # template_name = 'discussion/profile/discussion_detail.html'
     # queryset =
-    
+
     # def get_queryset(self):
     #     print("HELLO???\n\n\n\n\n\n\n\n\n")
     #     self.facilitator = Facilitator.objects.get(pk=self.kwargs['pk'])
@@ -134,7 +132,7 @@ def DiscussionDetailView(request, pk, code, name):
     #         self.discussion = Discussion.objects.all()
     #     print('disc', self.discussion)
     #     return self.discussion
-    
+
     # def get_context_data(self, **kwargs):
     #     print("running context data\n\n\n\n\n\n\n\n\n")
     #     context = super(DiscussionDetailView,
@@ -152,6 +150,13 @@ def DiscussionDetailView(request, pk, code, name):
 class ParticipantDiscussionView(generic.ListView):
     model = Participant
     template_name = 'discussion/participant_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ParticipantDiscussionView,
+                        self).get_context_data(**kwargs)
+        context['discussion'] = Discussion.objects.get(
+            code=self.kwargs['code'])
+        return context
     # paginate_by = 10
 
 
@@ -205,7 +210,6 @@ def create_prompt(request, pk):
         form = PromptModelForm(request.POST)
 
         if form.is_valid():
-            facilitator = form.cleaned_data['author']
             content = form.cleaned_data['content']
             discussion = form.cleaned_data['discussion']
 
@@ -235,7 +239,7 @@ class PromptUpdateView(UpdateView):
         context['facilitator'] = facilitator
         context['prompt'] = prompt
         form = PromptModelForm(initial={
-                               'content': prompt.content, 'author': facilitator, 'discussion': prompt.discussion})
+                               'content': prompt.content, 'discussion': prompt.discussion})
         context['form'] = form
         return context
 
@@ -326,18 +330,19 @@ class GroupView(CreateView):
 #             initial={'facilitator': facilitator, 'name': group.name, 'size': group.size})
 #         context['form'] = form
 #         return context
-    
+
 def GroupUpdateView(request, pk, name):
     facilitator = Facilitator.objects.get(pk=pk)
     group = Group.objects.get(facilitator=facilitator, name=name)
     form = GroupModelForm(initial={'name': group.name, 'size': group.size})
-        
+
     context = {
         'facilitator': facilitator,
         'group': group,
         'form': form,
     }
     return render(request, 'discussion/profile/group_update.html', context=context)
+
 
 def GroupUpdate(request, pk, name):
     facilitator = get_object_or_404(Facilitator, pk=pk)
@@ -363,10 +368,11 @@ def GroupUpdate(request, pk, name):
 class GroupDelete(DeleteView):
     model = Group
     template_name = 'discussion/profile/group_confirm_delete.html'
+
     def get_success_url(self):
         facilitator_pk = self.object.facilitator.pk
         return reverse_lazy('facilitator-groups', kwargs={'pk': facilitator_pk})
-    # # success_url = 
+    # # success_url =
     # permission_required = 'catalog.delete_author'
 
     # def form_valid(self, form):
@@ -380,6 +386,44 @@ class GroupDelete(DeleteView):
 
 # other methods
 # generates a numerical random username
+
+
+def CreateDiscussionView():
+    form = DiscussionModelForm(
+        initial={'code': 0, 'name': 'Discussion 0', 'group': None})
+    context['form'] = form
+
+    return redirect(reverse('facilitator-view', kwargs={'pk': pk}))
+
+
+def create_discussion(request):
+    if request.method == 'POST':
+        print('posted\n\n\n\n\n\n\n\n\n')
+
+        form = DiscussionModelForm(request.POST)
+
+        if form.is_valid():
+            print('valid\n\n\n\n\n\n\n\n\n')
+
+            name = form.cleaned_data['name']
+            code = form.cleaned_data['code']
+            group = form.cleaned_data['group']
+
+            discussion = Discussion(name=name, group=group, code=code)
+            # This saves the model to the DB
+            discussion.save()
+            # if form.cleaned_data['group'] is None:
+            #     return redirect(reverse('facilitator-view', kwargs={'pk': group.facilitator.pk}))
+            # else:
+            return redirect(reverse('facilitator-view', kwargs={'pk': group.facilitator.pk, 'code': discussion.code}))
+    else:
+        print('no data\n\n\n\n\n\n\n\n\n')
+        form = DiscussionModelForm(initial={'code': 0, 'name': 'Discussion 0', 'group': None})
+        context = {'form': form,}
+        return render(request, 'discussion/start_discussion.html', context=context)
+    return HttpResponse("Error creating Discussion")
+    # else:
+    #     redirect(reverse('login-view'))
 
 
 def generate_username(group):

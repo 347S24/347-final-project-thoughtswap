@@ -6,9 +6,11 @@ urlpatterns = [
     path('', views.index, name='index'),
     
     # Discussion pages
-    path('facilitator/<int:pk>/<str:group_name>', views.FacilitatorDiscussionView.as_view(), name='facilitator-w-group-view'),
+    path('create-discussion', views.create_discussion, name='create-discussion'),
+    # path('make-discussion', views.create_discussion, name='make-discussion'),
+    path('facilitator/<int:pk>/<int:code>', views.FacilitatorDiscussionView.as_view(), name='facilitator-view'),
     path('facilitator/<int:pk>', views.FacilitatorDiscussionView.as_view(), name='facilitator-view'),
-    path('participant/', views.ParticipantDiscussionView.as_view(), name='participant-view'),
+    path('participant/<int:code>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
     
     # Facilitator profile links
     path('<int:pk>/profile', views.FacilitatorProfileView.as_view(), name='facilitator-profile'),
