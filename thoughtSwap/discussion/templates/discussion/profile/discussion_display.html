@@ -9,7 +9,7 @@
     <div class="start-discussion">
         <h2 class="discussion-header">View past discussions or create one from scratch.</h2>
         <div class="prompt-btn-container">
-            <button class="prompt-btn" type="submit" onclick="Popup()">Start Discussion</button>
+            <a class="prompt-btn" href="{% url 'create-discussion' %}">Start Discussion</a>
         </div>
     </div>
     <form class="popup show" id="swaps">
