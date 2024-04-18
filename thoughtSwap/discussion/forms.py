@@ -63,6 +63,7 @@ class DiscussionModelForm(ModelForm):
         group = self.cleaned_data['group']
 
         # if the name already exists in our database
+        # why does this work? It is looking for groups with the same name?
         if group in Group.objects.all().values_list('name', flat=True):
             raise forms.ValidationError("Group does not exist. Please enter another one")
         return group
