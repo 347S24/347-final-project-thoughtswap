@@ -19,7 +19,7 @@
         <a id="logo" href="{% url 'index' %}">ThoughtSwap</a>
         <div id="top-nav-flex">
             {% if user.is_authenticated %}
-            <a class="nav-link" href="{% url 'facilitator-profile' pk=facilitator.pk %}">Profile</a>
+            <a class="nav-link" href="{% url 'facilitator-profile' pk=0 %}">Profile</a>
             {% else %}
             <!--login.html is blank right now-->
             <a href="{% url 'login-view' %}">Log In</a>
@@ -31,12 +31,12 @@
     {% block header %}
     <h1 class="discussion-header"> Welcome to index.html</h1>
     {% endblock %}
-    {% block content %}
     <form class="popup show" id="swaps">
         <label for="swapCode">Code:</label>
         <input type="text" id="swapCode" name="swapCode" maxlength="6" inputmode="numeric">
         <button class="swap-code-submit">Discuss!</button>
     </form>
+    {% block content %}
     <div class="discussion-container">
         {% block leftside %}
         <div class="discussion-board">
@@ -58,7 +58,7 @@
     {% if request.path == target %}
     <div class="start-swap-btn">
         <!--eventually link the page for inserting a code/starting a thought swap activity-->
-        <a href="{% url 'participant-view' %}">Start Swap</a>
+        <a href="{% url 'create-discussion' %}">Start Swap</a>
     </div>
     {% endif %}
     {% endblock %}

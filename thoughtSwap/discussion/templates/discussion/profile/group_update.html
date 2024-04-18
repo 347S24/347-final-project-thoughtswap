@@ -8,7 +8,7 @@
     <h1 class="discussion"> Edit Group </h1>
   <hr>
     {% if perms.discussion.change_group %}
-    <form action="{% url 'update-group' pk=facilitator.pk name=group %}" method="post">{% csrf_token %}
+    <form action="{% url 'update-group' pk=facilitator.pk name=group.name %}" method="post">{% csrf_token %}
         {{ form }}
         <input type="submit" value="Update">
     </form>

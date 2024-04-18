@@ -10,3 +10,4 @@ ex: f.prompt_set.all() = gets all prompts
 
 DO NOT COMBINE VIEWS/MODELS! Make a new one for every use (CRUD)
 
+pip list --format=freeze > requirements.txt
