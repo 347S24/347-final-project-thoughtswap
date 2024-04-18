@@ -86,7 +86,7 @@
                 {% for discussion in group.discussion_set.all %}
                 <div class="prompt-crud">
                     <div>
-                        <a class="profile-list-header" href="{% url 'view-responses' pk=facilitator.pk name=group code=discussion.code %}"><span>{{ discussion }}</span></a>
+                        <a class="profile-list-header" href="{% url 'view-responses' pk=facilitator.pk name=group.name code=discussion.code %}"><span>{{ discussion }}</span></a>
                     </div>
                 </div>
                 {% endfor %}

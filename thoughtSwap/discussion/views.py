@@ -1,4 +1,5 @@
 import random
+from django.db.models.query import QuerySet
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render, get_object_or_404, redirect, reverse
@@ -49,6 +50,7 @@ class FacilitatorProfileView(generic.ListView):
     # paginate_by = 10
 
     def get_context_data(self, **kwargs):
+        print("Getting context data\n\n\n\n\n\n\n\n")
         context = super(FacilitatorProfileView,
                         self).get_context_data(**kwargs)
         context['facilitator'] = Facilitator.objects.get(pk=self.kwargs['pk'])
@@ -112,16 +114,32 @@ class PastDiscussionView(generic.ListView):
 
 class DiscussionDetailView(generic.DetailView):
     model = Discussion
+    fields = ['code', 'group']
     template_name = 'discussion/profile/discussion_detail.html'
-
+    # queryset =
+    
+    def get_queryset(self):
+        print("HELLO???\n\n\n\n\n\n\n\n\n")
+        self.facilitator = Facilitator.objects.get(pk=self.kwargs['pk'])
+        if ('code' in self.kwargs and 'name' in self.kwargs):
+            group = Group.objects.get(facilitator=self.facilitator, name=self.kwargs['name'])
+            self.discussion = Discussion.objects.filter(group=group, code=self.kwargs['code'])
+        else:
+            self.discussion = Discussion.objects.all()
+        print('disc', self.discussion)
+        return self.discussion
+    
     def get_context_data(self, **kwargs):
+        print("running context data\n\n\n\n\n\n\n\n\n")
         context = super(DiscussionDetailView,
                         self).get_context_data(**kwargs)
-        context['facilitator'] = Facilitator.objects.get(
-            pk=self.kwargs['pk'])
-        context['discussion'] = Discussion.objects.get(
-            code=self.kwargs['code'])
-        context['name'] = self.kwargs['name']
+        context['facilitator'] = self.facilitator
+
+        context['discussion'] = self.discussion
+        print('\n\n\n\n\n\n\n')
+        print('group', context['group'])
+        print('code', self.kwargs['code'])
+        print('\n\n\n\n\n\n\n')
         return context
 
 
