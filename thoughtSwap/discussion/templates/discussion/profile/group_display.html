@@ -61,15 +61,10 @@
                             <span class="ud-tool">Edit Group</span></a>
                     </div>
                     <div class="tip-container">
-                        <button class="ud-link delete-group" onclick="Popup()"><img
+                        <a class="ud-button delete-group" href="{% url 'delete-group' group.id %}"><img
                                 src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button">
-                            <span class="ud-tool">Delete Group</span></button>
+                            <span class="ud-tool">Delete Group</span></a>
                     </div>
-                </div>
-                <div id="pop" class="sure-delete-btn show">
-                    Are you sure you want to delete {{ group.name }}?
-                    <button class="delete-confirm-btns">Yes</button>
-                    <button class="delete-confirm-btns" onclick="Popup()">No</button>
                 </div>
             </div>
             {% endfor %}

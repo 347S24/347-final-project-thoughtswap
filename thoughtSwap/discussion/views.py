@@ -372,18 +372,7 @@ class GroupDelete(DeleteView):
     def get_success_url(self):
         facilitator_pk = self.object.facilitator.pk
         return reverse_lazy('facilitator-groups', kwargs={'pk': facilitator_pk})
-    # # success_url =
-    # permission_required = 'catalog.delete_author'
-
-    # def form_valid(self, form):
-    #     try:
-    #         self.object.delete()
-    #         return HttpResponseRedirect(self.success_url)
-    #     except Exception as e:
-    #         return HttpResponseRedirect(
-    #             reverse("author-delete", kwargs={"pk": self.object.pk})
-    #         )
-
+    
 # other methods
 # generates a numerical random username
 
