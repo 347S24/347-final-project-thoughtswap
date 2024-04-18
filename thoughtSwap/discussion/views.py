@@ -112,35 +112,41 @@ class PastDiscussionView(generic.ListView):
         return context
 
 
-class DiscussionDetailView(generic.DetailView):
-    model = Discussion
-    fields = ['code', 'group']
-    template_name = 'discussion/profile/discussion_detail.html'
+def DiscussionDetailView(request, pk, code, name):
+    facilitator = Facilitator.objects.get(pk=pk)
+    group = Group.objects.get(facilitator=facilitator, name=name)
+    disc = Discussion.objects.get(group=group, code=code)
+    context = {
+        'facilitator': facilitator,
+        'discussion': disc,
+    }
+    return render(request, 'discussion/profile/discussion_detail.html', context=context)
+    # template_name = 'discussion/profile/discussion_detail.html'
     # queryset =
     
-    def get_queryset(self):
-        print("HELLO???\n\n\n\n\n\n\n\n\n")
-        self.facilitator = Facilitator.objects.get(pk=self.kwargs['pk'])
-        if ('code' in self.kwargs and 'name' in self.kwargs):
-            group = Group.objects.get(facilitator=self.facilitator, name=self.kwargs['name'])
-            self.discussion = Discussion.objects.filter(group=group, code=self.kwargs['code'])
-        else:
-            self.discussion = Discussion.objects.all()
-        print('disc', self.discussion)
-        return self.discussion
+    # def get_queryset(self):
+    #     print("HELLO???\n\n\n\n\n\n\n\n\n")
+    #     self.facilitator = Facilitator.objects.get(pk=self.kwargs['pk'])
+    #     if ('code' in self.kwargs and 'name' in self.kwargs):
+    #         group = Group.objects.get(facilitator=self.facilitator, name=self.kwargs['name'])
+    #         self.discussion = Discussion.objects.filter(group=group, code=self.kwargs['code'])
+    #     else:
+    #         self.discussion = Discussion.objects.all()
+    #     print('disc', self.discussion)
+    #     return self.discussion
     
-    def get_context_data(self, **kwargs):
-        print("running context data\n\n\n\n\n\n\n\n\n")
-        context = super(DiscussionDetailView,
-                        self).get_context_data(**kwargs)
-        context['facilitator'] = self.facilitator
+    # def get_context_data(self, **kwargs):
+    #     print("running context data\n\n\n\n\n\n\n\n\n")
+    #     context = super(DiscussionDetailView,
+    #                     self).get_context_data(**kwargs)
+    #     context['facilitator'] = self.facilitator
 
-        context['discussion'] = self.discussion
-        print('\n\n\n\n\n\n\n')
-        print('group', context['group'])
-        print('code', self.kwargs['code'])
-        print('\n\n\n\n\n\n\n')
-        return context
+    #     context['discussion'] = self.discussion
+    #     print('\n\n\n\n\n\n\n')
+    #     print('group', context['group'])
+    #     print('code', self.kwargs['code'])
+    #     print('\n\n\n\n\n\n\n')
+    #     return context
 
 
 class ParticipantDiscussionView(generic.ListView):
@@ -249,14 +255,15 @@ def PromptUpdate(request, pk, id):
 
 
 def create_group(request, pk):
-    facilitator = get_object_or_404(Facilitator, pk=pk)
-    print(facilitator)
+    # facilitator = get_object_or_404(Facilitator, pk=pk)
+    # print(facilitator)
     if request.method == 'POST':
         form = GroupModelForm(request.POST)
 
         if form.is_valid():
             name = form.cleaned_data['name']
             size = form.cleaned_data['size']
+            facilitator = form.cleaned_data['facilitator']
 
             group = Group(name=name, size=size,
                           facilitator=facilitator)
@@ -300,44 +307,56 @@ class GroupView(CreateView):
         return context
 
 
-class GroupUpdateView(UpdateView):
-    model = Group
-    # Not recommended (potential security issue if more fields added)
-    fields = ['name', 'size']
-    template_name = 'discussion/profile/group_update.html'
-    # permission_required = 'catalog.change_prompt'
+# class GroupUpdateView(UpdateView):
+#     model = Group
+#     # Not recommended (potential security issue if more fields added)
+#     fields = ['name', 'size']
+#     template_name = 'discussion/profile/group_update.html'
+#     # permission_required = 'catalog.change_prompt'
 
-    def get_context_data(self, **kwargs):
-        context = super(GroupUpdateView,
-                        self).get_context_data(**kwargs)
-        facilitator = Facilitator.objects.get(pk=self.kwargs['pk'])
-        group = Group.objects.get(name=self.kwargs['name'])
-        print(group)
-        context['facilitator'] = facilitator
-        context['group'] = group
-        form = GroupModelForm(
-            initial={'facilitator': facilitator, 'name': group.name, 'size': group.size})
-        context['form'] = form
-        return context
-
+#     def get_context_data(self, **kwargs):
+#         context = super(GroupUpdateView,
+#                         self).get_context_data(**kwargs)
+#         facilitator = Facilitator.objects.get(pk=self.kwargs['pk'])
+#         group = Group.objects.get(name=self.kwargs['name'])
+#         print(group)
+#         context['facilitator'] = facilitator
+#         context['group'] = group
+#         form = GroupModelForm(
+#             initial={'facilitator': facilitator, 'name': group.name, 'size': group.size})
+#         context['form'] = form
+#         return context
+    
+def GroupUpdateView(request, pk, name):
+    facilitator = Facilitator.objects.get(pk=pk)
+    group = Group.objects.get(facilitator=facilitator, name=name)
+    form = GroupModelForm(initial={'name': group.name, 'size': group.size})
+        
+    context = {
+        'facilitator': facilitator,
+        'group': group,
+        'form': form,
+    }
+    return render(request, 'discussion/profile/group_update.html', context=context)
 
 def GroupUpdate(request, pk, name):
     facilitator = get_object_or_404(Facilitator, pk=pk)
-    group = get_object_or_404(Group, name=name)
+    group = get_object_or_404(Group, facilitator=facilitator, name=name)
     curr_size = group.size
-
+    print(group)
     if request.method == 'POST':
-        form = PromptModelForm(request.POST, instance=group)
-
+        form = GroupModelForm(request.POST, instance=group)
+        print('form\n\n\n\n\n\n\n\n\n')
         if form.is_valid():
             size = form.cleaned_data['size']
             size_diff = abs(size - curr_size)
+            print('size diff', size_diff)
             for _ in range(size_diff):
                 participant = Participant(
                     username=generate_username(group), group=group)
                 participant.save()
             form.save()
-            return redirect(reverse('group-detail', kwargs={'pk': pk, 'name': name}))
+            return redirect(reverse('view-group', kwargs={'pk': pk, 'name': name}))
     return HttpResponse("Error Updating Group")
 
 

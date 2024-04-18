@@ -5,12 +5,20 @@ from .models import Group, Prompt, Facilitator, Discussion
 
 class GroupModelForm(ModelForm):
     # add logged in user
+    # def clean_facilitator(self):
+    #     facilitator = self.cleaned_data['facilitator']
+
+    #     # if the name already exists in our database
+    #     if facilitator not in Group.objects.all().values_list('facilitator', flat=True):
+    #         raise forms.ValidationError("facilitator does not exists. Please enter another one")
+    #     return facilitator
+    
     def clean_name(self):
         name = self.cleaned_data['name']
 
         # if the name already exists in our database
-        if name in Group.objects.all().values_list('name', flat=True):
-            raise forms.ValidationError("Name already exists. Please enter another one")
+        # if name in Group.objects.all().values_list('name', flat=True):
+        #     raise forms.ValidationError("Name already exists. Please enter another one")
         return name
 
     def clean_size(self):

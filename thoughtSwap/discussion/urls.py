@@ -24,17 +24,16 @@ urlpatterns = [
     path('<int:pk>/groups/', views.FacilitatorGroupView.as_view(), name='facilitator-groups'),
     path('<int:pk>/group/create', views.create_group, name='create-group'),
     path('<int:pk>/view-group/<str:name>', views.GroupView.as_view(), name='view-group'),
-    path('<int:pk>/change-group/<str:name>', views.GroupUpdateView.as_view(), name='change-group'),
+    path('<int:pk>/change-group/<str:name>', views.GroupUpdateView, name='change-group'),
     # path('<int:pk>/update-group/<str:name>', views.GroupUpdate, name='update-group'),
-    path('<int:pk>/update-group', views.GroupUpdate, name='update-group'),
-    path('<int:pk>/delete-group', views.GroupDelete.as_view(), name='delete-group'),
+    path('<int:pk>/update-group/<str:name>', views.GroupUpdate, name='update-group'),
+    path('<int:pk>/delete-group/<str:name>', views.GroupDelete.as_view(), name='delete-group'),
     
     # Discussion CRUD/View
     path('<int:pk>/discussion', views.PastDiscussionView.as_view(), name='facilitator-discussions'),
-    path('<int:pk>/view-discussion/<str:name>/<int:code>', views.DiscussionDetailView.as_view(), name='view-responses'),
+    path('<int:pk>/view-discussion/<str:name>/<int:code>', views.DiscussionDetailView, name='view-responses'),
     
     # Swap CRUD/View
-    path('participant/', views.ParticipantDiscussionView.as_view(), name='participant-view'),
     path('participant/swap', views.ParticipantSwapView.as_view(), name='participant-swap-view'),
     # path('participant/swap<int:swapid>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
 

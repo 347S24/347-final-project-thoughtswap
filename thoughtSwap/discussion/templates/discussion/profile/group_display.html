@@ -45,18 +45,18 @@
                 <p class="group-content">Size: {{ group.size }}</p>
                 <div class="group-ud">
                     <div class="tip-container">
-                        <a class="ud-link start-disc" href="{% url 'view-group' pk=facilitator.pk name=group %}"
+                        <a class="ud-link start-disc" href="{% url 'view-group' pk=facilitator.pk name=group.name %}"
                             alt="View Group"><img src="/static//media/swap-fill-svgrepo-com.svg"
                                 alt="start swap button">
                             <span class="ud-tool">Start New Discussion</span></a>
                     </div>
                     <div class="tip-container">
-                        <a class="ud-link view-group" href="{% url 'view-group' pk=facilitator.pk name=group %}"
+                        <a class="ud-link view-group" href="{% url 'view-group' pk=facilitator.pk name=group.name %}"
                             alt="View Group"><img src="/static//media/view-alt-svgrepo-com.svg" alt="View Group button">
                             <span class="ud-tool">View Group</span></a>
                     </div>
                     <div class="tip-container">
-                        <a class="ud-link edit-group" href="{% url 'change-group' pk=facilitator.pk name=group %}"
+                        <a class="ud-link edit-group" href="{% url 'change-group' pk=facilitator.pk name=group.name %}"
                             alt="View Group"><img src="/static//media/edit-svgrepo-com.svg" alt="edit prompt button">
                             <span class="ud-tool">Edit Group</span></a>
                     </div>
