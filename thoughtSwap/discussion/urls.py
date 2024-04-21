@@ -4,7 +4,11 @@ from . import views
 urlpatterns = [
     # Homepage
     path('', views.index, name='index'),
-    
+
+    # Channel pages
+    path('chat', views.chat, name='chat'),
+    path("<str:room_name>/", views.room, name="room"),
+
     # Discussion pages
     path('create-discussion', views.create_discussion, name='create-discussion'),
     # path('make-discussion', views.create_discussion, name='make-discussion'),

@@ -72,8 +72,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'thoughtSwap.wsgi.application'
-# daphne ASGI application
-ASGI_APPLICATION = "thoughtSwap.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -128,3 +126,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/discussion/facilitator/profile"
 LOGOUT_REDIRECT_URL = "/discussion"  
+
+# daphne ASGI application
+ASGI_APPLICATION = "thoughtSwap.asgi.application"
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("127.0.0.1", 6379)],
+#         },
+#     },
+# }

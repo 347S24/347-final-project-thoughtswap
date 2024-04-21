@@ -18,6 +18,13 @@ def index(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html')
 
+# CHANNELS VIEWS
+def chat(request):
+    return render(request, 'discussion/chat.html')
+
+
+def room(request, room_name):
+    return render(request, "discussion/room.html", {"room_name": room_name})
 
 class FacilitatorDiscussionView(generic.ListView):
     # eventually need LoginRequiredMixin
