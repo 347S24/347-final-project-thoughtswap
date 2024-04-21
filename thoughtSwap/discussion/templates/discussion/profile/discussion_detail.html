@@ -2,8 +2,9 @@
 
 {% block profileContent %}
 <div class="discussion-view">
-    <h1 class="discussion-header">Discussion {{ discussion.code }}</h1>
-    <h2 class="discussion-bio"> Group: {{ name }} </h2>
+    <h1 class="discussion-header">Discussion {{ discussion.name }}</h1>
+    <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
+    <h2 class="discussion-bio"> Group: {{ discussion.group.name }} </h2>
     <div class="response-board">
         {% for prompt in discussion.prompt_set.all %}
         {% if prompt.thought_set.count != 0 %}

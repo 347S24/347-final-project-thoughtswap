@@ -5,8 +5,9 @@
 
 {% block leftside %}
 <div class="discussion-board">
+    <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
     <h1>Enter A Prompt</h1>
-    <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk %}">
+    <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
         <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
         <h1>Choose An Existing Prompt</h1>
         <!-- TODO: Add preview of past few prompts? -->

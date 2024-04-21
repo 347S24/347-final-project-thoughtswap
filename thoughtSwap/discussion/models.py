@@ -75,8 +75,8 @@ class Thought(models.Model):
     def __str__(self):
         return self.content
 
-    # def get_absolute_url(self):
-        # return reverse('prompt-detail', args=[str(self.id)])
+    def get_absolute_url(self):
+        return reverse('prompt-detail', args=[str(self.prompt.id), str(self.author.pk)])
 
 # A prompt is a question or statement that is the focus of a discussion
 # A prompt has many thoughts and distributions
@@ -104,17 +104,18 @@ class Prompt(models.Model):
 
 class Discussion(models.Model):
     """Model representing a discussion."""
-    code = models.CharField(max_length=200)
+    code = models.IntegerField(default=0, null=False, blank=False)
+    name = models.CharField(max_length=200, default='Discussion')
     group = models.ForeignKey('Group', on_delete=models.SET_NULL, null=True)
     # prompt = models.ForeignKey('Prompt', on_delete=models.SET_NULL, null=True)
     
     def __str__(self):
         """String for representing the Model object."""
-        return self.code
+        return self.name
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this discussion."""
-        return reverse('discussion-detail', args=[str(self.id)])
+        return reverse('view-responses', args=[str(self.group.facilitator.pk), str(self.name), str(self.group.name)])
 
 # A distribution is a the swapping of the thoughts
 # A distribution has one prompt associated with it, and has many 'distributed thoughts' as well
@@ -131,6 +132,11 @@ class Distribution(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.prompt}'
+    
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this distribution."""
+        # return reverse('view-distribution', args=[str(self.prompt.id), str(self.prompt.author.id)])
+        pass
 
 # Distributed thoughts associate a user with a new thought
 
@@ -147,3 +153,7 @@ class DistributedThought(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.participant} got {self.thought}'
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this distribution."""
+        # return reverse('view-distribution', args=[str(self.distribution.prompt.id), str(self.distribution.prompt.author.id)])
