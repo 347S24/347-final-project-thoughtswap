@@ -256,6 +256,14 @@ def PromptUpdate(request, pk, id):
             return redirect(reverse('prompt-detail', kwargs={'pk': pk, 'id': id}))
     return HttpResponse("Error Updating Prompt")
 
+class PromptDelete(DeleteView):
+    model = Prompt
+    template_name = 'discussion/profile/prompt_confirm_delete.html'
+
+    def get_success_url(self):
+        facilitator_pk = self.kwargs['facilitator_pk']
+        return reverse_lazy('facilitator-prompts', kwargs={'pk': facilitator_pk})
+
 
 def create_group(request, pk):
     # facilitator = get_object_or_404(Facilitator, pk=pk)
