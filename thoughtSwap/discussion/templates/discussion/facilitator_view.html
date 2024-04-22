@@ -1,94 +1,165 @@
 {% extends "index.html" %}
+{% load static %}
 {% block header %}
 <h1 class="discussion-header">Welcome to the facilitator discussion page</h1>
 {% endblock %}
 
-{% block leftside %}
-<div class="discussion-board">
-    <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
-    <h1>Enter A Prompt</h1>
-    <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
-        <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
-        <h1>Choose An Existing Prompt</h1>
-        <!-- TODO: Add preview of past few prompts? -->
-        <div class="btn-group">
-            <button class="btn btn-secondary btn-sm" type="button">
-                Small split button
-            </button>
-            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </div>
-        <div class="prompt-btn-container">
-            <button class="prompt-btn" type="submit">Submit Prompt</button>
-            <button class="prompt-btn" type="button">Distribute Thoughts</button>
-        </div>
-    </form>
-</div>
-{% endblock %}
-
-{% block rightside %}
-<div class="discussion-board">
-    <h1>Thoughts</h1>
-    <div id="response-board">
-        <!-- {% for response in responses %}
-        {{ response }}
-    {% endfor %} -->
-        <div class="thought-container">
-            <div>
-                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="tip-container">
-                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                        alt="delete prompt button">
+<body>
+    {% block leftside %}
+    <div class="discussion-board">
+        <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
+        <h1>Enter A Prompt</h1>
+        <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
+            <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
+            <h1>Choose An Existing Prompt</h1>
+            <!-- TODO: Add preview of past few prompts? -->
+            <div class="btn-group">
+                <button class="btn btn-secondary btn-sm" type="button">
+                    Small split button
                 </button>
+                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
             </div>
-        </div>
-        <div class="thought-container">
-            <div>
-                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+            <div class="prompt-btn-container">
+                <button class="prompt-btn" type="submit">Submit Prompt</button>
+                <button class="prompt-btn" type="button">Distribute Thoughts</button>
             </div>
-            <div class="tip-container">
-                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                        alt="delete prompt button">
-                </button>
-            </div>
-        </div>
-        <div class="thought-container">
-            <div>
-                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="tip-container">
-                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                        alt="delete prompt button">
-                </button>
-            </div>
-        </div>
-        <div class="thought-container">
-            <div>
-                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="tip-container">
-                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                        alt="delete prompt button">
-                </button>
-            </div>
-        </div>
-        <div class="thought-container">
-            <div>
-                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="tip-container">
-                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                        alt="delete prompt button">
-                </button>
-            </div>
-        </div>
+        </form>
     </div>
-</div>
-{% endblock %}
+    {% endblock %}
+
+    {% block rightside %}
+    <div class="discussion-board" id="response-board">
+        <h1>Thoughts</h1>
+        {% if prompt.thought_set.count != 0 %}
+        <div class="response-item">
+            {% for thought in prompt.thought_set.all %}
+            <div>
+                {{ thought.content }}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <!-- <div class="discussion-board">
+        <h1>Thoughts</h1>
+        <div id="response-board"> -->
+        <!-- {% for response in responses %}
+            {{ response }}
+            {% endfor %} -->
+        <!-- <div class="thought-container">
+                <div>
+                    Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc
+                    ultricies
+                </div>
+                <div class="tip-container">
+                    <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
+                            alt="delete prompt button">
+                    </button>
+                </div>
+            </div>
+            <div class="thought-container">
+                <div>
+                    Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc
+                    ultricies
+                </div>
+                <div class="tip-container">
+                    <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
+                            alt="delete prompt button">
+                    </button>
+                </div>
+            </div>
+            <div class="thought-container">
+                <div>
+                    Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc
+                    ultricies
+                </div>
+                <div class="tip-container">
+                    <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
+                            alt="delete prompt button">
+                    </button>
+                </div>
+            </div>
+            <div class="thought-container">
+                <div>
+                    Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc
+                    ultricies
+                </div>
+                <div class="tip-container">
+                    <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
+                            alt="delete prompt button">
+                    </button>
+                </div>
+            </div>
+            <div class="thought-container">
+                <div>
+                    Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc
+                    ultricies
+                </div>
+                <div class="tip-container">
+                    <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
+                            alt="delete prompt button">
+                    </button>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <script src="{% static 'js/socket.js' %}"></script>
+    <script>
+        const code = JSON.parse('{{ discussion.code|escapejs }}');
+        connect(code).then(() => {
+            console.log("entered");
+
+            window.addEventListener('unload', function () {
+                disconnect();
+            });
+        }).catch((error) => {
+            console.error("Failed to connect: ", error);
+        });
+    </script>
+    {% endblock %}
+    <!-- <script>
+        const discussion = JSON.parse('{{ discussion|escapejs }}');
+        const pk = JSON.parse('{{ pk|escapejs }}');
+        
+        // URL to facilitator view = facilitator/<int:pk>/<int:code>
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/discussion/facilitator/'
+            + pk
+            + '/'
+            + code
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#response-board').value += (data.message + '\n');
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+    </script> -->
+</body>

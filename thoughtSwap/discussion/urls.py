@@ -6,15 +6,15 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     # Channel pages
-    path('chat', views.chat, name='chat'),
-    path("<str:room_name>/", views.room, name="room"),
+    # path('chat', views.chat, name='chat'),
+    path("room/<str:room_name>/", views.room, name="room"),
 
     # Discussion pages
     path('create-discussion', views.create_discussion, name='create-discussion'),
     # path('make-discussion', views.create_discussion, name='make-discussion'),
     path('facilitator/<int:pk>/<int:code>', views.FacilitatorDiscussionView.as_view(), name='facilitator-view'),
-    path('facilitator/<int:pk>', views.FacilitatorDiscussionView.as_view(), name='facilitator-view'),
-    path('participant/<int:code>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
+    # path('facilitator/<int:pk>', views.FacilitatorDiscussionView.as_view(), name='facilitator-view'),
+    path('<int:code>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
     
     # Facilitator profile links
     path('<int:pk>/profile', views.FacilitatorProfileView.as_view(), name='facilitator-profile'),
