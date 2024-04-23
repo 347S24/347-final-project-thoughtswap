@@ -49,7 +49,6 @@ class FacilitatorProfileView(generic.ListView):
     # paginate_by = 10
 
     def get_context_data(self, **kwargs):
-        print("Getting context data\n\n\n\n\n\n\n\n")
         context = super(FacilitatorProfileView,
                         self).get_context_data(**kwargs)
         context['facilitator'] = Facilitator.objects.get(pk=self.kwargs['pk'])
@@ -257,9 +256,17 @@ def PromptUpdate(request, pk, id):
             return redirect(reverse('prompt-detail', kwargs={'pk': pk, 'id': id}))
     return HttpResponse("Error Updating Prompt")
 
+class PromptDelete(DeleteView):
+    model = Prompt
+    template_name = 'discussion/profile/prompt_confirm_delete.html'
+
+    def get_success_url(self):
+        facilitator_pk = self.kwargs['facilitator_pk']
+        return reverse_lazy('facilitator-prompts', kwargs={'pk': facilitator_pk})
+
 
 def create_group(request, pk):
-    # facilitator = get_object_or_404(Facilitator, pk=pk)
+    facilitator = get_object_or_404(Facilitator, pk=pk)
     # print(facilitator)
     if request.method == 'POST':
         form = GroupModelForm(request.POST)
@@ -267,7 +274,7 @@ def create_group(request, pk):
         if form.is_valid():
             name = form.cleaned_data['name']
             size = form.cleaned_data['size']
-            facilitator = form.cleaned_data['facilitator']
+        # facilitator = form.cleaned_data['facilitator']
 
             group = Group(name=name, size=size,
                           facilitator=facilitator)
@@ -365,13 +372,13 @@ def GroupUpdate(request, pk, name):
     return HttpResponse("Error Updating Group")
 
 
-class GroupDelete(DeleteView):
+class GroupDelete(DeleteView,):
     model = Group
     template_name = 'discussion/profile/group_confirm_delete.html'
 
     def get_success_url(self):
         facilitator_pk = self.object.facilitator.pk
-        return reverse_lazy('facilitator-groups', kwargs={'pk': facilitator_pk})
+        return reverse_lazy('view-group', kwargs={'pk': facilitator_pk})
     
 # other methods
 # generates a numerical random username
