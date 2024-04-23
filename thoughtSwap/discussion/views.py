@@ -372,24 +372,30 @@ def GroupUpdate(request, pk, name):
     return HttpResponse("Error Updating Group")
 
 
-class GroupDelete(DeleteView,):
+class GroupDelete(DeleteView):
+    # delete view default uses pk/slug field to look up the object
     model = Group
     template_name = 'discussion/profile/group_confirm_delete.html'
 
+    # overrite get_object method to change how object will be looked up
+    def get_object(self, queryset=None):
+        facilitator_pk = self.kwargs['pk']
+        name = self.kwargs['name']
+        return get_object_or_404(Group, facilitator=facilitator_pk, name=name)
+
     def get_success_url(self):
-        facilitator_pk = self.object.facilitator.pk
-        return reverse_lazy('view-group', kwargs={'pk': facilitator_pk})
+        pk = self.kwargs['pk']
+        return reverse_lazy('facilitator-groups', kwargs={'pk': pk})
     
 # other methods
 # generates a numerical random username
 
+# def CreateDiscussionView():
+#     form = DiscussionModelForm(
+#         initial={'code': 0, 'name': 'Discussion 0', 'group': None})
+#     context['form'] = form
 
-def CreateDiscussionView():
-    form = DiscussionModelForm(
-        initial={'code': 0, 'name': 'Discussion 0', 'group': None})
-    context['form'] = form
-
-    return redirect(reverse('facilitator-view', kwargs={'pk': pk}))
+#     return redirect(reverse('facilitator-view', kwargs={'pk': pk}))
 
 
 def create_discussion(request):
