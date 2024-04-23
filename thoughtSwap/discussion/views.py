@@ -414,6 +414,22 @@ class GroupDelete(DeleteView):
         pk = self.kwargs['pk']
         return reverse_lazy('facilitator-groups', kwargs={'pk': pk})
     
+
+class ThoughtDelete(DeleteView):
+    # delete view default uses pk/slug field to look up the object
+    model = Thought
+    template_name = 'discussion/thought_confirm_delete.html'
+
+    # overrite get_object method to change how object will be looked up
+    # def get_object(self):
+    #     id = self.kwargs['id']
+    #     return get_object_or_404(Thought, id=id)
+
+    # def get_success_url(self):
+    #     pk = self.kwargs['pk']
+    #     code = self.kwargs['code']
+    #     return reverse_lazy('facilitator-groups', kwargs={'pk': pk, 'code': code})
+    
 # other methods
 # generates a numerical random username
 
@@ -461,3 +477,12 @@ def generate_username(group):
     if id in group.participant_set.all().values_list('username', flat=True):
         return generate_username(group)
     return id
+
+def thought_swap(discussion):
+    # thought_list = discussion.thought_set.all()
+    group = discussion.group
+    group_size = group.size
+    thought_dict = {thought.author: thought.content for thought in discussion.thought_set.all()}
+    num_unanswered = group_size - len(thought_dict)
+
+    

@@ -1,4 +1,5 @@
 {% extends "discussion/profile/facilitator_profile.html" %}
+{% load static %}
 
 {% block profileContent %}
 <div class="facilitator-profile" id="group_background">
@@ -62,7 +63,7 @@
                     </div>
                     <div class="tip-container">
                         <a class="ud-button delete-group" href="{% url 'delete-group' pk=facilitator.pk name=group.name %}"><img
-                                src="/static/media/trash-svgrepo-com.svg" alt="delete group button">
+                                src="{% static 'media/trash-svgrepo-com.svg' %}" alt="delete group button">
                             <span class="ud-tool">Delete Group</span></a>
                     </div>
                 </div>

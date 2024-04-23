@@ -242,6 +242,8 @@ th {
     padding: 1rem;
     margin: 1em;
     min-width: fit-content;
+    display: flex;
+    justify-content: space-between;
 }
 
 .thought-container {

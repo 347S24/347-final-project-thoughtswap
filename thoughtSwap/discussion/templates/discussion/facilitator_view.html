@@ -121,6 +121,7 @@
     <script>
         const code = JSON.parse('{{ discussion.code|escapejs }}');
         const fid = JSON.parse('{{ facilitator.pk|escapejs }}');
+        var deleteGroupUrl = "{% url 'delete-thought' pk=facilitator.pk code=discussion.code %}";
         connectChat(code).then(() => {
             console.log("entered");
 
@@ -136,7 +137,25 @@
                 const prompt = promptInputDom.value;
                 sendChatMessage("", prompt, fid, code);
                 promptInputDom.value = '';
+                // Save to DB
+                // fetch("{% url 'create-prompt' pk=facilitator.pk %}", {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify({
+                //         prompt: data.prompt,
+                //     }),
+                // })
+                //     .then(response => response.json())
+                //     .then(data => {
+                //         console.log('Success:', data);
+                //     })
+                //     .catch((error) => {
+                //         console.error('Error:', error);
+                //     });
             };
+
 
             window.addEventListener('unload', function () {
                 disconnectChat();

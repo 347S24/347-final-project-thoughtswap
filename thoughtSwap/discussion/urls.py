@@ -41,6 +41,10 @@ urlpatterns = [
     path('<int:pk>/discussion', views.PastDiscussionView.as_view(), name='facilitator-discussions'),
     path('<int:pk>/view-discussion/<str:name>/<int:code>', views.DiscussionDetailView, name='view-responses'),
     
+    # Thought CRUD/View
+    # path('<int:pk>/<int:code>/delete-thought/<int:id>', views.ThoughtDelete.as_view(), name='delete-thought'),
+    path('<int:pk>/<int:code>/delete-thought', views.ThoughtDelete.as_view(), name='delete-thought'),
+    
     # Swap CRUD/View
     path('participant/swap', views.ParticipantSwapView.as_view(), name='participant-swap-view'),
     # path('participant/swap<int:swapid>', views.ParticipantDiscussionView.as_view(), name='participant-view'),

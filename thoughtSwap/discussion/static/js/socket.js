@@ -26,6 +26,24 @@ function connectChat(code) {
                 let div = document.createElement('div');
                 div.className = 'response-item';
                 div.innerHTML = data.message + '\n';
+                
+                // if no url, do not display delete button
+                if (deleteGroupUrl) {
+                    let img = document.createElement('img');
+                    img.src = "/static//media/trash-svgrepo-com.svg";
+                    img.alt = 'delete thought';
+                    
+                    let link = document.createElement('a');
+                    link.className = 'ud-button delete-group';
+                    console.log(deleteGroupUrl)
+                    link.href = deleteGroupUrl;
+                    link.appendChild(img);
+    
+                    let tip_container = document.createElement('div');
+                    tip_container.className = 'tip-container';
+                    tip_container.appendChild(link);
+                    div.appendChild(tip_container);
+                }
                 document.querySelector('#response-board').appendChild(div);
             }
             if (data.prompt) {

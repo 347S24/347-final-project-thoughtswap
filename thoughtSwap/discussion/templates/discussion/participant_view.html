@@ -71,9 +71,11 @@
         <!-- <textarea id="response-board">
         </textarea> -->
     </div>
-    <script src="{% static 'js/socket.js' %}"></script>
+    <script src="{% static 'js/socket.js' %}">
+    </script>
     <script>
         const code = JSON.parse('{{ discussion.code|escapejs }}');
+        var deleteGroupUrl = null;
         connectChat(code).then(() => {
             console.log("entered");
 
