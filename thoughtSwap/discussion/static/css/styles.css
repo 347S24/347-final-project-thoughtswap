@@ -170,6 +170,11 @@ th {
     display: block;
 }
 
+.discussion-create-prompt>table>tbody>tr>th {
+    visibility: hidden;
+}
+
+
 .prompt-crud {
     border: solid 1px grey;
     border-radius: 15px;
@@ -524,6 +529,18 @@ span {
 .start-swap-btn a:hover {
     color: black;
 }
+
+.submit-prompt-input {
+    border: solid 1px grey;
+    background: rgba(229, 229, 229, 0.516);
+    margin-bottom: 1rem;
+    text-wrap: wrap;
+}
+
+#prompt-message-submit {
+    margin: 0, 0, 1rem, 1rem;
+}
+
 /* working on it */
   .popup {
     background-color: #eeecdd;
@@ -623,3 +640,4 @@ span {
     width: 100%;
     margin-left: 1em;
 }
+

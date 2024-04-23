@@ -9,10 +9,19 @@
     <div class="discussion-board">
         <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
         <h1>Enter A Prompt</h1>
-        <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
+        <textarea id="prompt-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
+        <input id="prompt-message-submit" type="button" value="Submit Prompt" class="create-group-btn">
+        <!-- <form class="discussion-create-prompt" action="{% url 'save-prompt' pk=facilitator.pk %}" method="post">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <button class="create-group-btn" type="submit">Submit Prompt</button>
+        </form> -->
+        <h1>Choose An Existing Prompt</h1>
+        <!-- <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
             <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
             <h1>Choose An Existing Prompt</h1>
-            <!-- TODO: Add preview of past few prompts? -->
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm" type="button">
                     Small split button
@@ -29,7 +38,7 @@
                 <button class="prompt-btn" type="submit">Submit Prompt</button>
                 <button class="prompt-btn" type="button">Distribute Thoughts</button>
             </div>
-        </form>
+        </form> -->
     </div>
     {% endblock %}
 
@@ -37,14 +46,14 @@
     <div class="discussion-board" id="response-board">
         <h1>Thoughts</h1>
         {% if prompt.thought_set.count != 0 %}
+        {% for thought in prompt.thought_set.all %}
         <div class="response-item">
-            {% for thought in prompt.thought_set.all %}
             <div>
                 {{ thought.content }}
             </div>
-            {% endfor %}
-            {% endif %}
         </div>
+        {% endfor %}
+        {% endif %}
         <!-- <div class="discussion-board">
         <h1>Thoughts</h1>
         <div id="response-board"> -->
@@ -111,11 +120,26 @@
     <script src="{% static 'js/socket.js' %}"></script>
     <script>
         const code = JSON.parse('{{ discussion.code|escapejs }}');
-        connect(code).then(() => {
+        const fid = JSON.parse('{{ facilitator.pk|escapejs }}');
+        connectChat(code).then(() => {
             console.log("entered");
 
+            document.querySelector('#prompt-message-input').focus();
+            document.querySelector('#prompt-message-input').onkeyup = function (e) {
+                if (e.keyCode === 13) {  // enter, return
+                    document.querySelector('#prompt-message-submit').click();
+                }
+            };
+
+            document.querySelector('#prompt-message-submit').onclick = function (e) {
+                const promptInputDom = document.querySelector('#prompt-message-input');
+                const prompt = promptInputDom.value;
+                sendChatMessage("", prompt, fid, code);
+                promptInputDom.value = '';
+            };
+
             window.addEventListener('unload', function () {
-                disconnect();
+                disconnectChat();
             });
         }).catch((error) => {
             console.error("Failed to connect: ", error);

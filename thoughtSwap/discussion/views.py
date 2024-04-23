@@ -44,6 +44,9 @@ class FacilitatorDiscussionView(generic.ListView):
             context['discussion'] = Discussion(code=self.kwargs['code'])
         else:
             context['discussion'] = {'code': 0}
+
+        form = PromptModelForm(initial={'content': None, 'discussion': context['discussion'].code})
+        context['form'] = form
         return context
 
 
@@ -227,6 +230,23 @@ def create_prompt(request, pk):
             return redirect(reverse('facilitator-prompts', kwargs={'pk': pk}))
     return HttpResponse("Error creating prompt")
 
+def save_prompt(request, pk):
+    facilitator = get_object_or_404(Facilitator, pk=pk)
+    if request.method == 'POST':
+        form = PromptModelForm(request.POST)
+
+        if form.is_valid():
+            content = form.cleaned_data['content']
+            discussion = form.cleaned_data['discussion']
+
+            prompt = Prompt(content=content, author=facilitator,
+                            discussion=discussion)
+            # This saves the model to the DB
+            prompt.save()
+            return redirect(reverse('facilitator-view', kwargs={'pk': pk, 'code': discussion.code}))
+    return HttpResponse("Error creating prompt")
+
+
 
 # class PromptUpdate(PermissionRequiredMixin, UpdateView):
 
@@ -266,7 +286,7 @@ def PromptUpdate(request, pk, id):
 
 
 def create_group(request, pk):
-    # facilitator = get_object_or_404(Facilitator, pk=pk)
+    facilitator = get_object_or_404(Facilitator, pk=pk)
     # print(facilitator)
     if request.method == 'POST':
         form = GroupModelForm(request.POST)
@@ -274,7 +294,7 @@ def create_group(request, pk):
         if form.is_valid():
             name = form.cleaned_data['name']
             size = form.cleaned_data['size']
-            facilitator = form.cleaned_data['facilitator']
+            # facilitator = form.cleaned_data['facilitator']
 
             group = Group(name=name, size=size,
                           facilitator=facilitator)

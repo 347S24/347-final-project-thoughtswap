@@ -25,6 +25,7 @@ urlpatterns = [
     path('<int:pk>/prompt/create', views.create_prompt, name='create-prompt'),
     path('<int:pk>/change-prompt/<int:id>', views.PromptUpdateView.as_view(), name='change-prompt'),
     path('<int:pk>/update-prompt/<int:id>', views.PromptUpdate, name='update-prompt'),
+    path('<int:pk>/save-prompt', views.save_prompt, name='save-prompt'),
     
     # Group CRUD/View
     path('<int:pk>/groups/', views.FacilitatorGroupView.as_view(), name='facilitator-groups'),
