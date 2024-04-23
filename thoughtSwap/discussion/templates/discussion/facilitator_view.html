@@ -45,7 +45,7 @@
     {% block rightside %}
     <div class="discussion-board" id="response-board">
         <h1>Thoughts</h1>
-        {% if prompt.thought_set.count != 0 %}
+        <!-- {% if prompt.thought_set.count != 0 %}
         {% for thought in prompt.thought_set.all %}
         <div class="response-item">
             <div>
@@ -53,69 +53,7 @@
             </div>
         </div>
         {% endfor %}
-        {% endif %}
-        <!-- <div class="discussion-board">
-        <h1>Thoughts</h1>
-        <div id="response-board"> -->
-        <!-- {% for response in responses %}
-            {{ response }}
-            {% endfor %} -->
-        <!-- <div class="thought-container">
-                <div>
-                    Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc
-                    ultricies
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                    </button>
-                </div>
-            </div>
-            <div class="thought-container">
-                <div>
-                    Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc
-                    ultricies
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                    </button>
-                </div>
-            </div>
-            <div class="thought-container">
-                <div>
-                    Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc
-                    ultricies
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                    </button>
-                </div>
-            </div>
-            <div class="thought-container">
-                <div>
-                    Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc
-                    ultricies
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                    </button>
-                </div>
-            </div>
-            <div class="thought-container">
-                <div>
-                    Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc
-                    ultricies
-                </div>
-                <div class="tip-container">
-                    <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                            alt="delete prompt button">
-                    </button>
-                </div>
-            </div>
-        </div> -->
+        {% endif %} -->
     </div>
     <script src="{% static 'js/socket.js' %}"></script>
     <script>
@@ -136,24 +74,8 @@
                 const promptInputDom = document.querySelector('#prompt-message-input');
                 const prompt = promptInputDom.value;
                 sendChatMessage("", prompt, fid, code);
+                console.log("prompt sent");
                 promptInputDom.value = '';
-                // Save to DB
-                // fetch("{% url 'create-prompt' pk=facilitator.pk %}", {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify({
-                //         prompt: data.prompt,
-                //     }),
-                // })
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         console.log('Success:', data);
-                //     })
-                //     .catch((error) => {
-                //         console.error('Error:', error);
-                //     });
             };
 
 

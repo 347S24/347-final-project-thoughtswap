@@ -29,15 +29,15 @@
     {% block rightside %}
     <div class="discussion-board" id="response-board">
         <h1>Responses</h1>
-        {% if prompt.thought_set.count != 0 %}
-        {% for thought in prompt.thought_set.all %}
+        <!-- {% if prompt.thought_set.count != 0 %} -->
+        {% for thought in thoughts %}
         <div class="response-item">
             <div>
                 {{ thought.content }}
             </div>
         </div>
         {% endfor %}
-        {% endif %}
+        <!-- {% endif %} -->
         <!-- <div class="response-item">
                 response 1: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
             </div>
@@ -75,6 +75,8 @@
     </script>
     <script>
         const code = JSON.parse('{{ discussion.code|escapejs }}');
+        // HARD CODED TO SELECT FIRST PROMPT
+        const pk = '{{ discussion.group.facilitator.pk|escapejs }}' ? JSON.parse('{{ discussion.group.facilitator.pk|escapejs }}') : 0;
         var deleteGroupUrl = null;
         connectChat(code).then(() => {
             console.log("entered");
@@ -89,7 +91,7 @@
             document.querySelector('#chat-message-submit').onclick = function (e) {
                 const messageInputDom = document.querySelector('#chat-message-input');
                 const message = messageInputDom.value;
-                sendChatMessage(message, "", "", "");
+                sendChatMessage(message, "", pk, code);
                 messageInputDom.value = '';
             };
 

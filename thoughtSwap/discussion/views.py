@@ -1,3 +1,4 @@
+from datetime import timezone
 import random
 from django.db.models.query import QuerySet
 from django.views import generic
@@ -5,13 +6,14 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
-from .models import Facilitator, Participant, Group, Discussion, Prompt, Thought, Distribution, DistributedThought
+from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required, permission_required
 # from .forms import CreateGroupForm
 from .forms import DiscussionModelForm, GroupModelForm, PromptModelForm
 
+# find discussion and render with socket 
 
 def index(request):
     """View function for home page of site."""
@@ -165,6 +167,7 @@ class ParticipantDiscussionView(generic.ListView):
                         self).get_context_data(**kwargs)
         context['discussion'] = Discussion.objects.get(
             code=self.kwargs['code'])
+        context['thoughts'] = context['discussion'].prompt_set.all().first().thought_set.all()
         return context
     # paginate_by = 10
 
@@ -478,11 +481,35 @@ def generate_username(group):
         return generate_username(group)
     return id
 
-def thought_swap(discussion):
-    # thought_list = discussion.thought_set.all()
+def thought_swap(discussion, prompt_id):
+    prompt = Prompt.objects.get(id=prompt_id)
+    thoughts = discussion.thought_set.all()
     group = discussion.group
-    group_size = group.size
-    thought_dict = {thought.author: thought.content for thought in discussion.thought_set.all()}
-    num_unanswered = group_size - len(thought_dict)
-
+    participants = group.participant_set.all()
+    thought_dict = {thought.author: thought.content for thought in thoughts}
     
+    unanswered = [participant for participant in participants if participant not in thought_dict.keys()]
+    answered = [participant for participant in participants if participant in thought_dict.keys()]
+
+
+    distribution = Distribution(id=random.randint(100000, 999999), prompt=prompt, start_time=timezone.now(), end_time=timezone.now())
+
+    for participant in unanswered:
+        distributedThought = DistributedThought(participant=participant, thought=random.choice(thoughts), distribution=distribution)
+        distributedThought.save()
+
+    for _ in range(len(thoughts)):
+        thought = random.choice(thoughts)
+        participant = random.choice(answered)
+        # if the participant gets their own thought, reassign a thought
+        while (thought_dict[participant] == thought.content):
+            thought = random.choice(thoughts)
+        
+        distributedThought = DistributedThought(participant=participant, thought=thought, distribution=distribution)
+        
+        # remove the participant and thought so they are not reassigned
+        answered.remove(participant)
+        thoughts.remove(thought)
+        
+        # Save to DB
+        distributedThought.save()
