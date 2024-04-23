@@ -266,7 +266,7 @@ class PromptDelete(DeleteView):
 
 
 def create_group(request, pk):
-    # facilitator = get_object_or_404(Facilitator, pk=pk)
+    facilitator = get_object_or_404(Facilitator, pk=pk)
     # print(facilitator)
     if request.method == 'POST':
         form = GroupModelForm(request.POST)
@@ -274,7 +274,7 @@ def create_group(request, pk):
         if form.is_valid():
             name = form.cleaned_data['name']
             size = form.cleaned_data['size']
-            facilitator = form.cleaned_data['facilitator']
+        # facilitator = form.cleaned_data['facilitator']
 
             group = Group(name=name, size=size,
                           facilitator=facilitator)
@@ -372,13 +372,13 @@ def GroupUpdate(request, pk, name):
     return HttpResponse("Error Updating Group")
 
 
-class GroupDelete(DeleteView):
+class GroupDelete(DeleteView,):
     model = Group
     template_name = 'discussion/profile/group_confirm_delete.html'
 
     def get_success_url(self):
         facilitator_pk = self.object.facilitator.pk
-        return reverse_lazy('facilitator-groups', kwargs={'pk': facilitator_pk})
+        return reverse_lazy('view-group', kwargs={'pk': facilitator_pk})
     
 # other methods
 # generates a numerical random username
