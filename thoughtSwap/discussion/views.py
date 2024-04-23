@@ -378,7 +378,7 @@ class GroupDelete(DeleteView):
     template_name = 'discussion/profile/group_confirm_delete.html'
 
     # overrite get_object method to change how object will be looked up
-    def get_object(self, queryset=None):
+    def get_object(self):
         facilitator_pk = self.kwargs['pk']
         name = self.kwargs['name']
         return get_object_or_404(Group, facilitator=facilitator_pk, name=name)
