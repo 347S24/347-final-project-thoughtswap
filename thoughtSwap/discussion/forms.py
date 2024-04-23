@@ -5,13 +5,13 @@ from .models import Group, Prompt, Facilitator, Discussion
 
 class GroupModelForm(ModelForm):
     # add logged in user
-    # def clean_facilitator(self):
-    #     facilitator = self.cleaned_data['facilitator']
+    def clean_facilitator(self):
+        facilitator = self.cleaned_data['facilitator']
 
     #     # if the name already exists in our database
     #     if facilitator not in Group.objects.all().values_list('facilitator', flat=True):
     #         raise forms.ValidationError("facilitator does not exists. Please enter another one")
-    #     return facilitator
+        return facilitator
     
     def clean_name(self):
         name = self.cleaned_data['name']
@@ -67,6 +67,7 @@ class DiscussionModelForm(ModelForm):
         group = self.cleaned_data['group']
 
         # if the name already exists in our database
+        # why does this work? It is looking for groups with the same name?
         if group in Group.objects.all().values_list('name', flat=True):
             raise forms.ValidationError("Group does not exist. Please enter another one")
         return group

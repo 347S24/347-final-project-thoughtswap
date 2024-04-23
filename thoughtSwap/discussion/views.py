@@ -59,7 +59,6 @@ class FacilitatorProfileView(generic.ListView):
     # paginate_by = 10
 
     def get_context_data(self, **kwargs):
-        print("Getting context data\n\n\n\n\n\n\n\n")
         context = super(FacilitatorProfileView,
                         self).get_context_data(**kwargs)
         context['facilitator'] = Facilitator.objects.get(pk=self.kwargs['pk'])
@@ -284,6 +283,14 @@ def PromptUpdate(request, pk, id):
             return redirect(reverse('prompt-detail', kwargs={'pk': pk, 'id': id}))
     return HttpResponse("Error Updating Prompt")
 
+class PromptDelete(DeleteView):
+    model = Prompt
+    template_name = 'discussion/profile/prompt_confirm_delete.html'
+
+    def get_success_url(self):
+        facilitator_pk = self.kwargs['facilitator_pk']
+        return reverse_lazy('facilitator-prompts', kwargs={'pk': facilitator_pk})
+
 
 def create_group(request, pk):
     facilitator = get_object_or_404(Facilitator, pk=pk)
@@ -393,34 +400,29 @@ def GroupUpdate(request, pk, name):
 
 
 class GroupDelete(DeleteView):
+    # delete view default uses pk/slug field to look up the object
     model = Group
     template_name = 'discussion/profile/group_confirm_delete.html'
 
+    # overrite get_object method to change how object will be looked up
+    def get_object(self):
+        facilitator_pk = self.kwargs['pk']
+        name = self.kwargs['name']
+        return get_object_or_404(Group, facilitator=facilitator_pk, name=name)
+
     def get_success_url(self):
-        facilitator_pk = self.object.facilitator.pk
-        return reverse_lazy('facilitator-groups', kwargs={'pk': facilitator_pk})
-    # # success_url =
-    # permission_required = 'catalog.delete_author'
-
-    # def form_valid(self, form):
-    #     try:
-    #         self.object.delete()
-    #         return HttpResponseRedirect(self.success_url)
-    #     except Exception as e:
-    #         return HttpResponseRedirect(
-    #             reverse("author-delete", kwargs={"pk": self.object.pk})
-    #         )
-
+        pk = self.kwargs['pk']
+        return reverse_lazy('facilitator-groups', kwargs={'pk': pk})
+    
 # other methods
 # generates a numerical random username
 
+# def CreateDiscussionView():
+#     form = DiscussionModelForm(
+#         initial={'code': 0, 'name': 'Discussion 0', 'group': None})
+#     context['form'] = form
 
-def CreateDiscussionView():
-    form = DiscussionModelForm(
-        initial={'code': 0, 'name': 'Discussion 0', 'group': None})
-    context['form'] = form
-
-    return redirect(reverse('facilitator-view', kwargs={'pk': pk}))
+#     return redirect(reverse('facilitator-view', kwargs={'pk': pk}))
 
 
 def create_discussion(request):
