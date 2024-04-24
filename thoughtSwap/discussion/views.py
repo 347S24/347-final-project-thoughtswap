@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from .models import *
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required, permission_required
@@ -158,16 +159,29 @@ def DiscussionDetailView(request, pk, code, name):
     #     print('\n\n\n\n\n\n\n')
     #     return context
 
+class ParticipantLogin(generic.ListView):
+    model = Participant
+    template_name = 'discussion/participant_login.html'
 
 class ParticipantDiscussionView(generic.ListView):
     model = Participant
     template_name = 'discussion/participant_view.html'
-
+    
     def get_context_data(self, **kwargs):
         context = super(ParticipantDiscussionView,
                         self).get_context_data(**kwargs)
+        context['username'] = {'username': self.request.GET.get('username')}
+        if 'code' in self.kwargs:
+            code = self.kwargs['code']
+        else:
+            print('large code')
+            group = get_object_or_404(Group, name=self.request.GET.get('group-name'))
+            code = group.discussion_set.all().first().code
+            if context['username'] not in group.participant_set.all().values_list('username', flat=True):
+                messages.error(self.request, f"Error: User not in group {group.name}")
+            
         context['discussion'] = Discussion.objects.get(
-            code=self.kwargs['code'])
+            code=code)
         context['thoughts'] = context['discussion'].prompt_set.all().first().thought_set.all()
         return context
     # paginate_by = 10
