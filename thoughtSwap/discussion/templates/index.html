@@ -18,24 +18,37 @@
     <div class="topnav">
         <a id="logo" href="{% url 'index' %}">ThoughtSwap</a>
         <div id="top-nav-flex">
-            {% if user.is_authenticated %}
-            <a class="nav-link" href="{% url 'facilitator-profile' pk=0 %}">Profile</a>
-            {% else %}
-            <!--login.html is blank right now-->
-            <a href="{% url 'login-view' %}">Log In</a>
-            <!--eventually link the page for inserting a code-->
-            <button class="nav-link" onclick="quickSwap(this)">Quick Swap</button>
-            {% endif %}
-        </div>
+        {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'facilitator-profile' pk=1 %}">Profile</a>
+        {% else %}
+        <!--login.html is blank right now-->
+        <a href="{% url 'login-view' %}">Log In</a>        
+        <!--eventually link the page for inserting a code-->
+        {% endif %}
+        <button class="nav-link" onclick="quickSwap(this)">Quick Swap</button>
+    </div>
+    </div>
+    <div class="popup show" id="swaps">
+        <label for="swapCode">Code:</label>
+        <input type="text" id="swapCode" name="swapCode" maxlength="6" inputmode="numeric">
+        <input id="swap-code-submit" type="button" value="Discuss!">
+        <script>
+            document.querySelector('#swapCode').focus();
+            document.querySelector('#swapCode').onkeyup = function(e) {
+                if (e.keyCode === 13) {  // enter, return
+                    document.querySelector('#swap-code-submit').click();
+                }
+            };
+    
+            document.querySelector('#swap-code-submit').onclick = function(e) {
+                var code = document.querySelector('#swapCode').value;
+                window.location.pathname = '/discussion/participant/' + code;
+            };
+        </script>
     </div>
     {% block header %}
     <h1 class="discussion-header"> Welcome to index.html</h1>
     {% endblock %}
-    <form class="popup show" id="swaps">
-        <label for="swapCode">Code:</label>
-        <input type="text" id="swapCode" name="swapCode" maxlength="6" inputmode="numeric">
-        <button class="swap-code-submit">Discuss!</button>
-    </form>
     {% block content %}
     <div class="discussion-container">
         {% block leftside %}

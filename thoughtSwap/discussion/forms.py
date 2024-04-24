@@ -38,6 +38,10 @@ class PromptModelForm(ModelForm):
         model = Prompt
         fields = ['content', 'discussion']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['content'].widget.attrs.update({'class': 'form-control', 'rows': 3})
+    
     # def clean_author(self):
     #     author = self.cleaned_data['author']
 

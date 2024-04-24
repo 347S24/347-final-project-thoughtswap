@@ -4,13 +4,17 @@ from . import views
 urlpatterns = [
     # Homepage
     path('', views.index, name='index'),
-    
+
+    # Channel pages
+    # path('chat', views.chat, name='chat'),
+    path("room/<str:room_name>/", views.room, name="room"),
+
     # Discussion pages
     path('create-discussion', views.create_discussion, name='create-discussion'),
     # path('make-discussion', views.create_discussion, name='make-discussion'),
     path('facilitator/<int:pk>/<int:code>', views.FacilitatorDiscussionView.as_view(), name='facilitator-view'),
-    path('facilitator/<int:pk>', views.FacilitatorDiscussionView.as_view(), name='facilitator-view'),
-    path('participant/<int:code>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
+    # path('facilitator/<int:pk>', views.FacilitatorDiscussionView.as_view(), name='facilitator-view'),
+    path('<int:code>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
     
     # Facilitator profile links
     path('<int:pk>/profile', views.FacilitatorProfileView.as_view(), name='facilitator-profile'),
@@ -22,6 +26,7 @@ urlpatterns = [
     path('<int:pk>/change-prompt/<int:id>', views.PromptUpdateView.as_view(), name='change-prompt'),
     path('<int:pk>/update-prompt/<int:id>', views.PromptUpdate, name='update-prompt'),
     path('<int:facilitator_pk>/<int:pk>/prompt-delete/', views.PromptDelete.as_view(), name='prompt-delete'),
+    path('<int:pk>/save-prompt', views.save_prompt, name='save-prompt'),
     
     # Group CRUD/View
     path('<int:pk>/groups/', views.FacilitatorGroupView.as_view(), name='facilitator-groups'),
@@ -35,6 +40,10 @@ urlpatterns = [
     # Discussion CRUD/View
     path('<int:pk>/discussion', views.PastDiscussionView.as_view(), name='facilitator-discussions'),
     path('<int:pk>/view-discussion/<str:name>/<int:code>', views.DiscussionDetailView, name='view-responses'),
+    
+    # Thought CRUD/View
+    # path('<int:pk>/<int:code>/delete-thought/<int:id>', views.ThoughtDelete.as_view(), name='delete-thought'),
+    path('<int:pk>/<int:code>/delete-thought', views.ThoughtDelete.as_view(), name='delete-thought'),
     
     # Swap CRUD/View
     path('participant/swap', views.ParticipantSwapView.as_view(), name='participant-swap-view'),

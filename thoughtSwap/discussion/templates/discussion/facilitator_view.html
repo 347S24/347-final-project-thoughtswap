@@ -1,94 +1,121 @@
 {% extends "index.html" %}
+{% load static %}
 {% block header %}
 <h1 class="discussion-header">Welcome to the facilitator discussion page</h1>
 {% endblock %}
 
-{% block leftside %}
-<div class="discussion-board">
-    <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
-    <h1>Enter A Prompt</h1>
-    <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
-        <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
+<body>
+    {% block leftside %}
+    <div class="discussion-board">
+        <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
+        <h1>Enter A Prompt</h1>
+        <textarea id="prompt-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
+        <input id="prompt-message-submit" type="button" value="Submit Prompt" class="create-group-btn">
+        <!-- <form class="discussion-create-prompt" action="{% url 'save-prompt' pk=facilitator.pk %}" method="post">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <button class="create-group-btn" type="submit">Submit Prompt</button>
+        </form> -->
+        {% if discussion.prompt_set.count != 0 %}
         <h1>Choose An Existing Prompt</h1>
-        <!-- TODO: Add preview of past few prompts? -->
+        <!-- <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
+                <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
+                <h1>Choose An Existing Prompt</h1> -->
         <div class="btn-group">
-            <button class="btn btn-secondary btn-sm" type="button">
-                Small split button
+            <button class="btn btn-secondary btn-sm" id="dropdown-title" type="button">
+                Choose Prompt
             </button>
             <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            </button>
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                {% for prompt in discussion.prompt_set.all %}
+                <a class="dropdown-item" href="#{{ prompt }}">{{ prompt }}</a>
+                {% endfor %}
             </div>
         </div>
-        <div class="prompt-btn-container">
-            <button class="prompt-btn" type="submit">Submit Prompt</button>
-            <button class="prompt-btn" type="button">Distribute Thoughts</button>
-        </div>
-    </form>
-</div>
-{% endblock %}
-
-{% block rightside %}
-<div class="discussion-board">
-    <h1>Thoughts</h1>
-    <div id="response-board">
-        <!-- {% for response in responses %}
-        {{ response }}
-    {% endfor %} -->
-        <div class="thought-container">
-            <div>
-                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+        {% endif %}
+        <!-- <div class="prompt-btn-container">
+                <button class="prompt-btn" type="submit">Submit Prompt</button>
+                <button class="prompt-btn" type="button">Distribute Thoughts</button>
             </div>
-            <div class="tip-container">
-                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                        alt="delete prompt button">
-                </button>
-            </div>
-        </div>
-        <div class="thought-container">
-            <div>
-                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="tip-container">
-                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                        alt="delete prompt button">
-                </button>
-            </div>
-        </div>
-        <div class="thought-container">
-            <div>
-                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="tip-container">
-                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                        alt="delete prompt button">
-                </button>
-            </div>
-        </div>
-        <div class="thought-container">
-            <div>
-                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="tip-container">
-                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                        alt="delete prompt button">
-                </button>
-            </div>
-        </div>
-        <div class="thought-container">
-            <div>
-                Thought: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="tip-container">
-                <button class="ud-button edit-group" type="button"><img src="/static//media/trash-svgrepo-com.svg"
-                        alt="delete prompt button">
-                </button>
-            </div>
-        </div>
+        </form> -->
     </div>
-</div>
-{% endblock %}
+    {% endblock %}
+
+    {% block rightside %}
+    <div class="discussion-board" id="response-board">
+        <h1>Thoughts</h1>
+        <!-- {% if prompt.thought_set.count != 0 %} -->
+        {% for thought in thoughts %}
+        <div class="response-item">
+            {{ thought.content }}
+            <div class="tip-container">
+                <button class="ud-button delete-thought" type="button"><img src="/static/media/trash-svgrepo-com.svg"
+                        alt="delete prompt button"></button>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- {% endif %} -->
+    </div>
+    <script src="{% static 'js/socket.js' %}"></script>
+    <script>
+        const code = JSON.parse('{{ discussion.code|escapejs }}');
+        const fid = JSON.parse('{{ facilitator.pk|escapejs }}');
+        var deleteGroupUrl = "{% url 'delete-thought' pk=facilitator.pk code=discussion.code %}";
+        connectChat(code).then(() => {
+            console.log("entered");
+
+            document.querySelector('#prompt-message-input').focus();
+            document.querySelector('#prompt-message-input').onkeyup = function (e) {
+                if (e.keyCode === 13) {  // enter, return
+                    document.querySelector('#prompt-message-submit').click();
+                }
+            };
+
+            document.querySelector('#prompt-message-submit').onclick = function (e) {
+                const promptInputDom = document.querySelector('#prompt-message-input');
+                const prompt = promptInputDom.value;
+                sendChatMessage("", prompt, fid, code);
+                console.log("prompt sent");
+                promptInputDom.value = '';
+            };
+
+            function promptClick(e) {
+                e.preventDefault();
+                console.log("clicked");
+                document.querySelector('.dropdown-menu').classList.toggle('show-dropdown');
+            };
+
+            document.querySelector('.dropdown-toggle').onclick = promptClick;
+            document.querySelector('.btn-secondary').onclick = promptClick;
+
+
+            document.querySelector('.delete-thought').onclick = function (e) {
+                e.preventDefault();
+                parent_div = e.target.parentElement.parentElement.parentElement;
+                prompt = parent_div.textContent;
+                // deleteChatMessage()
+            };
+
+            document.querySelector('.dropdown-item').onclick = function (e) {
+                console.log("selected", e.target, e.target.textContent);
+                let textarea = document.querySelector('#prompt-message-input');
+                prompt = e.target.textContent;
+                textarea.value = prompt;
+                selectPrompt("", prompt, fid, code);
+                document.querySelector('#dropdown-title').textContent = prompt;
+                promptClick(e);
+            }
+
+            window.addEventListener('unload', function () {
+                disconnectChat();
+            });
+        }).catch((error) => {
+            console.error("Failed to connect: ", error);
+        });
+
+    </script>
+    {% endblock %}
+</body>
