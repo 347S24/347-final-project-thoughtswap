@@ -77,7 +77,7 @@
             document.querySelector('#prompt-message-submit').onclick = function (e) {
                 const promptInputDom = document.querySelector('#prompt-message-input');
                 const prompt = promptInputDom.value;
-                sendChatMessage("", prompt, fid, code);
+                sendChatMessage("", prompt, fid, code, "");
                 console.log("prompt sent");
                 promptInputDom.value = '';
             };

@@ -65,25 +65,27 @@ function disconnectChat() {
 }
 
 
-function selectPrompt(message, prompt, id, code) {
+function selectPrompt(message, prompt, id, code, author) {
     if (chatSocket) {
         chatSocket.send(JSON.stringify({
             'message': message,
             'prompt': prompt,
             'facilitator_id': id,
             'code': code,
+            'author': author,
             'save': false
         }));
     }
 }
 
-function sendChatMessage(message, prompt, id, code) {
+function sendChatMessage(message, prompt, id, code, author) {
     if (chatSocket) {
         chatSocket.send(JSON.stringify({
             'message': message,
             'prompt': prompt,
             'facilitator_id': id,
             'code': code,
+            'author': author,
             'save': true
         }));
     }

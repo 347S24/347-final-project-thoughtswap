@@ -78,6 +78,8 @@
         // HARD CODED TO SELECT FIRST PROMPT
         const pk = '{{ discussion.group.facilitator.pk|escapejs }}' ? JSON.parse('{{ discussion.group.facilitator.pk|escapejs }}') : 0;
         var deleteGroupUrl = null;
+        var author = '{{ username|escapejs }}';
+        console.log('author= ', author);
         connectChat(code).then(() => {
             console.log("entered");
 
@@ -91,7 +93,7 @@
             document.querySelector('#chat-message-submit').onclick = function (e) {
                 const messageInputDom = document.querySelector('#chat-message-input');
                 const message = messageInputDom.value;
-                sendChatMessage(message, "", pk, code);
+                sendChatMessage(message, "", pk, code, author);
                 messageInputDom.value = '';
             };
 

@@ -170,7 +170,7 @@ class ParticipantDiscussionView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(ParticipantDiscussionView,
                         self).get_context_data(**kwargs)
-        context['username'] = {'username': self.request.GET.get('username')}
+        context['username'] = self.request.GET.get('username')
         if 'code' in self.kwargs:
             code = self.kwargs['code']
         else:

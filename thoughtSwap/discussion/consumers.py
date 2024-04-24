@@ -25,7 +25,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     @database_sync_to_async
-    def save_to_db(self, message, prompt, facilitator_id, code):
+    def save_to_db(self, message, prompt, facilitator_id, code, author):
         # Save Prompt to the database
         if prompt:
             facilitator = Facilitator.objects.get(pk=facilitator_id)
@@ -40,7 +40,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             prompt_obj = discussion.prompt_set.all()[0]
             group = discussion.group
 
-            partipant = Participant.objects.create(username=random.randint(0, 1000000), group=group)
+            partipant = Participant.objects.create(username=author, group=group)
 
             Thought.objects.create(
                 content=message, prompt=prompt_obj, author=partipant)
@@ -56,14 +56,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         prompt = text_data_json["prompt"]
         facilitator_id = text_data_json["facilitator_id"]
         code = text_data_json["code"]
+        author = text_data_json["author"]
         save = text_data_json["save"]
 
         if save:
-            await self.save_to_db(message, prompt, facilitator_id, code, save)
+            await self.save_to_db(message, prompt, facilitator_id, code, author)
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name, {"type": "chat_message", "message": message,
-                                   "prompt": prompt, "facilitator_id": facilitator_id, "code": code}
+                                   "prompt": prompt, "facilitator_id": facilitator_id, "author": author, "code": code}
         )
     # Receive message from room group
     async def chat_message(self, event):
@@ -72,9 +73,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         prompt = event["prompt"]
         facilitator_id = event["facilitator_id"]
         code = event["code"]
+        author = event["author"]
+
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({"message": message, "prompt": prompt, "facilitator_id": facilitator_id, "code": code}))
+        await self.send(text_data=json.dumps({"message": message, "prompt": prompt, "facilitator_id": facilitator_id, "code": code, "author": author}))
 
     # async def receive_json(self, content, **kwargs):
     #     prompt_text = content.get('prompt')
