@@ -43,12 +43,13 @@ class FacilitatorDiscussionView(generic.ListView):
             pk=self.kwargs['pk'])
 
         if 'code' in self.kwargs:
-            context['discussion'] = Discussion(code=self.kwargs['code'])
+            context['discussion'] = Discussion.objects.get(code=self.kwargs['code'])
         else:
             context['discussion'] = {'code': 0}
 
         form = PromptModelForm(initial={'content': None, 'discussion': context['discussion'].code})
         context['form'] = form
+        context['thoughts'] = context['discussion'].prompt_set.all().first().thought_set.all()
         return context
 
 

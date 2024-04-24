@@ -29,12 +29,13 @@ function connectChat(code) {
                 
                 // if no url, do not display delete button
                 if (deleteGroupUrl) {
+                    console.log('fac view delete element')
                     let img = document.createElement('img');
                     img.src = "/static//media/trash-svgrepo-com.svg";
                     img.alt = 'delete thought';
                     
                     let link = document.createElement('a');
-                    link.className = 'ud-button delete-group';
+                    link.className = 'ud-button delete-thought';
                     console.log(deleteGroupUrl)
                     link.href = deleteGroupUrl;
                     link.appendChild(img);
@@ -63,7 +64,32 @@ function disconnectChat() {
     }
 }
 
+
+function selectPrompt(message, prompt, id, code) {
+    if (chatSocket) {
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'prompt': prompt,
+            'facilitator_id': id,
+            'code': code,
+            'save': false
+        }));
+    }
+}
+
 function sendChatMessage(message, prompt, id, code) {
+    if (chatSocket) {
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'prompt': prompt,
+            'facilitator_id': id,
+            'code': code,
+            'save': true
+        }));
+    }
+}
+
+function deleteChatMessage(message, prompt, id, code) {
     if (chatSocket) {
         chatSocket.send(JSON.stringify({
             'message': message,
@@ -73,7 +99,6 @@ function sendChatMessage(message, prompt, id, code) {
         }));
     }
 }
-
 // // Prompt
 // function sendPrompt(prompt, id, code) {
 //     if (chatSocket) {

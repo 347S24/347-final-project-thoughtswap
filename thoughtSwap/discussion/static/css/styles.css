@@ -305,6 +305,7 @@ th {
 .btn-group {
     margin: 1em;
     width: 90%;
+    justify-content: flex-end;
 }
 
 .btn-sm {
@@ -322,6 +323,19 @@ th {
     width: 5%;
     text-align: center;
 }
+
+.dropdown-menu {
+    top: 100%;
+    min-width: 100%;
+}
+
+.dropdown-item {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.show-dropdown {
+    display: block;
+  }
 
 .dropdown-toggle:hover {
     background: rgb(214, 213, 213);

@@ -18,23 +18,25 @@
             </table>
             <button class="create-group-btn" type="submit">Submit Prompt</button>
         </form> -->
+        {% if discussion.prompt_set.count != 0 %}
         <h1>Choose An Existing Prompt</h1>
         <!-- <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
-            <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
-            <h1>Choose An Existing Prompt</h1>
-            <div class="btn-group">
-                <button class="btn btn-secondary btn-sm" type="button">
-                    Small split button
-                </button>
-                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+                <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
+                <h1>Choose An Existing Prompt</h1> -->
+        <div class="btn-group">
+            <button class="btn btn-secondary btn-sm" id="dropdown-title" type="button">
+                Choose Prompt
+            </button>
+            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+            <div class="dropdown-menu">
+                {% for prompt in discussion.prompt_set.all %}
+                <a class="dropdown-item" href="#{{ prompt }}">{{ prompt }}</a>
+                {% endfor %}
             </div>
-            <div class="prompt-btn-container">
+        </div>
+        {% endif %}
+        <!-- <div class="prompt-btn-container">
                 <button class="prompt-btn" type="submit">Submit Prompt</button>
                 <button class="prompt-btn" type="button">Distribute Thoughts</button>
             </div>
@@ -45,15 +47,17 @@
     {% block rightside %}
     <div class="discussion-board" id="response-board">
         <h1>Thoughts</h1>
-        <!-- {% if prompt.thought_set.count != 0 %}
-        {% for thought in prompt.thought_set.all %}
+        <!-- {% if prompt.thought_set.count != 0 %} -->
+        {% for thought in thoughts %}
         <div class="response-item">
-            <div>
-                {{ thought.content }}
+            {{ thought.content }}
+            <div class="tip-container">
+                <button class="ud-button delete-thought" type="button"><img src="/static/media/trash-svgrepo-com.svg"
+                        alt="delete prompt button"></button>
             </div>
         </div>
         {% endfor %}
-        {% endif %} -->
+        <!-- {% endif %} -->
     </div>
     <script src="{% static 'js/socket.js' %}"></script>
     <script>
@@ -78,6 +82,32 @@
                 promptInputDom.value = '';
             };
 
+            function promptClick(e) {
+                e.preventDefault();
+                console.log("clicked");
+                document.querySelector('.dropdown-menu').classList.toggle('show-dropdown');
+            };
+
+            document.querySelector('.dropdown-toggle').onclick = promptClick;
+            document.querySelector('.btn-secondary').onclick = promptClick;
+
+
+            document.querySelector('.delete-thought').onclick = function (e) {
+                e.preventDefault();
+                parent_div = e.target.parentElement.parentElement.parentElement;
+                prompt = parent_div.textContent;
+                // deleteChatMessage()
+            };
+
+            document.querySelector('.dropdown-item').onclick = function (e) {
+                console.log("selected", e.target, e.target.textContent);
+                let textarea = document.querySelector('#prompt-message-input');
+                prompt = e.target.textContent;
+                textarea.value = prompt;
+                selectPrompt("", prompt, fid, code);
+                document.querySelector('#dropdown-title').textContent = prompt;
+                promptClick(e);
+            }
 
             window.addEventListener('unload', function () {
                 disconnectChat();
@@ -85,46 +115,7 @@
         }).catch((error) => {
             console.error("Failed to connect: ", error);
         });
+
     </script>
     {% endblock %}
-    <!-- <script>
-        const discussion = JSON.parse('{{ discussion|escapejs }}');
-        const pk = JSON.parse('{{ pk|escapejs }}');
-        
-        // URL to facilitator view = facilitator/<int:pk>/<int:code>
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/discussion/facilitator/'
-            + pk
-            + '/'
-            + code
-            + '/'
-        );
-
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#response-board').value += (data.message + '\n');
-        };
-
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
-
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-        };
-    </script> -->
 </body>

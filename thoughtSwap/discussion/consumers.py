@@ -31,7 +31,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             facilitator = Facilitator.objects.get(pk=facilitator_id)
             discussion = Discussion.objects.get(code=code)
             Prompt.objects.create(author=facilitator,
-                                  content=prompt, discussion=discussion)
+                                content=prompt, discussion=discussion)
             print('saved prompt: ', prompt)
 
         if message:
@@ -44,7 +44,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
             Thought.objects.create(
                 content=message, prompt=prompt_obj, author=partipant)
-            print('saved message: ', message)
+            # TODO make participant accurate
+            print('saved message: ', message, "with prompt: ", prompt_obj, "and author: ", partipant)
 
     # Receive message from WebSocket
     async def receive(self, text_data):
@@ -55,8 +56,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         prompt = text_data_json["prompt"]
         facilitator_id = text_data_json["facilitator_id"]
         code = text_data_json["code"]
+        save = text_data_json["save"]
 
-        await self.save_to_db(message, prompt, facilitator_id, code)
+        if save:
+            await self.save_to_db(message, prompt, facilitator_id, code, save)
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name, {"type": "chat_message", "message": message,
