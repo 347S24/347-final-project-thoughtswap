@@ -104,6 +104,12 @@ th {
     margin: 1rem;
 }
 
+.join-group-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 /* hide scroll bar when unnecessary */
 @media (max-width: 550px) {
@@ -336,7 +342,9 @@ th {
 .show-dropdown {
     display: block;
   }
-
+.show-delete {
+    visibility: hidden;
+}
 .dropdown-toggle:hover {
     background: rgb(214, 213, 213);
     color: black;

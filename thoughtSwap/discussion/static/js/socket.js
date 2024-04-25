@@ -1,5 +1,4 @@
 console.log("socket.js loaded");
-// same socket across pages ?
 
 function connectChat(code) {
     return new Promise((resolve, reject) => {
@@ -25,7 +24,7 @@ function connectChat(code) {
                 console.log('message', data.message)
                 let div = document.createElement('div');
                 div.className = 'response-item';
-                div.innerHTML = data.message + '\n';
+                div.innerHTML = data.message;
                 
                 // if no url, do not display delete button
                 if (deleteGroupUrl) {
@@ -34,15 +33,17 @@ function connectChat(code) {
                     img.src = "/static//media/trash-svgrepo-com.svg";
                     img.alt = 'delete thought';
                     
-                    let link = document.createElement('a');
-                    link.className = 'ud-button delete-thought';
-                    console.log(deleteGroupUrl)
-                    link.href = deleteGroupUrl;
-                    link.appendChild(img);
+                    let btn = document.createElement('button');
+                    btn.className = 'ud-button delete-thought';
+                    // console.log(deleteGroupUrl)
+                    // link.href = deleteGroupUrl;
+                    btn.type = "button"
+                    btn.onclick = deleteThought;
+                    btn.appendChild(img);
     
                     let tip_container = document.createElement('div');
                     tip_container.className = 'tip-container';
-                    tip_container.appendChild(link);
+                    tip_container.appendChild(btn);
                     div.appendChild(tip_container);
                 }
                 document.querySelector('#response-board').appendChild(div);
@@ -50,7 +51,7 @@ function connectChat(code) {
             if (data.prompt) {
                 console.log('prompt', prompt)
                 let p = document.createElement('p');
-                p.textContent = data.prompt + '\n';
+                p.textContent = data.prompt.trim();
                 document.querySelector('.prompt-display').innerHTML = p.textContent;
                 document.querySelector('#prompt-message-input').value = data.prompt;
             }
@@ -73,7 +74,8 @@ function selectPrompt(message, prompt, id, code, author) {
             'facilitator_id': id,
             'code': code,
             'author': author,
-            'save': false
+            'save': false,
+            'delete': false
         }));
     }
 }
@@ -86,28 +88,30 @@ function sendChatMessage(message, prompt, id, code, author) {
             'facilitator_id': id,
             'code': code,
             'author': author,
-            'save': true
+            'save': true,
+            'delete': false
         }));
     }
 }
 
-function deleteChatMessage(message, prompt, id, code) {
+function deleteChatMessage(message, prompt, id, code, author) {
     if (chatSocket) {
         chatSocket.send(JSON.stringify({
             'message': message,
             'prompt': prompt,
             'facilitator_id': id,
-            'code': code
+            'code': code,
+            'author': author,
+            'save': false,
+            'delete': true
         }));
     }
 }
-// // Prompt
-// function sendPrompt(prompt, id, code) {
-//     if (chatSocket) {
-//         chatSocket.send(JSON.stringify({
-//             'prompt': prompt,
-//             'facilitator_id': id,
-//             'code': code
-//         }));
-//     }
-// }
+
+function deleteThought(e) {
+    const thought = e.target.parentElement.parentElement.parentElement.textContent.trim();
+    const popup = document.getElementById("delete-popup");
+    const span = document.getElementById("thought");
+    span.innerText = thought;
+    popup.classList.toggle("show-delete");
+  }

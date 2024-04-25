@@ -171,18 +171,22 @@ class ParticipantDiscussionView(generic.ListView):
         context = super(ParticipantDiscussionView,
                         self).get_context_data(**kwargs)
         context['username'] = self.request.GET.get('username')
+
         if 'code' in self.kwargs:
             code = self.kwargs['code']
+            print('code given and its', code)
         else:
             print('large code')
             group = get_object_or_404(Group, name=self.request.GET.get('group-name'))
             code = group.discussion_set.all().first().code
+            print('part list', group.participant_set.all().values_list('username', flat=True))
             if context['username'] not in group.participant_set.all().values_list('username', flat=True):
-                messages.error(self.request, f"Error: User not in group {group.name}")
+                context['message'] = f"Error: User not in group {group.name}"
             
         context['discussion'] = Discussion.objects.get(
             code=code)
         context['thoughts'] = context['discussion'].prompt_set.all().first().thought_set.all()
+        # print('message recieved', context['message'], '\n\n\n\n\n\n\n\n\n')
         return context
     # paginate_by = 10
 
@@ -237,7 +241,7 @@ def create_prompt(request, pk):
         form = PromptModelForm(request.POST)
 
         if form.is_valid():
-            content = form.cleaned_data['content']
+            content = form.cleaned_data['content'].strip()
             discussion = form.cleaned_data['discussion']
 
             prompt = Prompt(content=content, author=facilitator,
@@ -253,7 +257,7 @@ def save_prompt(request, pk):
         form = PromptModelForm(request.POST)
 
         if form.is_valid():
-            content = form.cleaned_data['content']
+            content = form.cleaned_data['content'].strip()
             discussion = form.cleaned_data['discussion']
 
             prompt = Prompt(content=content, author=facilitator,
@@ -283,7 +287,7 @@ class PromptUpdateView(UpdateView):
         context['facilitator'] = facilitator
         context['prompt'] = prompt
         form = PromptModelForm(initial={
-                               'content': prompt.content, 'discussion': prompt.discussion})
+                               'content': prompt.content.strip(), 'discussion': prompt.discussion})
         context['form'] = form
         return context
 
@@ -443,10 +447,18 @@ class ThoughtDelete(DeleteView):
     #     id = self.kwargs['id']
     #     return get_object_or_404(Thought, id=id)
 
-    # def get_success_url(self):
-    #     pk = self.kwargs['pk']
-    #     code = self.kwargs['code']
-    #     return reverse_lazy('facilitator-groups', kwargs={'pk': pk, 'code': code})
+
+    def get_context_data(self, **kwargs):
+        context = super(ThoughtDelete,
+                        self).get_context_data(**kwargs)
+        context['pk'] = self.kwargs['pk']
+        context['code'] = self.kwargs['code']
+        return context
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        code = self.kwargs['code']
+        return reverse_lazy('facilitator-view', kwargs={'pk': pk, 'code': code})
     
 # other methods
 # generates a numerical random username

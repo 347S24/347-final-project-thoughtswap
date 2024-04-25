@@ -1,27 +1,38 @@
 {% extends "index.html" %}
 {% load static %}
+
 {% block header %}
 <h1 class="discussion-header">Participant Discussion</h1>
 {% endblock %}
 
 <body>
+    <!-- {% if message %}
+    <div>
+        {{ message }}
+    </div>
+    {% else %} -->
     {% block leftside %}
     <div class="discussion-board">
         <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
         <h2 class="discussion-bio"> Group: {{ discussion.group }} </h2>
         <h2 class="discussion-bio"> Facilitator: {{ discussion.group.facilitator }} </h2>
+        <!-- <h2 class="discussion-bio"> Message: {{ message }} </h2> -->
         <h1>Prompt:</h1>
         <div class="prompt-display">
-            Please wait for your facilitator to submit a prompt
+            {% if discussion.prompt_set.count != 0 %}
+                {{ discussion.prompt_set.first }}
+            {% else %}
+                Please wait for your facilitator to submit a prompt
+            {% endif %}
         </div>
         <h1>Answer:</h1>
         <textarea id="chat-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
         <input id="chat-message-submit" type="button" value="Submit Answer" class="create-group-btn">
         <!-- <form method="GET"> -->
         <!-- <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Answer"></textarea>
-            <div class="prompt-btn-container">
-                <button class="prompt-btn" type="submit">Submit Answer</button>
-            </div> -->
+                <div class="prompt-btn-container">
+                    <button class="prompt-btn" type="submit">Submit Answer</button>
+                </div> -->
         <!-- </form> -->
     </div>
     {% endblock %}
@@ -29,7 +40,6 @@
     {% block rightside %}
     <div class="discussion-board" id="response-board">
         <h1>Responses</h1>
-        <!-- {% if prompt.thought_set.count != 0 %} -->
         {% for thought in thoughts %}
         <div class="response-item">
             <div>
@@ -37,39 +47,6 @@
             </div>
         </div>
         {% endfor %}
-        <!-- {% endif %} -->
-        <!-- <div class="response-item">
-                response 1: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="response-item">
-                response 2: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="response-item">
-                response 3: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="response-item">
-                response 4: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="response-item">
-                response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="response-item">
-                response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="response-item">
-                response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="response-item">
-                response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="response-item">
-                response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div>
-            <div class="response-item">
-                response 5: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
-            </div> -->
-        <!-- <textarea id="response-board">
-        </textarea> -->
     </div>
     <script src="{% static 'js/socket.js' %}">
     </script>
@@ -104,48 +81,6 @@
             console.error("Failed to connect: ", error);
         });
     </script>
-    <!-- <script>
-        const code = JSON.parse('{{ discussion.code|escapejs }}');
-        console.log('discussion code', code);
-
-        // URL to participant view = participant/<int:code>
-        const sock = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/discussion/'
-            + code
-            + '/'
-        );
-
-        console.log('sock', sock)
-
-        sock.onmessage = function (e) {
-            const data = JSON.parse(e.data);
-            let div = document.createElement('div');
-            div.className = 'response-item';
-            div.innerHTML = data.message + '\n';
-            document.querySelector('#response-board').appendChild(div);
-        };
-
-        sock.onclose = function (e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function (e) {
-            if (e.keyCode === 13) {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
-
-        document.querySelector('#chat-message-submit').onclick = function (e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            sock.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-        };
-    </script> -->
     {% endblock %}
 </body>
+<!-- {% endif %} -->

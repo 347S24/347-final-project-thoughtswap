@@ -28,10 +28,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def save_to_db(self, message, prompt, facilitator_id, code, author):
         # Save Prompt to the database
         if prompt:
+            prompt = prompt.strip()
             facilitator = Facilitator.objects.get(pk=facilitator_id)
             discussion = Discussion.objects.get(code=code)
-            Prompt.objects.create(author=facilitator,
+            prompt_obj = Prompt.objects.create(author=facilitator,
                                 content=prompt, discussion=discussion)
+            discussion.prompt_set.add(prompt_obj)
             print('saved prompt: ', prompt)
 
         if message:
@@ -41,11 +43,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
             group = discussion.group
 
             partipant = Participant.objects.create(username=author, group=group)
-
+            message = message.strip()
             Thought.objects.create(
                 content=message, prompt=prompt_obj, author=partipant)
-            # TODO make participant accurate
             print('saved message: ', message, "with prompt: ", prompt_obj, "and author: ", partipant)
+
+    @database_sync_to_async
+    def delete_from_db(self, message):
+        message = message.strip()
+        print('message', message)
+        thought = Thought.objects.get(content=message)
+        thought.delete()
 
     # Receive message from WebSocket
     async def receive(self, text_data):
@@ -58,9 +66,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
         code = text_data_json["code"]
         author = text_data_json["author"]
         save = text_data_json["save"]
+        delete = text_data_json["delete"]
 
         if save:
             await self.save_to_db(message, prompt, facilitator_id, code, author)
+        if delete:
+            # TODO: Get accurate prompt/discussion to delete from (need to get username somehow)
+            await self.delete_from_db(message)
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name, {"type": "chat_message", "message": message,
@@ -69,7 +81,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from room group
     async def chat_message(self, event):
         message = event["message"]
-        # print('event', event, '\n\n\n\n\n\n\n\n\n\n')
         prompt = event["prompt"]
         facilitator_id = event["facilitator_id"]
         code = event["code"]
