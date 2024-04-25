@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'discussion.apps.DiscussionConfig',
-    'django_extensions'
-
+    'django_extensions',
+    'accounts',
 ]
 
 MIDDLEWARE = [

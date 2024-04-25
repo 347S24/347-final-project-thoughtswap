@@ -22,6 +22,7 @@ from discussion.views import LoginPromptView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("accounts/", include("accounts.urls")),
     path('accounts/', include("django.contrib.auth.urls")),
     path('discussion/', include('discussion.urls')),
     path('accounts/login', LoginPromptView.as_view(), name='login-view'),
