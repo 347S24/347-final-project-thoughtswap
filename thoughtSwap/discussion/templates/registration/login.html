@@ -1,14 +1,62 @@
-<!-- templates/registration/login.html --> 
+<!-- templates/registration/login.html -->
+{% extends "index.html" %}
 {% block content %}
-<h2>Log In</h2>
-<form method="post" action="{% url 'login-view' %}">
-  {% csrf_token %}
-  <label for="id_username">Username:</label>
-  <input type="text" name="username" id="id_username">
-
-  <label for="id_password">Password:</label>
-  <input type="password" name="password" id="id_password">
-
-  <button type="submit">Login</button>
-</form>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+  }
+  .login-container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  .login-container h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .login-container label {
+    color: #333;
+    font-size: 16px;
+  }
+  .login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  .login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .login-container button:hover {
+    background-color: #0056b3;
+  }
+</style>
+<div class="login-container">
+  <h2>Log In</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_username">Username:</label>
+      <input type="text" name="username" id="id_username" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="id_password">Password:</label>
+      <input type="password" name="password" id="id_password" class="form-control">
+    </div>
+    <button type="submit">Login</button>
+  </form>
+</div>
 {% endblock %}

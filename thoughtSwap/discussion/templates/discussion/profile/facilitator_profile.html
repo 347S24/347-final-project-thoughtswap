@@ -50,9 +50,14 @@
                 <hr>
                 <div class="dropdown pb-4">
                     <ul class="fac-nav-list">
-                        <li class="fac-nav-item"><a class="fac-nav-link" href="{% url 'index' %}"><img
-                                    src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
-                                    class="ms-1 d-none d-sm-inline">Sign out</span></a></li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <li class="fac-nav-item"> <button type="submit"><img
+                                src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
+                                class="ms-1 d-none d-sm-inline">Sign out</span></button></li>
+                        </form>
+                        
+                       
                         <!-- Alredy have these links above! -->
 
                         <!-- <ul class="nav-list">

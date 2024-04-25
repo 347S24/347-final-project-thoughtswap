@@ -127,8 +127,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = "/discussion/facilitator/profile"
-LOGOUT_REDIRECT_URL = "/discussion"  
+LOGIN_REDIRECT_URL = "facilitator-profile"
+LOGOUT_REDIRECT_URL = "index"  
 
 # daphne ASGI application
 ASGI_APPLICATION = "thoughtSwap.asgi.application"
