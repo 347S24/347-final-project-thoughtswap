@@ -50,7 +50,6 @@ urlpatterns = [
     # path('participant/swap<int:swapid>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
 
     # Login Pages
-    path('accounts/login', views.index, name='login-view'),
     # path('facilitator/<int:pk>', views.FacilitatorDetailView.as_view(), name='facilitator-detail'),
     # path('<int:pk>', views.DiscussionDetailView.as_view(), name='discussion-detail'),
 ]

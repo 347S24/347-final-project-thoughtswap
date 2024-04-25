@@ -1,7 +1,7 @@
 <!-- templates/registration/login.html --> 
 {% block content %}
 <h2>Log In</h2>
-<form method="post">
+<form method="post" action="{% url 'login-view' %}">
   {% csrf_token %}
   <label for="id_username">Username:</label>
   <input type="text" name="username" id="id_username">

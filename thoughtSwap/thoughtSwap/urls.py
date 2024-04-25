@@ -17,14 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
-
+from discussion.views import LoginPromptView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include("django.contrib.auth.urls")),
     path('discussion/', include('discussion.urls')),
+    path('accounts/login', LoginPromptView.as_view(), name='login-view'),
 ]
+
 
 urlpatterns += [
     path('', RedirectView.as_view(url='discussion/', permanent=True)),
