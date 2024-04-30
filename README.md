@@ -30,3 +30,7 @@ It's not exactly time yet, but if you're excited I don't want to stand in the wa
 2. Click the arrow beside the green "Link Project" button and choose "New Project"
 3. I guess now you also have to click "New Project" 🙄
 4. find the "iterative development" template and choose it.
+
+## Running our application 
+1. Connect to redis server: docker run -p 6379:6379 -d redis:5 (You must run the docker application first)
+2. Run server: python manage.py runserver

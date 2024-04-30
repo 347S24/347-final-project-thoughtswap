@@ -16,3 +16,7 @@ https://stackoverflow.com/questions/64009138/docker-command-not-found-when-runni
 
 me pass
 http://127.0.0.1:8000/admin/auth/user/add/
+
+
+python manage.py collectstatic
+-   collects all static files from static folders
