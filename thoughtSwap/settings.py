@@ -86,7 +86,7 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'thoughtswap',
+        'NAME': 'thoughtSwap',
         'USER': 'jessieminster',
         'PASSWORD': 'SmileMore444!j',
         'HOST': '146.190.220.112',
