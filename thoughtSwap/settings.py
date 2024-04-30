@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-0$7skj!8g!banbvz=^q_j5!ce@vi9y87zn-7@der#iq@+u9q%#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '146.190.220.112', 'thought.ninja']
 
 
 # Application definition
@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'discussion.apps.DiscussionConfig',
-    'django_extensions',
-    'accounts',
+    'django_extensions'
+
 ]
 
 MIDDLEWARE = [
@@ -77,12 +77,20 @@ WSGI_APPLICATION = 'thoughtSwap.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    #     "TEST": {
+    #         "NAME": BASE_DIR / "db.sqlite3",
+    #     },
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        "TEST": {
-            "NAME": BASE_DIR / "db.sqlite3",
-        },
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'thoughtswap',
+        'USER': 'minstejt',
+        'PASSWORD': 'SmileMore444!j',
+        'HOST': '146.190.220.112',
+        'PORT': '',
     }
 }
 
@@ -127,8 +135,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = "facilitator-profile"
-LOGOUT_REDIRECT_URL = "index"  
+LOGIN_REDIRECT_URL = "/discussion/facilitator/profile"
+LOGOUT_REDIRECT_URL = "/discussion"  
+
+import os
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # daphne ASGI application
 ASGI_APPLICATION = "thoughtSwap.asgi.application"
