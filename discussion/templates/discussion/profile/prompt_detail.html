@@ -11,7 +11,7 @@
     <h2 class="discussion-bio"> Author: {{ prompt.author }} </h2>
     <div class="response-board">
         {% if prompt.thought_set.count != 0 %}
-        <div class="response-item">
+        <div class="response-item" style="display: block;">
             {% for thought in prompt.thought_set.all %}
             <div>
                 <h2 class="prompt-bio">User {{ thought.author }}: {{ thought.content }}</h2>
