@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% load static %}
+{% block header %}
+<h1 class="discussion-header">Participant Login</h1>
+{% endblock %}
+
+<body>
+    {% block content %}
+    <div class="join-group-container">
+        <!-- go to join page to process input and join participant view -->
+        <form action="{% url 'independent-view' %}" method="get">
+            <input type="text" id="username" name="username" maxlength="25" placeholder="Username">
+            <br><br>
+            <input type="text" id="group-name" name="group-name" placeholder="Group Name">
+            <br><br>
+            <input id="join-group-submit" type="submit" value="Join Group">
+        </form>
+    </div>
+    {% endblock %}
+</body>

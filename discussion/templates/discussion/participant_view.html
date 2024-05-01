@@ -1,27 +1,70 @@
 {% extends "index.html" %}
 {% load static %}
+<<<<<<< HEAD
+=======
+
+>>>>>>> channels
 {% block header %}
 <h1 class="discussion-header">Participant Discussion</h1>
 {% endblock %}
 
 <body>
+<<<<<<< HEAD
+=======
+    <!-- {% if message %}
+    <div>
+        {{ message }}
+    </div>
+    {% else %} -->
+>>>>>>> channels
     {% block leftside %}
     <div class="discussion-board">
         <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
         <h2 class="discussion-bio"> Group: {{ discussion.group }} </h2>
         <h2 class="discussion-bio"> Facilitator: {{ discussion.group.facilitator }} </h2>
+<<<<<<< HEAD
         <h1>Prompt:</h1>
         <div class="prompt-display">
             Please wait for your facilitator to submit a prompt
+=======
+        <!-- <h2 class="discussion-bio"> Message: {{ message }} </h2> -->
+        <h1>Prompt:</h1>
+        <div class="prompt-display">
+            {% if discussion.prompt_set.count != 0 %}
+                {{ discussion.prompt_set.first }}
+            {% else %}
+                Please wait for your facilitator to submit a prompt
+            {% endif %}
+>>>>>>> channels
         </div>
         <h1>Answer:</h1>
         <textarea id="chat-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
         <input id="chat-message-submit" type="button" value="Submit Answer" class="create-group-btn">
+<<<<<<< HEAD
         <!-- <form method="GET"> -->
         <!-- <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Answer"></textarea>
             <div class="prompt-btn-container">
                 <button class="prompt-btn" type="submit">Submit Answer</button>
             </div> -->
+=======
+        
+        <h1>Please respond to the following prompt:</h1>
+        <div class="prompt-display" id="distributed-thought">
+            {% for thought in distribution.distributedthought_set.all %}
+            {% if thought.author == username %}    
+                {{ thought.content }}
+                {% endif %}
+            {% endfor %}
+        </div>
+        <h1>Answer:</h1>
+        <textarea id="swap-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
+        <input id="swap-message-submit" type="button" value="Submit Answer" class="create-group-btn">
+        <!-- <form method="GET"> -->
+        <!-- <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Answer"></textarea>
+                <div class="prompt-btn-container">
+                    <button class="prompt-btn" type="submit">Submit Answer</button>
+                </div> -->
+>>>>>>> channels
         <!-- </form> -->
     </div>
     {% endblock %}
@@ -29,7 +72,10 @@
     {% block rightside %}
     <div class="discussion-board" id="response-board">
         <h1>Responses</h1>
+<<<<<<< HEAD
         <!-- {% if prompt.thought_set.count != 0 %} -->
+=======
+>>>>>>> channels
         {% for thought in thoughts %}
         <div class="response-item">
             <div>
@@ -37,6 +83,7 @@
             </div>
         </div>
         {% endfor %}
+<<<<<<< HEAD
         <!-- {% endif %} -->
         <!-- <div class="response-item">
                 response 1: lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
@@ -70,6 +117,8 @@
             </div> -->
         <!-- <textarea id="response-board">
         </textarea> -->
+=======
+>>>>>>> channels
     </div>
     <script src="{% static 'js/socket.js' %}">
     </script>
@@ -78,6 +127,11 @@
         // HARD CODED TO SELECT FIRST PROMPT
         const pk = '{{ discussion.group.facilitator.pk|escapejs }}' ? JSON.parse('{{ discussion.group.facilitator.pk|escapejs }}') : 0;
         var deleteGroupUrl = null;
+<<<<<<< HEAD
+=======
+        var author = '{{ username|escapejs }}';
+        console.log('author= ', author);
+>>>>>>> channels
         connectChat(code).then(() => {
             console.log("entered");
 
@@ -91,10 +145,33 @@
             document.querySelector('#chat-message-submit').onclick = function (e) {
                 const messageInputDom = document.querySelector('#chat-message-input');
                 const message = messageInputDom.value;
+<<<<<<< HEAD
                 sendChatMessage(message, "", pk, code);
                 messageInputDom.value = '';
             };
 
+=======
+                sendChatMessage(message, "", pk, code, author);
+                messageInputDom.value = '';
+            };
+
+            document.querySelector('#swap-message-input').focus();
+            document.querySelector('#swap-message-input').onkeyup = function (e) {
+                if (e.keyCode === 13) {  // enter, return
+                    document.querySelector('#swap-message-submit').click();
+                }
+            };
+
+            document.querySelector('#swap-message-submit').onclick = function (e) {
+                const messageInputDom = document.querySelector('#swap-message-input');
+                const message = messageInputDom.value;
+                const distributed_thought = document.querySelector('#distributed-thought').value;
+                sendSwapMessage(message, distributed_thought, pk, code, author);
+                messageInputDom.value = '';
+                console.log('swap response submitted')
+            };
+
+>>>>>>> channels
             window.addEventListener('unload', function () {
                 disconnectChat();
             });
@@ -102,6 +179,7 @@
             console.error("Failed to connect: ", error);
         });
     </script>
+<<<<<<< HEAD
     <!-- <script>
         const code = JSON.parse('{{ discussion.code|escapejs }}');
         console.log('discussion code', code);
@@ -147,3 +225,8 @@
     </script> -->
     {% endblock %}
 </body>
+=======
+    {% endblock %}
+</body>
+<!-- {% endif %} -->
+>>>>>>> channels

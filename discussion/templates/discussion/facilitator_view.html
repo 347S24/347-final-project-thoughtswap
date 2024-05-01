@@ -41,13 +41,16 @@
                 <button class="prompt-btn" type="button">Distribute Thoughts</button>
             </div>
         </form> -->
+        {% if discussion.prompt_set.first.thought_set.count != 0 %}
+            <button id="start-swap" class="create-group-btn">Start Swap</a>
+        {% endif %}
     </div>
+
     {% endblock %}
 
     {% block rightside %}
     <div class="discussion-board" id="response-board">
         <h1>Thoughts</h1>
-        <!-- {% if prompt.thought_set.count != 0 %} -->
         {% for thought in thoughts %}
         <div class="response-item">
             {{ thought.content }}
@@ -57,11 +60,15 @@
             </div>
         </div>
         {% endfor %}
-        <!-- {% endif %} -->
+    <div class="popup delete-popup show-delete" id="delete-popup">
+        <p>Thought: <span id="thought"></span></p>
+        <input id="delete-submit" type="submit" action="" value="Yes, delete.">
+    </div>
     </div>
     <script src="{% static 'js/socket.js' %}"></script>
     <script>
         const code = JSON.parse('{{ discussion.code|escapejs }}');
+        let prompt = '{{ discussion.prompt_set.first|escapejs }}';
         const fid = JSON.parse('{{ facilitator.pk|escapejs }}');
         var deleteGroupUrl = "{% url 'delete-thought' pk=facilitator.pk code=discussion.code %}";
         connectChat(code).then(() => {
@@ -74,10 +81,18 @@
                 }
             };
 
+            document.querySelector('#start-swap').onclick = function (e) {
+                console.log("started swap");
+                startSwap(code, fid, prompt)
+                // url = "{% url 'swap' pk=facilitator.pk code=discussion.code prompt=discussion.prompt_set.first.content %}"
+
+
+            };
+
             document.querySelector('#prompt-message-submit').onclick = function (e) {
                 const promptInputDom = document.querySelector('#prompt-message-input');
                 const prompt = promptInputDom.value;
-                sendChatMessage("", prompt, fid, code);
+                sendChatMessage("", prompt, fid, code, "");
                 console.log("prompt sent");
                 promptInputDom.value = '';
             };
@@ -91,23 +106,33 @@
             document.querySelector('.dropdown-toggle').onclick = promptClick;
             document.querySelector('.btn-secondary').onclick = promptClick;
 
+            let deleteBtns = document.querySelectorAll('.delete-thought')
+            deleteBtns.forEach(function(btn) {
+                console.log('adding on click to delete button', btn, this)
+                btn.onclick = deleteThought;
+                });
 
-            document.querySelector('.delete-thought').onclick = function (e) {
-                e.preventDefault();
-                parent_div = e.target.parentElement.parentElement.parentElement;
-                prompt = parent_div.textContent;
-                // deleteChatMessage()
+            
+            document.querySelector('#delete-submit').onclick = function(e) {
+                var thought = document.querySelector('#thought').innerText;
+                // console.log('deleting thought after sbmit', thought, thought_obj)
+                // console.log('deleting thought after sbmit', thought)
+                deleteChatMessage(thought, "", fid, code, "")
+                document.getElementById("delete-popup").classList.toggle("show-delete");
+                // window.location.pathname = '/discussion/facilitator/' + fid + '/' + code;
             };
 
-            document.querySelector('.dropdown-item').onclick = function (e) {
-                console.log("selected", e.target, e.target.textContent);
-                let textarea = document.querySelector('#prompt-message-input');
-                prompt = e.target.textContent;
-                textarea.value = prompt;
-                selectPrompt("", prompt, fid, code);
-                document.querySelector('#dropdown-title').textContent = prompt;
-                promptClick(e);
-            }
+            let dropdownItems = document.querySelectorAll('.dropdown-item')
+            dropdownItems.forEach(function(item) {
+                item.onclick = function (e) {
+                    console.log("selected", e.target, e.target.textContent);
+                    let textarea = document.querySelector('#prompt-message-input');
+                    prompt = e.target.textContent;
+                    textarea.value = prompt;
+                    selectPrompt("", prompt, fid, code, "");
+                    document.querySelector('#dropdown-title').textContent = prompt;
+                    promptClick(e);
+            }});
 
             window.addEventListener('unload', function () {
                 disconnectChat();
@@ -115,7 +140,6 @@
         }).catch((error) => {
             console.error("Failed to connect: ", error);
         });
-
     </script>
     {% endblock %}
 </body>

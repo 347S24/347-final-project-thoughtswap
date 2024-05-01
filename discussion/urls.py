@@ -10,12 +10,15 @@ urlpatterns = [
     path("room/<str:room_name>/", views.room, name="room"),
 
     # Discussion pages
+    path('<int:code>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
+    path('participant', views.ParticipantDiscussionView.as_view(), name='independent-view'),
+    path('participant-login', views.ParticipantLogin.as_view(), name='participant-login'),
     path('create-discussion', views.create_discussion, name='create-discussion'),
     # path('make-discussion', views.create_discussion, name='make-discussion'),
     path('facilitator/<int:pk>/<int:code>', views.FacilitatorDiscussionView.as_view(), name='facilitator-view'),
     # path('facilitator/<int:pk>', views.FacilitatorDiscussionView.as_view(), name='facilitator-view'),
-    path('<int:code>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
-    
+    # path('join-group', views.joinGroup.as_view(), name='join-group'),
+
     # Facilitator profile links
     path('<int:pk>/profile', views.FacilitatorProfileView.as_view(), name='facilitator-profile'),
     
@@ -47,6 +50,7 @@ urlpatterns = [
     
     # Swap CRUD/View
     path('participant/swap', views.ParticipantSwapView.as_view(), name='participant-swap-view'),
+    path('swap/<int:pk>/<int:code>/<str:prompt>', views.SwapView.as_view(), name='swap'),
     # path('participant/swap<int:swapid>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
 
     # Login Pages

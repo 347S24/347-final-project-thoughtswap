@@ -68,6 +68,9 @@
     {% url 'index' as target %}
     {% if request.path == target %}
     <div class="start-swap-btn">
+        <a href="{% url 'participant-login' %}">Join Group</a>
+    </div>
+    <div class="start-swap-btn">
         <!--eventually link the page for inserting a code/starting a thought swap activity-->
         <a href="{% url 'create-discussion' %}">Start Swap</a>
     </div>

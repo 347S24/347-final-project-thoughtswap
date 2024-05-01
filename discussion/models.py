@@ -126,34 +126,41 @@ class Distribution(models.Model):
     """Model representing a distribution."""
     id = models.AutoField(primary_key=True)
     prompt = models.ForeignKey('Prompt', on_delete=models.SET_NULL, null=True)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    start_time = models.TimeField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
     # thoughts = models.ManyToManyField(Thought)
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.prompt}'
+        return f'{self.id}: {self.prompt}'
     
     def get_absolute_url(self):
         """Returns the url to access a detail record for this distribution."""
         # return reverse('view-distribution', args=[str(self.prompt.id), str(self.prompt.author.id)])
         pass
 
+    def to_dict(self):
+        dict = {}
+        for thought in self.distributedthought_set.all():
+            dict[thought.author.username] = thought.content
+        return dict
 # Distributed thoughts associate a user with a new thought
 
 
 class DistributedThought(models.Model):
     """Model representing a distribution."""
     thought = models.ForeignKey(
-        'Thought', on_delete=models.SET_NULL, null=True)
+        'Thought', on_delete=models.SET_NULL, null=True, related_name='thought')
     author = models.ForeignKey(
         'Participant', on_delete=models.SET_NULL, null=True)
     distribution = models.ForeignKey(
         'Distribution', on_delete=models.SET_NULL, null=True)
+    answer = models.ForeignKey(
+        'Thought', on_delete=models.SET_NULL, null=True, related_name='answer')
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.participant} got {self.thought}'
+        return f'{self.author} got {self.thought}'
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this distribution."""
