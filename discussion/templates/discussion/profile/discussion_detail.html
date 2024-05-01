@@ -8,7 +8,7 @@
     <div class="response-board">
         {% for prompt in discussion.prompt_set.all %}
         {% if prompt.thought_set.count != 0 %}
-        <div class="response-item">
+        <div class="response-item" style="display: block;">
             <h1 class="prompt-header">Prompt: {{ prompt.content }}</h1>
             {% for thought in prompt.thought_set.all %}
             <div>

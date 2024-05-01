@@ -18,15 +18,15 @@
     <div class="topnav">
         <a id="logo" href="{% url 'index' %}">ThoughtSwap</a>
         <div id="top-nav-flex">
-        {% if user.is_authenticated %}
-        <a class="nav-link" href="{% url 'facilitator-profile' pk=1 %}">Profile</a>
-        {% else %}
-        <!--login.html is blank right now-->
-        <a href="{% url 'login-view' %}">Log In</a>        
-        <!--eventually link the page for inserting a code-->
-        {% endif %}
-        <button class="nav-link" onclick="quickSwap(this)">Quick Swap</button>
-    </div>
+            {% if user.is_authenticated %}
+            <a class="nav-link" href="{% url 'facilitator-profile' pk=1 %}">Profile</a>
+            {% else %}
+            <!--login.html is blank right now-->
+            <a href="{% url 'login-view' %}">Log In</a>
+            <!--eventually link the page for inserting a code-->
+            {% endif %}
+            <button class="nav-link" onclick="quickSwap(this)">Quick Swap</button>
+        </div>
     </div>
     <div class="popup show" id="swaps">
         <label for="swapCode">Code:</label>
@@ -34,13 +34,13 @@
         <input id="swap-code-submit" type="button" value="Discuss!">
         <script>
             document.querySelector('#swapCode').focus();
-            document.querySelector('#swapCode').onkeyup = function(e) {
+            document.querySelector('#swapCode').onkeyup = function (e) {
                 if (e.keyCode === 13) {  // enter, return
                     document.querySelector('#swap-code-submit').click();
                 }
             };
-    
-            document.querySelector('#swap-code-submit').onclick = function(e) {
+
+            document.querySelector('#swap-code-submit').onclick = function (e) {
                 var code = document.querySelector('#swapCode').value;
                 window.location.pathname = '/discussion/participant/' + code;
             };
@@ -54,7 +54,16 @@
         {% block leftside %}
         <div class="discussion-board">
             <div class="prompt-container" id="front-page-mission">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc ultricies
+                <p>ThoughtSwap is a platform for sharing and discussing topics in your classroom. Students will first
+                    respond to a prompt
+                    given by the facilitator, then anonymously recieve one of their classmate's answers to discuss and
+                    respond to. There are several benefits that come from this form of discussion, including peer
+                    learning,
+                    constructive feedback, a more supportive and open learning environment, critical thinking, and most
+                    importantly,
+                    due to the anonymity of Thought Swap, honest and open communication. </p>
+
+                <p><a class="bio-link" href="{% url 'participant-login' %}">Join a group</a> to participate in a thought swap, or <a class="bio-link" href="{% url 'login-view' %}">login</a> as a facilitator to start one.</p>
             </div>
         </div>
         {% endblock %}

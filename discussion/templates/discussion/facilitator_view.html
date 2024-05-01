@@ -41,9 +41,14 @@
                 <button class="prompt-btn" type="button">Distribute Thoughts</button>
             </div>
         </form> -->
+        <hr>
+        <h1> Start a Thought Swap </h1>
+        <p style="margin-left: 1rem;"> A 'Thought Swap' is a mode of discussion that allows students to anonymously
+            respond to their classmate's
+            responses. This helps to enhance student collaboration and forces them to thing outside of their box </p>
         {% if discussion.prompt_set.first.thought_set.count != 0 %}
-            <button id="start-swap" class="create-group-btn">Start Swap</a>
-        {% endif %}
+        <button id="start-swap" class="create-group-btn">Start Swap</a>
+            {% endif %}
     </div>
 
     {% endblock %}
@@ -60,10 +65,10 @@
             </div>
         </div>
         {% endfor %}
-    <div class="popup delete-popup show-delete" id="delete-popup">
-        <p>Thought: <span id="thought"></span></p>
-        <input id="delete-submit" type="submit" action="" value="Yes, delete.">
-    </div>
+        <div class="popup delete-popup show-delete" id="delete-popup">
+            <p>Thought: <span id="thought"></span></p>
+            <input id="delete-submit" type="submit" action="" value="Yes, delete.">
+        </div>
     </div>
     <script src="{% static 'js/socket.js' %}"></script>
     <script>
@@ -107,13 +112,13 @@
             document.querySelector('.btn-secondary').onclick = promptClick;
 
             let deleteBtns = document.querySelectorAll('.delete-thought')
-            deleteBtns.forEach(function(btn) {
+            deleteBtns.forEach(function (btn) {
                 console.log('adding on click to delete button', btn, this)
                 btn.onclick = deleteThought;
-                });
+            });
 
-            
-            document.querySelector('#delete-submit').onclick = function(e) {
+
+            document.querySelector('#delete-submit').onclick = function (e) {
                 var thought = document.querySelector('#thought').innerText;
                 // console.log('deleting thought after sbmit', thought, thought_obj)
                 // console.log('deleting thought after sbmit', thought)
@@ -123,7 +128,7 @@
             };
 
             let dropdownItems = document.querySelectorAll('.dropdown-item')
-            dropdownItems.forEach(function(item) {
+            dropdownItems.forEach(function (item) {
                 item.onclick = function (e) {
                     console.log("selected", e.target, e.target.textContent);
                     let textarea = document.querySelector('#prompt-message-input');
@@ -132,7 +137,8 @@
                     selectPrompt("", prompt, fid, code, "");
                     document.querySelector('#dropdown-title').textContent = prompt;
                     promptClick(e);
-            }});
+                }
+            });
 
             window.addEventListener('unload', function () {
                 disconnectChat();
