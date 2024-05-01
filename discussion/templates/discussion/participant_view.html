@@ -1,6 +1,5 @@
 {% extends "index.html" %}
 {% load static %}
-
 {% block header %}
 <h1 class="discussion-header">Participant Discussion</h1>
 {% endblock %}
@@ -28,11 +27,11 @@
         <h1>Answer:</h1>
         <textarea id="chat-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
         <input id="chat-message-submit" type="button" value="Submit Answer" class="create-group-btn">
-        
-        <h1>Please respond to the following prompt:</h1>
+        <!-- POST SWAP -->
+        <h1>Please respond to the following thought:</h1>
         <div class="prompt-display" id="distributed-thought">
             {% for thought in distribution.distributedthought_set.all %}
-            {% if thought.author == username %}    
+            {% if thought.author == username %}
                 {{ thought.content }}
                 {% endif %}
             {% endfor %}

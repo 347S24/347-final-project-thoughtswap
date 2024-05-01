@@ -95,6 +95,8 @@ class FacilitatorPromptView(CreateView):
         context['form'] = form
         return context
 
+class LoginPromptView(LoginView):
+    template_name = 'discussion/registration/login.html'
 
 class PromptDetailView(generic.DetailView):
     model = Prompt

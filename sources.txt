@@ -20,3 +20,9 @@ http://127.0.0.1:8000/admin/auth/user/add/
 
 python manage.py collectstatic
 -   collects all static files from static folders
+
+run on droplet
+get into droplet: $ ssh droplet
+activate venv: $ source ~/347-final-project-thoughtswap/thoughtvenv/bin/activate
+run server: $ ~/347-final-project-thoughtswap/manage.py runserver 0.0.0.0:8000
+logout of droplet: $ logout
