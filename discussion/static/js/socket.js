@@ -1,8 +1,4 @@
 console.log("socket.js loaded");
-<<<<<<< HEAD
-// same socket across pages ?
-=======
->>>>>>> channels
 
 function connectChat(code) {
     return new Promise((resolve, reject) => {
@@ -24,40 +20,6 @@ function connectChat(code) {
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
             console.log('data', data)
-<<<<<<< HEAD
-            if (data.message) {
-                console.log('message', data.message)
-                let div = document.createElement('div');
-                div.className = 'response-item';
-                div.innerHTML = data.message + '\n';
-                
-                // if no url, do not display delete button
-                if (deleteGroupUrl) {
-                    console.log('fac view delete element')
-                    let img = document.createElement('img');
-                    img.src = "/static//media/trash-svgrepo-com.svg";
-                    img.alt = 'delete thought';
-                    
-                    let link = document.createElement('a');
-                    link.className = 'ud-button delete-thought';
-                    console.log(deleteGroupUrl)
-                    link.href = deleteGroupUrl;
-                    link.appendChild(img);
-    
-                    let tip_container = document.createElement('div');
-                    tip_container.className = 'tip-container';
-                    tip_container.appendChild(link);
-                    div.appendChild(tip_container);
-                }
-                document.querySelector('#response-board').appendChild(div);
-            }
-            if (data.prompt) {
-                console.log('prompt', prompt)
-                let p = document.createElement('p');
-                p.textContent = data.prompt + '\n';
-                document.querySelector('.prompt-display').innerHTML = p.textContent;
-                document.querySelector('#prompt-message-input').value = data.prompt;
-=======
 
             if (data.swap) {
                 console.log('swap view');
@@ -102,7 +64,6 @@ function connectChat(code) {
                     document.querySelector('.prompt-display').innerHTML = p.textContent;
                     document.querySelector('#prompt-message-input').value = data.prompt;
                 }
->>>>>>> channels
             }
         };
     });
@@ -114,10 +75,6 @@ function disconnectChat() {
     }
 }
 
-<<<<<<< HEAD
-
-function selectPrompt(message, prompt, id, code) {
-=======
 function startSwap(code, fid) {
     if (chatSocket) {
         chatSocket.send(JSON.stringify({
@@ -133,73 +90,40 @@ function startSwap(code, fid) {
 
 }
 function selectPrompt(message, prompt, id, code, author) {
->>>>>>> channels
     if (chatSocket) {
         chatSocket.send(JSON.stringify({
             'message': message,
             'prompt': prompt,
             'facilitator_id': id,
             'code': code,
-<<<<<<< HEAD
-            'save': false
-=======
             'author': author,
             'save': false,
             'swap': false
->>>>>>> channels
         }));
     }
 }
 
-<<<<<<< HEAD
-function sendChatMessage(message, prompt, id, code) {
-=======
 function sendChatMessage(message, prompt, id, code, author) {
->>>>>>> channels
     if (chatSocket) {
         chatSocket.send(JSON.stringify({
             'message': message,
             'prompt': prompt,
             'facilitator_id': id,
             'code': code,
-<<<<<<< HEAD
-            'save': true
-=======
             'author': author,
             'save': true,
             'swap': false
->>>>>>> channels
         }));
     }
 }
 
-<<<<<<< HEAD
-function deleteChatMessage(message, prompt, id, code) {
-=======
 
 function sendSwapMessage(message, prompt, id, code, author) {
->>>>>>> channels
     if (chatSocket) {
         chatSocket.send(JSON.stringify({
             'message': message,
             'prompt': prompt,
             'facilitator_id': id,
-<<<<<<< HEAD
-            'code': code
-        }));
-    }
-}
-// // Prompt
-// function sendPrompt(prompt, id, code) {
-//     if (chatSocket) {
-//         chatSocket.send(JSON.stringify({
-//             'prompt': prompt,
-//             'facilitator_id': id,
-//             'code': code
-//         }));
-//     }
-// }
-=======
             'code': code,
             'author': author,
             'save': true,
@@ -243,4 +167,3 @@ function deleteThought(e) {
     span.innerText = thought;
     popup.classList.toggle("show-delete");
   }
->>>>>>> channels
