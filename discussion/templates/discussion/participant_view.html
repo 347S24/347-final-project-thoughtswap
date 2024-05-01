@@ -19,7 +19,7 @@
         <h1>Prompt:</h1>
         <div class="prompt-display">
             {% if discussion.prompt_set.count != 0 %}
-                {{ discussion.prompt_set.first }}
+                {{ discussion.prompt_set.last }}
             {% else %}
                 Please wait for your facilitator to submit a prompt
             {% endif %}
