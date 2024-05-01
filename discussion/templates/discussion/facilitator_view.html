@@ -9,7 +9,11 @@
     <div class="discussion-board">
         <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
         <h1>Enter A Prompt</h1>
-        <textarea id="prompt-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
+        <textarea id="prompt-message-input" type="text" rows="5" cols="75" class="prompt-display">
+        {% if discussion.prompt_set.count != 0 %}
+        {{ discussion.prompt_set.last }}
+        {% endif %}
+        </textarea><br>
         <input id="prompt-message-submit" type="button" value="Submit Prompt" class="create-group-btn">
         <!-- <form class="discussion-create-prompt" action="{% url 'save-prompt' pk=facilitator.pk %}" method="post">
             {% csrf_token %}
