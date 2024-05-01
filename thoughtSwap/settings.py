@@ -10,6 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import environ
+env = environ.Env()
+
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -84,14 +88,17 @@ DATABASES = {
     #         "NAME": BASE_DIR / "db.sqlite3",
     #     },
     # }
-    
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'thoughtswap',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    # 'default': "postgres:///thoughtswap"
+    "default":env.db("DATABASE_URL", default="postgres:///thoughtswap"),
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'thoughtswap',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
 }
+
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 
 # Password validation
