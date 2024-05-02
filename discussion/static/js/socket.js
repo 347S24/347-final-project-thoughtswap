@@ -4,11 +4,6 @@ function connectChat(code) {
     return new Promise((resolve, reject) => {
         console.log('Connecting to chat...', code);
         let host = window.location.host
-        // if (host.includes(':')){
-        //     host = host.split(':')[0]
-        //     host = host + ':6379'
-        // }
-        // console.log(host)
         chatSocket = new WebSocket(
             'ws://' + host +
             '/ws/discussion/' + code + '/'
@@ -30,10 +25,21 @@ function connectChat(code) {
             if (data.swap) {
                 console.log('swap view');
                 console.log('prompt', prompt)
-                    let p = document.createElement('p');
-                    p.textContent = data.prompt.trim();
-                    document.querySelector('.prompt-display').innerHTML = p.textContent;
-                    document.querySelector('#prompt-message-input').value = data.prompt;
+                // let container = document.querySelector('.swap-display');
+                // console.log(container)
+                // container.classList.toggle('show-swap-response');
+                let container = document.querySelector('.swap-display');
+                if (container) {
+                    console.log(container)
+                    container.classList.toggle('show-swap-response');
+                } else {
+                    console.log('.swap-display element not found');
+                }
+
+                let p = document.createElement('p');
+                p.textContent = data.prompt.trim();
+                document.querySelector('.prompt-display').innerHTML = p.textContent;
+                document.querySelector('#prompt-message-input').value = data.prompt;
             } else {
                 if (data.message) {
                     console.log('message', data.message)
@@ -81,7 +87,7 @@ function disconnectChat() {
     }
 }
 
-function startSwap(code, fid) {
+function startSwap(code, fid, prompt) {
     if (chatSocket) {
         chatSocket.send(JSON.stringify({
             'message': 'Swap started',

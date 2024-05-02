@@ -55,8 +55,7 @@ class FacilitatorDiscussionView(generic.ListView):
         form = PromptModelForm(
             initial={'content': None, 'discussion': context['discussion'].code})
         context['form'] = form
-        context['thoughts'] = context['discussion'].prompt_set.all(
-        ).first().thought_set.all()
+        context['thoughts'] = context['discussion'].prompt_set.last().thought_set.all()
         return context
 
 
@@ -186,19 +185,20 @@ class ParticipantDiscussionView(generic.ListView):
             code = self.kwargs['code']
             print('code given and its', code)
         else:
-            print('large code')
-            group = get_object_or_404(
-                Group, name=self.request.GET.get('group-name'))
-            code = group.discussion_set.first().code
-            print('part list', group.participant_set.all(
-            ).values_list('username', flat=True))
-            if context['username'] not in group.participant_set.all().values_list('username', flat=True):
-                context['message'] = f"Error: User not in group {group.name}"
+            code = self.request.GET.get('code')
+            # print('large code')
+            # group = get_object_or_404(
+            #     Group, name=self.request.GET.get('group-name'))
+            # code = group.discussion_set.first().code
+            # print('part list', group.participant_set.all(
+            # ).values_list('username', flat=True))
+            # if context['username'] not in group.participant_set.all().values_list('username', flat=True):
+            #     context['message'] = f"Error: User not in group {group.name}"
 
         context['discussion'] = Discussion.objects.get(
             code=code)
-        context['thoughts'] = context['discussion'].prompt_set.all(
-        ).first().thought_set.all()
+        context['thoughts'] = context['discussion'].prompt_set.last().thought_set.all()
+        print('thoughts', context['thoughts'])
         # print('message recieved', context['message'], '\n\n\n\n\n\n\n\n\n')
         return context
     # paginate_by = 10

@@ -19,26 +19,28 @@
         <h1>Prompt:</h1>
         <div class="prompt-display">
             {% if discussion.prompt_set.count != 0 %}
-                {{ discussion.prompt_set.last }}
+            {{ discussion.prompt_set.last }}
             {% else %}
-                Please wait for your facilitator to submit a prompt
+            Please wait for your facilitator to submit a prompt
             {% endif %}
         </div>
         <h1>Answer:</h1>
         <textarea id="chat-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
         <input id="chat-message-submit" type="button" value="Submit Answer" class="create-group-btn">
         <!-- POST SWAP -->
-        <h1>Please respond to the following thought:</h1>
-        <div class="prompt-display" id="distributed-thought">
-            {% for thought in distribution.distributedthought_set.all %}
-            {% if thought.author == username %}
+        <div class="swap-display show-swap-response" id="swap-container">
+            <h1>Please respond to the following thought:</h1>
+            <div class="prompt-display" id="distributed-thought">
+                {% for thought in distribution.distributedthought_set.all %}
+                {% if thought.author == username %}
                 {{ thought.content }}
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
+            </div>
+            <h1>Answer:</h1>
+            <textarea id="swap-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
+            <input id="swap-message-submit" type="button" value="Submit Answer" class="create-group-btn">
         </div>
-        <h1>Answer:</h1>
-        <textarea id="swap-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
-        <input id="swap-message-submit" type="button" value="Submit Answer" class="create-group-btn">
         <!-- <form method="GET"> -->
         <!-- <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Answer"></textarea>
                 <div class="prompt-btn-container">

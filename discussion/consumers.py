@@ -46,11 +46,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
             if message:
                 facilitator = Facilitator.objects.get(pk=facilitator_id)
                 discussion = Discussion.objects.get(code=code)
-                prompt_obj = discussion.prompt_set.all()[0]
-                group = discussion.group
+                prompt_obj = discussion.prompt_set.last()
+                # group = discussion.group
 
-                partipant = Participant.objects.create(
-                    username=author, group=group)
+                # partipant = Participant.objects.get(
+                #     username=author, group=group)
+
+                partipant = Participant.objects.get(
+                    username=author)
                 message = message.strip()
                 Thought.objects.create(
                     content=message, prompt=prompt_obj, author=partipant)
