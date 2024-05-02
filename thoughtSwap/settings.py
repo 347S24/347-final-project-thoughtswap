@@ -36,13 +36,13 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '146.190.220.112', 'thought.ninja']
 
 INSTALLED_APPS = [
     'daphne',       # installs Daphne's ASGI version of runserver
+    'discussion',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'discussion.apps.DiscussionConfig',
     'django_extensions'
 
 ]
@@ -89,6 +89,9 @@ DATABASES = {
     #     },
     # }
     # 'default': "postgres:///thoughtswap"
+    # windows no peer auth
+    # DATABASE_URL=postgres://dbuser:dbupw@host:port/thoughtswap
+    # "default":env.db("DATABASE_URL", default="postgres://dbuser:dbupw@host:port/thoughtswap"),
     "default":env.db("DATABASE_URL", default="postgres:///thoughtswap"),
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',

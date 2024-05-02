@@ -26,3 +26,8 @@ get into droplet: $ ssh droplet
 activate venv: $ source ~/347-final-project-thoughtswap/thoughtvenv/bin/activate
 run server: $ ~/347-final-project-thoughtswap/manage.py runserver 0.0.0.0:8000
 logout of droplet: $ logout
+
+
+NO DAPHNE/asgi
+- reinstall channels==3.0.5
+- python -m pip install -U channels["daphne"]

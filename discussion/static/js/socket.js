@@ -3,8 +3,14 @@ console.log("socket.js loaded");
 function connectChat(code) {
     return new Promise((resolve, reject) => {
         console.log('Connecting to chat...', code);
+        let host = window.location.host
+        // if (host.includes(':')){
+        //     host = host.split(':')[0]
+        //     host = host + ':6379'
+        // }
+        // console.log(host)
         chatSocket = new WebSocket(
-            'ws://' + window.location.host +
+            'ws://' + host +
             '/ws/discussion/' + code + '/'
         );
 
