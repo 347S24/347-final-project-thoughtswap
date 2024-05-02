@@ -5,150 +5,154 @@
 {% endblock %}
 
 <body>
-    {% block leftside %}
-    <div class="discussion-board">
-        <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
-        <h1>Enter A Prompt</h1>
-        <textarea id="prompt-message-input" type="text" rows="5" cols="75" class="prompt-display">
+
+    {% block container %}
+    <div class="discussion-page-container">
+        {% endblock %}
+        {% block leftside %}
+        <div class="discussion-board">
+            <h2 class="discussion-bio"> Access Code: {{ discussion.code }} </h2>
+            <h1>Enter A Prompt</h1>
+            <textarea id="prompt-message-input" type="text" rows="5" cols="75" class="prompt-display">
         {% if discussion.prompt_set.count != 0 %}
         {{ discussion.prompt_set.last }}
         {% endif %}
         </textarea><br>
-        <input id="prompt-message-submit" type="button" value="Submit Prompt" class="create-group-btn">
-        <!-- <form class="discussion-create-prompt" action="{% url 'save-prompt' pk=facilitator.pk %}" method="post">
+            <input id="prompt-message-submit" type="button" value="Submit Prompt" class="create-group-btn">
+            <!-- <form class="discussion-create-prompt" action="{% url 'save-prompt' pk=facilitator.pk %}" method="post">
             {% csrf_token %}
             <table>
                 {{ form.as_table }}
             </table>
             <button class="create-group-btn" type="submit">Submit Prompt</button>
         </form> -->
-        {% if discussion.prompt_set.count != 0 %}
-        <h1>Choose An Existing Prompt</h1>
-        <!-- <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
+            {% if discussion.prompt_set.count != 0 %}
+            <h1>Choose An Existing Prompt</h1>
+            <!-- <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
                 <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
                 <h1>Choose An Existing Prompt</h1> -->
-        <div class="btn-group">
-            <button class="btn btn-secondary btn-sm" id="dropdown-title" type="button">
-                Choose Prompt
-            </button>
-            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-            <div class="dropdown-menu">
-                {% for prompt in discussion.prompt_set.all %}
-                <a class="dropdown-item" href="#{{ prompt }}">{{ prompt }}</a>
-                {% endfor %}
+            <div class="btn-group">
+                <button class="btn btn-secondary btn-sm" id="dropdown-title" type="button">
+                    Choose Prompt
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu">
+                    {% for prompt in discussion.prompt_set.all %}
+                    <a class="dropdown-item" href="#{{ prompt }}">{{ prompt }}</a>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
-        {% endif %}
-        <!-- <div class="prompt-btn-container">
+            {% endif %}
+            <!-- <div class="prompt-btn-container">
                 <button class="prompt-btn" type="submit">Submit Prompt</button>
                 <button class="prompt-btn" type="button">Distribute Thoughts</button>
             </div>
         </form> -->
-        <hr>
-        <h1> Start a Thought Swap </h1>
-        <p style="margin-left: 1rem;"> A 'Thought Swap' is a mode of discussion that allows students to anonymously
-            respond to their classmate's
-            responses. This helps to enhance student collaboration and forces them to thing outside of their box
-        </p>
-        {% if discussion.prompt_set.last.thought_set.count != 0 %}
-        <button id="start-swap" class="create-group-btn">Start Swap</button>
-        {% endif %}
-    </div>
-    {% endblock %}
+            <hr>
+            <h1> Start a Thought Swap </h1>
+            <p style="margin-left: 1rem;"> A 'Thought Swap' is a mode of discussion that allows students to anonymously
+                respond to their classmate's
+                responses. This helps to enhance student collaboration and forces them to thing outside of their box
+            </p>
+            {% if discussion.prompt_set.last.thought_set.count != 0 %}
+            <button id="start-swap" class="create-group-btn">Start Swap</button>
+            {% endif %}
+        </div>
+        {% endblock %}
 
-    {% block rightside %}
-    <div class="discussion-board" id="response-board">
-        <h1>Thoughts</h1>
-        {% for thought in thoughts %}
-        <div class="response-item">
-            {{ thought.content }}
-            <div class="tip-container">
-                <button class="ud-button delete-thought" type="button"><img src="/static/media/trash-svgrepo-com.svg"
-                        alt="delete prompt button"></button>
+        {% block rightside %}
+        <div class="discussion-board" id="response-board">
+            <h1>Thoughts</h1>
+            {% for thought in thoughts %}
+            <div class="response-item">
+                {{ thought.content }}
+                <div class="tip-container">
+                    <button class="ud-button delete-thought" type="button"><img
+                            src="/static/media/trash-svgrepo-com.svg" alt="delete prompt button"></button>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="popup delete-popup show-delete" id="delete-popup">
+                <p>Thought: <span id="thought"></span></p>
+                <input id="delete-submit" type="submit" action="" value="Yes, delete.">
             </div>
         </div>
-        {% endfor %}
-        <div class="popup delete-popup show-delete" id="delete-popup">
-            <p>Thought: <span id="thought"></span></p>
-            <input id="delete-submit" type="submit" action="" value="Yes, delete.">
-        </div>
-    </div>
-    <script src="{% static 'js/socket.js' %}"></script>
-    <script>
-        const code = JSON.parse('{{ discussion.code|escapejs }}');
-        let prompt = '{{ discussion.prompt_set.last|escapejs }}';
-        const fid = JSON.parse('{{ facilitator.pk|escapejs }}');
-        var deleteGroupUrl = "{% url 'delete-thought' pk=facilitator.pk code=discussion.code %}";
-        connectChat(code).then(() => {
-            console.log("entered");
+        <script src="{% static 'js/socket.js' %}"></script>
+        <script>
+            const code = JSON.parse('{{ discussion.code|escapejs }}');
+            let prompt = '{{ discussion.prompt_set.last|escapejs }}';
+            const fid = JSON.parse('{{ facilitator.pk|escapejs }}');
+            var deleteGroupUrl = "{% url 'delete-thought' pk=facilitator.pk code=discussion.code %}";
+            connectChat(code).then(() => {
+                console.log("entered");
 
-            document.querySelector('#prompt-message-input').focus();
-            document.querySelector('#prompt-message-input').onkeyup = function (e) {
-                if (e.keyCode === 13) {  // enter, return
-                    document.querySelector('#prompt-message-submit').click();
-                }
-            };
+                document.querySelector('#prompt-message-input').focus();
+                document.querySelector('#prompt-message-input').onkeyup = function (e) {
+                    if (e.keyCode === 13) {  // enter, return
+                        document.querySelector('#prompt-message-submit').click();
+                    }
+                };
 
-            document.querySelector('#start-swap').onclick = function (e) {
-                console.log("started swap");
-                startSwap(code, fid, prompt);
+                document.querySelector('#start-swap').onclick = function (e) {
+                    console.log("started swap");
+                    startSwap(code, fid, prompt);
 
-            };
+                };
 
-            document.querySelector('#prompt-message-submit').onclick = function (e) {
-                const promptInputDom = document.querySelector('#prompt-message-input');
-                const prompt = promptInputDom.value;
-                sendChatMessage("", prompt, fid, code, "");
-                console.log("prompt sent");
-                promptInputDom.value = '';
-            };
+                document.querySelector('#prompt-message-submit').onclick = function (e) {
+                    const promptInputDom = document.querySelector('#prompt-message-input');
+                    const prompt = promptInputDom.value;
+                    sendChatMessage("", prompt, fid, code, "");
+                    console.log("prompt sent");
+                    promptInputDom.value = '';
+                };
 
-            function promptClick(e) {
-                e.preventDefault();
-                console.log("clicked");
-                document.querySelector('.dropdown-menu').classList.toggle('show-dropdown');
-            };
+                function promptClick(e) {
+                    e.preventDefault();
+                    console.log("clicked");
+                    document.querySelector('.dropdown-menu').classList.toggle('show-dropdown');
+                };
 
-            document.querySelector('.dropdown-toggle').onclick = promptClick;
-            document.querySelector('.btn-secondary').onclick = promptClick;
+                document.querySelector('.dropdown-toggle').onclick = promptClick;
+                document.querySelector('.btn-secondary').onclick = promptClick;
 
-            let deleteBtns = document.querySelectorAll('.delete-thought')
-            deleteBtns.forEach(function (btn) {
-                console.log('adding on click to delete button', btn, this)
-                btn.onclick = deleteThought;
+                let deleteBtns = document.querySelectorAll('.delete-thought')
+                deleteBtns.forEach(function (btn) {
+                    console.log('adding on click to delete button', btn, this)
+                    btn.onclick = deleteThought;
+                });
+
+
+                document.querySelector('#delete-submit').onclick = function (e) {
+                    var thought = document.querySelector('#thought').innerText;
+                    // console.log('deleting thought after sbmit', thought, thought_obj)
+                    // console.log('deleting thought after sbmit', thought)
+                    deleteChatMessage(thought, "", fid, code, "")
+                    document.getElementById("delete-popup").classList.toggle("show-delete");
+                    // window.location.pathname = '/discussion/facilitator/' + fid + '/' + code;
+                };
+
+                let dropdownItems = document.querySelectorAll('.dropdown-item')
+                dropdownItems.forEach(function (item) {
+                    item.onclick = function (e) {
+                        console.log("selected", e.target, e.target.textContent);
+                        let textarea = document.querySelector('#prompt-message-input');
+                        prompt = e.target.textContent;
+                        textarea.value = prompt;
+                        selectPrompt("", prompt, fid, code, "");
+                        document.querySelector('#dropdown-title').textContent = prompt;
+                        promptClick(e);
+                    }
+                });
+
+                window.addEventListener('unload', function () {
+                    disconnectChat();
+                });
+            }).catch((error) => {
+                console.error("Failed to connect: ", error);
             });
-
-
-            document.querySelector('#delete-submit').onclick = function (e) {
-                var thought = document.querySelector('#thought').innerText;
-                // console.log('deleting thought after sbmit', thought, thought_obj)
-                // console.log('deleting thought after sbmit', thought)
-                deleteChatMessage(thought, "", fid, code, "")
-                document.getElementById("delete-popup").classList.toggle("show-delete");
-                // window.location.pathname = '/discussion/facilitator/' + fid + '/' + code;
-            };
-
-            let dropdownItems = document.querySelectorAll('.dropdown-item')
-            dropdownItems.forEach(function (item) {
-                item.onclick = function (e) {
-                    console.log("selected", e.target, e.target.textContent);
-                    let textarea = document.querySelector('#prompt-message-input');
-                    prompt = e.target.textContent;
-                    textarea.value = prompt;
-                    selectPrompt("", prompt, fid, code, "");
-                    document.querySelector('#dropdown-title').textContent = prompt;
-                    promptClick(e);
-                }
-            });
-
-            window.addEventListener('unload', function () {
-                disconnectChat();
-            });
-        }).catch((error) => {
-            console.error("Failed to connect: ", error);
-        });
-    </script>
-    {% endblock %}
+        </script>
+        {% endblock %}
     </div>
 </body>

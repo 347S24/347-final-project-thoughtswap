@@ -138,7 +138,8 @@ th {
 }
 
 
-.discussion-container {
+.discussion-container,
+.discussion-page-container {
     display: flex;
     justify-content: space-around;
     margin: 0.5rem;
@@ -719,7 +720,7 @@ span {
 }
 
 @media (max-width: 1050px) {
-    #discussion-page-container {
+    .discussion-page-container {
         flex-direction: column;
 
     }
