@@ -47,12 +47,12 @@
         </script>
     </div>
     {% block header %}
-    <h1 class="discussion-header"> Welcome to index.html</h1>
+    <h1 class="discussion-header"> Welcome to ThoughtSwap </h1>
     {% endblock %}
     {% block content %}
     <div class="discussion-container">
         {% block leftside %}
-        <div class="discussion-board">
+        <div class="discussion-board" id="front-page-discussion">
             <div class="prompt-container" id="front-page-mission">
                 <p>ThoughtSwap is a platform for sharing and discussing topics in your classroom. Students will first
                     respond to a prompt
@@ -70,7 +70,7 @@
         <!--Eventually we can pick some kind of picture to put here just for aethetic value-->
         {% block rightside %}
         <div class="response-board">
-            <img src="\static\media\Illustration13.png" alt="Place Holder Image For Now." style="width: 600px;">
+            <img src="\static\media\Illustration13.png" alt="Place Holder Image For Now." style="width: 80%;">
         </div>
         {% endblock %}
     </div>

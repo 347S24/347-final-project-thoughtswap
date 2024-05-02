@@ -142,7 +142,7 @@ class Distribution(models.Model):
     def to_dict(self):
         dict = {}
         for thought in self.distributedthought_set.all():
-            dict[thought.author.username] = thought.content
+            dict[thought.author.username] = thought.thought.content
         return dict
 # Distributed thoughts associate a user with a new thought
 

@@ -49,12 +49,12 @@
         <h1> Start a Thought Swap </h1>
         <p style="margin-left: 1rem;"> A 'Thought Swap' is a mode of discussion that allows students to anonymously
             respond to their classmate's
-            responses. This helps to enhance student collaboration and forces them to thing outside of their box </p>
-        {% if discussion.prompt_set.first.thought_set.count != 0 %}
-        <button id="start-swap" class="create-group-btn">Start Swap</a>
-            {% endif %}
+            responses. This helps to enhance student collaboration and forces them to thing outside of their box
+        </p>
+        {% if discussion.prompt_set.last.thought_set.count != 0 %}
+        <button id="start-swap" class="create-group-btn">Start Swap</button>
+        {% endif %}
     </div>
-
     {% endblock %}
 
     {% block rightside %}
@@ -77,7 +77,7 @@
     <script src="{% static 'js/socket.js' %}"></script>
     <script>
         const code = JSON.parse('{{ discussion.code|escapejs }}');
-        let prompt = '{{ discussion.prompt_set.first|escapejs }}';
+        let prompt = '{{ discussion.prompt_set.last|escapejs }}';
         const fid = JSON.parse('{{ facilitator.pk|escapejs }}');
         var deleteGroupUrl = "{% url 'delete-thought' pk=facilitator.pk code=discussion.code %}";
         connectChat(code).then(() => {
@@ -92,9 +92,7 @@
 
             document.querySelector('#start-swap').onclick = function (e) {
                 console.log("started swap");
-                startSwap(code, fid, prompt)
-                // url = "{% url 'swap' pk=facilitator.pk code=discussion.code prompt=discussion.prompt_set.first.content %}"
-
+                startSwap(code, fid, prompt);
 
             };
 
@@ -152,4 +150,5 @@
         });
     </script>
     {% endblock %}
+    </div>
 </body>

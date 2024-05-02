@@ -70,7 +70,7 @@ Dark Blue: #23596d
 
 .discussion-board {
     margin: 1em;
-    width: 100%;
+    /* width: 100%; */
 }
 
 .discussion-bio {
@@ -142,6 +142,10 @@ th {
     display: flex;
     justify-content: space-around;
     margin: 0.5rem;
+}
+
+#front-page-discussion {
+    width: 95%;
 }
 
 .prompt-container {
@@ -355,6 +359,10 @@ th {
 
 .show-dropdown {
     display: block;
+}
+
+.show-swap-response {
+    display: none;
 }
 
 .show-delete {
@@ -708,4 +716,11 @@ span {
     display: inline-block;
     text-align: center;
     text-decoration: none;
+}
+
+@media (max-width: 1050px) {
+    #discussion-page-container {
+        flex-direction: column;
+
+    }
 }
