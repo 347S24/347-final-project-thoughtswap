@@ -22,7 +22,7 @@
             <a class="nav-link" href="{% url 'facilitator-profile' pk=1 %}">Profile</a>
             {% else %}
             <!--login.html is blank right now-->
-            <a href="{% url 'login-view' %}">Log In</a>
+            <a class="nav-link" href="{% url 'login-view' %}">Log In</a>
             <!--eventually link the page for inserting a code-->
             {% endif %}
             <button class="nav-link" onclick="quickSwap(this)">Quick Swap</button>
