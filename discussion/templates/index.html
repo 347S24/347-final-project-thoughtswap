@@ -50,7 +50,10 @@
     <h1 class="discussion-header"> Welcome to ThoughtSwap </h1>
     {% endblock %}
     {% block content %}
+    {% block container %}
     <div class="discussion-container">
+        {% endblock %}
+
         {% block leftside %}
         <div class="discussion-board" id="front-page-discussion">
             <div class="prompt-container" id="front-page-mission">
@@ -63,7 +66,9 @@
                     importantly,
                     due to the anonymity of Thought Swap, honest and open communication. </p>
 
-                <p><a class="bio-link" href="{% url 'participant-login' %}">Join a group</a> to participate in a thought swap, or <a class="bio-link" href="{% url 'login-view' %}">login</a> as a facilitator to start one.</p>
+                <p><a class="bio-link" href="{% url 'participant-login' %}">Join a group</a> to participate in a thought
+                    swap, or <a class="bio-link" href="{% url 'login-view' %}">login</a> as a facilitator to start one.
+                </p>
             </div>
         </div>
         {% endblock %}
