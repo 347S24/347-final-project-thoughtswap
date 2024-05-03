@@ -20,26 +20,23 @@
             <h2 class="discussion-bio"> Group: {{ discussion.group }} </h2>
             <h2 class="discussion-bio"> Facilitator: {{ discussion.group.facilitator }} </h2>
             <!-- <h2 class="discussion-bio"> Message: {{ message }} </h2> -->
-            <h1>Prompt:</h1>
-            <div class="prompt-display">
-                {% if discussion.prompt_set.count != 0 %}
-                {{ discussion.prompt_set.last }}
-                {% else %}
-                Please wait for your facilitator to submit a prompt
-                {% endif %}
+            <div class="participant-response">
+                <h1>Prompt:</h1>
+                <div class="prompt-display">
+                    {% if discussion.prompt_set.count != 0 %}
+                    {{ discussion.prompt_set.last }}
+                    {% else %}
+                    Please wait for your facilitator to submit a prompt
+                    {% endif %}
+                </div>
+                <h1>Answer:</h1>
+                <textarea id="chat-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
+                <input id="chat-message-submit" type="button" value="Submit Answer" class="create-group-btn">
             </div>
-            <h1>Answer:</h1>
-            <textarea id="chat-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
-            <input id="chat-message-submit" type="button" value="Submit Answer" class="create-group-btn">
             <!-- POST SWAP -->
             <div class="swap-display show-swap-response" id="swap-container">
                 <h1>Please respond to the following thought:</h1>
                 <div class="prompt-display" id="distributed-thought">
-                    {% for thought in distribution.distributedthought_set.all %}
-                    {% if thought.author == username %}
-                    {{ thought.content }}
-                    {% endif %}
-                    {% endfor %}
                 </div>
                 <h1>Answer:</h1>
                 <textarea id="swap-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
@@ -55,7 +52,7 @@
         {% endblock %}
 
         {% block rightside %}
-        <div class="discussion-board" id="response-board">
+        <div class="response discussion-board" id="response-board">
             <h1>Responses</h1>
             {% for thought in thoughts %}
             <div class="response-item">
@@ -74,8 +71,11 @@
             var deleteGroupUrl = null;
             var author = '{{ username|escapejs }}';
             console.log('author= ', author);
-            connectChat(code).then(() => {
-                console.log("entered");
+            // send username with code 
+
+            // user:value to socket
+            connectChat(code, author).then((sock) => {
+                console.log("entered", sock);
 
                 document.querySelector('#chat-message-input').focus();
                 document.querySelector('#chat-message-input').onkeyup = function (e) {

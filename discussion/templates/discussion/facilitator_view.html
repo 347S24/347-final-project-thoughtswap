@@ -44,6 +44,10 @@
                 </div>
             </div>
             {% endif %}
+            <div class="swap-display show-swap-response" id="invisible-swap-container">
+                <div class="prompt-display" id="distributed-thought">
+                </div>
+            </div>
             <!-- <div class="prompt-btn-container">
                 <button class="prompt-btn" type="submit">Submit Prompt</button>
                 <button class="prompt-btn" type="button">Distribute Thoughts</button>
@@ -62,7 +66,7 @@
         {% endblock %}
 
         {% block rightside %}
-        <div class="discussion-board" id="response-board">
+        <div class="response discussion-board" id="response-board">
             <h1>Thoughts</h1>
             {% for thought in thoughts %}
             <div class="response-item">
@@ -84,6 +88,7 @@
             let prompt = '{{ discussion.prompt_set.last|escapejs }}';
             const fid = JSON.parse('{{ facilitator.pk|escapejs }}');
             var deleteGroupUrl = "{% url 'delete-thought' pk=facilitator.pk code=discussion.code %}";
+            let curr_delete = null;
             connectChat(code).then(() => {
                 console.log("entered");
 
@@ -120,7 +125,16 @@
                 let deleteBtns = document.querySelectorAll('.delete-thought')
                 deleteBtns.forEach(function (btn) {
                     console.log('adding on click to delete button', btn, this)
-                    btn.onclick = deleteThought;
+                    btn.onclick = function (e) {
+                        const thought = e.target.parentElement.parentElement.parentElement.textContent.trim();
+                        const popup = document.getElementById("delete-popup");
+                        const span = document.getElementById("thought");
+                        span.innerText = thought;
+                        popup.classList.toggle("show-delete");
+                        // let parent_board = e.target.parentElement.parentElement.parentElement.parentElement;
+                        // let item = e.target.parentElement.parentElement.parentElement;
+                        // curr_delete = [parent_board, item];
+                    };
                 });
 
 
@@ -130,6 +144,13 @@
                     // console.log('deleting thought after sbmit', thought)
                     deleteChatMessage(thought, "", fid, code, "")
                     document.getElementById("delete-popup").classList.toggle("show-delete");
+                    // console.log(curr_delete)
+                    // if (curr_delete != null) {
+                    //     let parent_board = curr_delete[0];
+                    //     let item = curr_delete[1];
+                    //     parent_board.removeChild(item);
+                    // }
+
                     // window.location.pathname = '/discussion/facilitator/' + fid + '/' + code;
                 };
 
