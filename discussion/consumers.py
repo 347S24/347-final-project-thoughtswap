@@ -51,14 +51,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
                 # partipant = Participant.objects.get(
                 #     username=author, group=group)
-
-                partipant = Participant.objects.get(
-                    username=author)
-                message = message.strip()
-                Thought.objects.create(
-                    content=message, prompt=prompt_obj, author=partipant)
-                print('saved message: ', message, "with prompt: ",
-                      prompt_obj, "and author: ", partipant)
+                if author in Participant.objects.values_list('username', flat=True):
+                    partipant = Participant.objects.get(
+                        username=author)
+                    message = message.strip()
+                    Thought.objects.create(
+                        content=message, prompt=prompt_obj, author=partipant)
+                    print('saved message: ', message, "with prompt: ",
+                        prompt_obj, "and author: ", partipant)
 
     @database_sync_to_async
     def delete_from_db(self, message):
@@ -85,11 +85,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 await self.save_to_db(message, prompt, facilitator_id, code, author, True)
             else:
                 await self.thought_swap(code, prompt)
-            if 'distribution' in self.__dict__:
-                swap = await database_sync_to_async(self.distribution.to_dict)()
-                await self.channel_layer.group_send(
-                self.room_group_name, {"type": "chat_message", "message": message,
-                                    "prompt": prompt, "facilitator_id": facilitator_id, "author": author, "code": code, 'swap': swap})
+            # if 'distribution' in self.__dict__:
+            swap = await database_sync_to_async(self.distribution.to_dict)()
+            await self.channel_layer.group_send(
+            self.room_group_name, {"type": "chat_message", "message": message,
+                                "prompt": prompt, "facilitator_id": facilitator_id, "author": author, "code": code, 'swap': swap, 'save': save})
         else:
             if save:
                 await self.save_to_db(message, prompt, facilitator_id, code, author)
@@ -99,7 +99,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             # Send message to room group
             await self.channel_layer.group_send(
                 self.room_group_name, {"type": "chat_message", "message": message,
-                                    "prompt": prompt, "facilitator_id": facilitator_id, "author": author, "code": code}
+                                    "prompt": prompt, "facilitator_id": facilitator_id, "author": author, "code": code, 'save': save}
             )
     # Receive message from room group
 
@@ -109,13 +109,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
         facilitator_id = event["facilitator_id"]
         code = event["code"]
         author = event["author"]
+        save = event["save"]
+        if 'swap' in event:
+            swap = event["swap"]
+        else:
+            swap = False
 
         # Send message to WebSocket
-        if 'distribution' in self.__dict__:
-            swap = await database_sync_to_async(self.distribution.to_dict)()
-            await self.send(text_data=json.dumps({"message": message, "prompt": prompt, "facilitator_id": facilitator_id, "code": code, "author": author, 'swap': swap}))
-        else:
-            await self.send(text_data=json.dumps({"message": message, "prompt": prompt, "facilitator_id": facilitator_id, "code": code, "author": author}))
+        # if 'distribution' in self.__dict__:
+        #     swap = await database_sync_to_async(self.distribution.to_dict)()
+        #     await self.send(text_data=json.dumps({"message": message, "prompt": prompt, "facilitator_id": facilitator_id, "code": code, "author": author, 'swap': swap}))
+        # else:
+        await self.send(text_data=json.dumps({"message": message, "prompt": prompt, "facilitator_id": facilitator_id, "code": code, "author": author, 'swap': swap, 'save': save}))
 
 
     @database_sync_to_async

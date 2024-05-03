@@ -351,6 +351,7 @@ th {
 
 .dropdown-menu {
     top: 100%;
+    left: 0%;
     min-width: 100%;
 }
 
@@ -363,6 +364,10 @@ th {
 }
 
 .show-swap-response {
+    display: none;
+}
+
+#invisible-swap-container {
     display: none;
 }
 
