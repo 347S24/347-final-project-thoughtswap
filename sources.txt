@@ -29,5 +29,7 @@ logout of droplet: $ logout
 
 
 NO DAPHNE/asgi
-- reinstall channels==3.0.5
+- pip uninstall channels
+- pip uninstall channels-redis
 - python -m pip install -U channels["daphne"]
+- pip install channels-redis

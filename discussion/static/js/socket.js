@@ -3,23 +3,26 @@ console.log("socket.js loaded");
 function connectChat(code, user) {
     return new Promise((resolve, reject) => {
         console.log('Connecting to chat...', code);
-        let host = window.location.host
+        // let host = window.location.host
         console.log('user is:', user)
-        chatSocket = new WebSocket(
-            'ws://' + host +
-            '/ws/discussion/' + code + '/'
-        );
+        // chatSocket = new WebSocket(
+        //     'ws://' + host +
+        //     '/ws/discussion/' + code + '/'
+        // );
+        var websocketURL = ((location.protocol == 'https:') ? "wss" : "ws") + "://" + window.location.host + '/ws/discussion/' + code + '/';
 
+        chatSocket = new ReconnectingWebSocket(websocketURL);
         console.log('chatsocket', chatSocket)
 
-        chatSocket.onopen = function (e) {
+        chatSocket.addEventListener('open', () => {
             resolve(chatSocket);
-        };
+        });
 
-        chatSocket.onerror = function (e) {
+        chatSocket.addEventListener('error', () => {
             reject(new Error("Failed to connect"));
-        };
-        chatSocket.onmessage = function (e) {
+        });
+
+        chatSocket.addEventListener('message', (e) => {
             const data = JSON.parse(e.data);
             console.log('data', data)
             console.log('data', data.swap)
@@ -80,7 +83,7 @@ function connectChat(code, user) {
                     document.querySelector('#prompt-message-input').value = data.prompt;
                 }
             }
-        };
+        });
     });
 }
 
