@@ -93,68 +93,68 @@
             connectChat(code).then((sock) => {
                 console.log("entered");
 
-                sock.onmessage = function (e) {
-                    const data = JSON.parse(e.data);
-                    console.log('data', data)
-                    console.log('data', data.swap)
+                // sock.onmessage = function (e) {
+                //     const data = JSON.parse(e.data);
+                //     console.log('data', data)
+                //     console.log('data', data.swap)
 
-                    if (data.swap) {
-                        if (data.swap[author]) {
-                            console.log('swap[user]', data.swap[author])
-                            let container = document.querySelector('.swap-display');
-                            let response_container = document.querySelector('.participant-response');
-                            let div = document.querySelector('#distributed-thought');
-                            div.innerHTML = data.swap[author];
-                            container.classList.toggle('show-swap-response');
-                            response_container.classList.toggle('show-swap-response');
-                        }
+                //     if (data.swap) {
+                //         if (data.swap[author]) {
+                //             console.log('swap[user]', data.swap[author])
+                //             let container = document.querySelector('.swap-display');
+                //             let response_container = document.querySelector('.participant-response');
+                //             let div = document.querySelector('#distributed-thought');
+                //             div.innerHTML = data.swap[author];
+                //             container.classList.toggle('show-swap-response');
+                //             response_container.classList.toggle('show-swap-response');
+                //         }
 
-                    } else if (data.save == false && data.prompt == '') {
-                        let parent = document.querySelector('.response');
-                        let children = document.querySelectorAll('.response-item');
-                        children.forEach(function (child) {
-                            if (child.textContent.trim() == data.message.trim()) {
-                                parent.removeChild(child);
-                            }
-                        });
-                    } else {
-                        if (data.message) {
-                            console.log('message', data.message)
-                            let div = document.createElement('div');
-                            div.className = 'response-item';
-                            div.innerHTML = data.message;
+                //     } else if (data.save == false && data.prompt == '') {
+                //         let parent = document.querySelector('.response');
+                //         let children = document.querySelectorAll('.response-item');
+                //         children.forEach(function (child) {
+                //             if (child.textContent.trim() == data.message.trim()) {
+                //                 parent.removeChild(child);
+                //             }
+                //         });
+                //     } else {
+                //         if (data.message) {
+                //             console.log('message', data.message)
+                //             let div = document.createElement('div');
+                //             div.className = 'response-item';
+                //             div.innerHTML = data.message;
 
-                            // if no url, do not display delete button
-                            if (deleteGroupUrl) {
-                                console.log('fac view delete element')
-                                let img = document.createElement('img');
-                                img.src = "/static//media/trash-svgrepo-com.svg";
-                                img.alt = 'delete thought';
+                //             // if no url, do not display delete button
+                //             if (deleteGroupUrl) {
+                //                 console.log('fac view delete element')
+                //                 let img = document.createElement('img');
+                //                 img.src = "/static//media/trash-svgrepo-com.svg";
+                //                 img.alt = 'delete thought';
 
-                                let btn = document.createElement('button');
-                                btn.className = 'ud-button delete-thought';
-                                // console.log(deleteGroupUrl)
-                                // link.href = deleteGroupUrl;
-                                btn.type = "button"
-                                btn.onclick = deleteThought;
-                                btn.appendChild(img);
+                //                 let btn = document.createElement('button');
+                //                 btn.className = 'ud-button delete-thought';
+                //                 // console.log(deleteGroupUrl)
+                //                 // link.href = deleteGroupUrl;
+                //                 btn.type = "button"
+                //                 btn.onclick = deleteThought;
+                //                 btn.appendChild(img);
 
-                                let tip_container = document.createElement('div');
-                                tip_container.className = 'tip-container';
-                                tip_container.appendChild(btn);
-                                div.appendChild(tip_container);
-                            }
-                            document.querySelector('#response-board').appendChild(div);
-                        }
-                        if (data.prompt) {
-                            console.log('prompt', prompt)
-                            let p = document.createElement('p');
-                            p.textContent = data.prompt.trim();
-                            document.querySelector('.prompt-display').innerHTML = p.textContent;
-                            document.querySelector('#prompt-message-input').value = data.prompt;
-                        }
-                    }
-                };
+                //                 let tip_container = document.createElement('div');
+                //                 tip_container.className = 'tip-container';
+                //                 tip_container.appendChild(btn);
+                //                 div.appendChild(tip_container);
+                //             }
+                //             document.querySelector('#response-board').appendChild(div);
+                //         }
+                //         if (data.prompt) {
+                //             console.log('prompt', prompt)
+                //             let p = document.createElement('p');
+                //             p.textContent = data.prompt.trim();
+                //             document.querySelector('.prompt-display').innerHTML = p.textContent;
+                //             document.querySelector('#prompt-message-input').value = data.prompt;
+                //         }
+                //     }
+                // };
 
             document.querySelector('#prompt-message-input').focus();
             document.querySelector('#prompt-message-input').onkeyup = function (e) {

@@ -2,6 +2,8 @@
 import json
 import random
 
+# from channels import Channel, Group
+# from channels.sessions import channel_session
 from channels.generic.websocket import AsyncWebsocketConsumer
 from .models import *
 from channels.db import database_sync_to_async
@@ -9,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    # @channel_session
     async def connect(self):
         print('self.scope["user"]')
         print(self.scope["user"])
@@ -21,7 +24,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         await self.accept()
-
+    
+    # @channel_session
     async def disconnect(self, close_code):
         # Leave room group
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
@@ -68,6 +72,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         thought.delete()
 
     # Receive message from WebSocket
+    # @channel_session
     async def receive(self, text_data):
         print('recieve')
         text_data_json = json.loads(text_data)
@@ -102,7 +107,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                                     "prompt": prompt, "facilitator_id": facilitator_id, "author": author, "code": code, 'save': save}
             )
     # Receive message from room group
-
+    # @channel_session
     async def chat_message(self, event):
         message = event["message"]
         prompt = event["prompt"]

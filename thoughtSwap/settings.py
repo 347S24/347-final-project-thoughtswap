@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+
 import environ
 env = environ.Env()
 
@@ -147,10 +148,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/discussion/facilitator/profile"
 LOGOUT_REDIRECT_URL = "/discussion"  
 
-import os
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-
 # daphne ASGI application
+# docker run -p 6379:6379 -d --name my-redis-server redis:5
+
+# must do this after settings up the environment (aka above code)
+import os
+import django
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'thoughtSwap.settings')
+django.setup()
+
 ASGI_APPLICATION = "thoughtSwap.asgi.application"
 CHANNEL_LAYERS = {
     "default": {
