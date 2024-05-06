@@ -508,9 +508,8 @@ class ThoughtDelete(DeleteView):
 
 
 def create_discussion(request):
+    context = {}
     if request.method == 'POST':
-        print('posted\n\n\n\n\n\n\n\n\n')
-
         form = DiscussionModelForm(request.POST)
 
         if form.is_valid():
@@ -523,17 +522,16 @@ def create_discussion(request):
             discussion = Discussion(name=name, group=group, code=code)
             # This saves the model to the DB
             discussion.save()
-            # if form.cleaned_data['group'] is None:
-            #     return redirect(reverse('facilitator-view', kwargs={'pk': group.facilitator.pk}))
-            # else:
-            return redirect(reverse('facilitator-view', kwargs={'pk': group.facilitator.pk, 'code': discussion.code}))
+            print("saved disc,", discussion)
+            return redirect(reverse('facilitator-view', kwargs={'pk': group.facilitator.pk, 'code': code}))
+        context['errors'] = form.errors
     else:
         print('no data\n\n\n\n\n\n\n\n\n')
         form = DiscussionModelForm(
             initial={'code': 0, 'name': 'Discussion 0', 'group': None})
-        context = {'form': form, }
-        return render(request, 'discussion/start_discussion.html', context=context)
-    return HttpResponse("Error creating Discussion")
+    context['form'] = form
+    return render(request, 'discussion/start_discussion.html', context=context)
+
     # else:
     #     redirect(reverse('login-view'))
 

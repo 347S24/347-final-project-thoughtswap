@@ -60,6 +60,7 @@ class DiscussionModelForm(ModelForm):
 
         # if the name already exists in our database
         if code in Discussion.objects.all().values_list('code', flat=True):
+            print("Code already exists. Please enter another one")
             raise forms.ValidationError("Code already exists. Please enter another one")
         return code
 
@@ -69,6 +70,7 @@ class DiscussionModelForm(ModelForm):
         # if the name already exists in our database
         # why does this work? It is looking for groups with the same name?
         if group in Group.objects.all().values_list('name', flat=True):
+            print("Group does not exist. Please enter another one")
             raise forms.ValidationError("Group does not exist. Please enter another one")
         return group
     
