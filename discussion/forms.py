@@ -55,13 +55,20 @@ class DiscussionModelForm(ModelForm):
         model = Discussion
         fields = ['code', 'name', 'group']
 
+
+    def clean_name(self):
+        name = self.cleaned_data['name']
+
+        # if name in Discussion.objects.all().values_list('name', flat=True):
+        #     raise forms.ValidationError("name does not exist. Please enter another one")
+        return name
+    
     def clean_code(self):
         code = self.cleaned_data['code']
 
         # if the name already exists in our database
         if code in Discussion.objects.all().values_list('code', flat=True):
             print("Code already exists. Please enter another one")
-            raise forms.ValidationError("Code already exists. Please enter another one")
         return code
 
     def clean_group(self):
@@ -74,13 +81,22 @@ class DiscussionModelForm(ModelForm):
             raise forms.ValidationError("Group does not exist. Please enter another one")
         return group
     
-    def clean_name(self):
-        name = self.cleaned_data['name']
+    def clean(self):
+        cleaned_data = super().clean()
+        code = cleaned_data.get('code')
+        name = cleaned_data.get('name')
+        group = cleaned_data.get('group')
+        print(code, name)
+        print('code, name')
 
-        # if name in Discussion.objects.all().values_list('name', flat=True):
-        #     raise forms.ValidationError("name does not exist. Please enter another one")
-        return name
-    
+        if code and name:
+            if Discussion.objects.filter(code=code, name=name, group=group).exists():
+                raise forms.ValidationError("Discussion Exists")
+            elif Discussion.objects.filter(code=code).exists():
+                raise forms.ValidationError("Code Already In Use")
+        return cleaned_data
+
+
 # class CreateGroupForm(forms.Form):
 #     group_name = forms.CharField(label='Group Name', max_length=100)
 #     group_size = forms.IntegerField(label='Group Size', min_value=1, max_value=10)

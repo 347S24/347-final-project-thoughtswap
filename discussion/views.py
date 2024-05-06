@@ -55,7 +55,8 @@ class FacilitatorDiscussionView(generic.ListView):
         form = PromptModelForm(
             initial={'content': None, 'discussion': context['discussion'].code})
         context['form'] = form
-        context['thoughts'] = context['discussion'].prompt_set.last().thought_set.all()
+        if context['discussion'].prompt_set.last():
+            context['thoughts'] = context['discussion'].prompt_set.last().thought_set.all()
         return context
 
 
@@ -197,7 +198,8 @@ class ParticipantDiscussionView(generic.ListView):
 
         context['discussion'] = Discussion.objects.get(
             code=code)
-        context['thoughts'] = context['discussion'].prompt_set.last().thought_set.all()
+        if context['discussion'].prompt_set.last():
+            context['thoughts'] = context['discussion'].prompt_set.last().thought_set.all()
         print('thoughts', context['thoughts'])
         # print('message recieved', context['message'], '\n\n\n\n\n\n\n\n\n')
         return context
@@ -511,7 +513,6 @@ def create_discussion(request):
     context = {}
     if request.method == 'POST':
         form = DiscussionModelForm(request.POST)
-
         if form.is_valid():
             print('valid\n\n\n\n\n\n\n\n\n')
 
@@ -524,7 +525,15 @@ def create_discussion(request):
             discussion.save()
             print("saved disc,", discussion)
             return redirect(reverse('facilitator-view', kwargs={'pk': group.facilitator.pk, 'code': code}))
-        context['errors'] = form.errors
+        else:
+            code = request.POST.get('code')
+            for e in form.errors.as_data()['__all__']:
+                if e.message == "Discussion Exists":
+                    print('exists')
+                    # TODO: Get correct group facilitator to put into pk
+                    return redirect(reverse('facilitator-view', kwargs={'pk': 1, 'code': code}))
+            else:
+                context['errors'] = form.errors
     else:
         print('no data\n\n\n\n\n\n\n\n\n')
         form = DiscussionModelForm(

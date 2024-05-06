@@ -7,13 +7,11 @@
     {% csrf_token %}
     Code:<br>
     {{ form.code }}<br>
-    {{ form.code.errors }}
     Name:<br>
     {{ form.name }}<br>
-    {{ form.name.errors }}
     Group:<br>
     {{ form.group }}<br>
-    {{ form.group.errors }}
+    {{ form.errors }}
     <br>
     <input type="submit" value="Submit">
 </form>
