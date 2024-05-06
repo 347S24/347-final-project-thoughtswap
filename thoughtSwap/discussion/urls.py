@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-
+from .views import SignUpView
+from discussion.views import register_facilitator
 urlpatterns = [
     # Homepage
     path('', views.index, name='index'),

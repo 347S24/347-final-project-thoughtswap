@@ -54,6 +54,8 @@
   <form method="post" novalidate>
     {% csrf_token %}
     {{ form.as_p }}
+    {{ user_form.as_p }}
+    {{ facilitator_form.as_p }}
     <button type="submit">Sign Up</button>
   </form>
 </div>
