@@ -15,6 +15,7 @@ from django.contrib.auth import login
 from .forms import DiscussionModelForm, GroupModelForm, PromptModelForm, FacilitatorForm
 
 # find discussion and render with socket 
+from django.contrib.auth.forms import UserCreationForm
 
 def index(request):
     """View function for home page of site."""
@@ -30,6 +31,15 @@ def chat(request):
 
 def room(request, room_name):
     return render(request, "discussion/room.html", {"room_name": room_name})
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "signup.html"
+
+    def get(self, request, *args, **kwargs):
+        print('signup view')
+        return super().get(request, *args, **kwargs)
 
 class FacilitatorDiscussionView(generic.ListView):
     # eventually need LoginRequiredMixin
@@ -216,9 +226,9 @@ class FacilitatorGroupView(generic.ListView):
 
 # Crud things
 
-def register_facilitator(request, pk):
-    pk = request.user.id
-    print("pk=" + pk) 
+def register_facilitator(request):
+    username = request.POST.get('username')
+    # Get first and last name as well
     if request.method == 'POST':
         form = FacilitatorForm(request.POST) 
         if form.is_valid():
@@ -227,12 +237,12 @@ def register_facilitator(request, pk):
             facilitator = Facilitator(username=username)
             
             facilitator.save()
-            return redirect(reverse('facilitator-profile', kwargs={'pk': pk}))
+            return redirect(reverse('facilitator-profile', kwargs={'pk': facilitator.pk}))
 
         return HttpResponse("Error with the form", status=400)
 
     else:
-        form = FacilitatorForm(instance=facilitator)
+        form = FacilitatorForm()
     return render(request, 'index.html', {'form': form})
      
         
