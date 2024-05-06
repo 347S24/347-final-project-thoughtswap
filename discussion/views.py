@@ -233,9 +233,12 @@ def register_facilitator(request):
         form = FacilitatorForm(request.POST) 
         if form.is_valid():
             username = form.cleaned_data['username']
-            
+            # Validate first and last name
+
+            # Enter first and last name 
             facilitator = Facilitator(username=username)
             
+            # Add permission to facilitator (code in discord)
             facilitator.save()
             return redirect(reverse('facilitator-profile', kwargs={'pk': facilitator.pk}))
 
