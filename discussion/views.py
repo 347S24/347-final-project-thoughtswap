@@ -97,6 +97,7 @@ class FacilitatorPromptView(CreateView):
         return context
 
 class LoginPromptView(LoginView):
+    print("login working?")
     template_name = 'discussion/registration/login.html'
 
 class PromptDetailView(generic.DetailView):
@@ -242,11 +243,7 @@ def register_facilitator(request):
             facilitator.save()
             return redirect(reverse('facilitator-profile', kwargs={'pk': facilitator.pk}))
 
-        return HttpResponse("Error with the form", status=400)
-
-    else:
-        form = FacilitatorForm()
-    return render(request, 'index.html', {'form': form})
+    return HttpResponse("Error with the form", status=400)
      
         
 def create_prompt(request, pk):
