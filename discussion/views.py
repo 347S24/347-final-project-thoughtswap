@@ -12,17 +12,29 @@ from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth import login
 # from .forms import CreateGroupForm
-from .forms import DiscussionModelForm, GroupModelForm, PromptModelForm
+from .forms import DiscussionModelForm, GroupModelForm, PromptModelForm, FacilitatorForm
 
-# find discussion and render with socket
-
+# find discussion and render with socket 
+from django.contrib.auth.forms import UserCreationForm
 
 def index(request):
     """View function for home page of site."""
     # Render the HTML template index.html with the data in the context variable
-    return render(request, 'index.html')
+    print('request.user')
+    print(request.user)
+    return render(request, 'index.html', {"user": request.user})
 
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "signup.html"
+
+    def get(self, request, *args, **kwargs):
+        print('signup view')
+        return super().get(request, *args, **kwargs)
 
 class FacilitatorDiscussionView(generic.ListView):
     # eventually need LoginRequiredMixin
@@ -53,19 +65,14 @@ class FacilitatorDiscussionView(generic.ListView):
         return context
 
 
-class FacilitatorProfileView(generic.ListView):
+class FacilitatorProfileView(LoginRequiredMixin, generic.DetailView):
     # eventually need LoginRequiredMixin
     model = Facilitator
-    # context_object_name = 'facilitator_list'
-    # queryset = Facilitator.objects.all()
     template_name = 'discussion/profile/facilitator_profile.html'
-    # paginate_by = 10
+    context_object_name = 'facilitator'
 
-    def get_context_data(self, **kwargs):
-        context = super(FacilitatorProfileView,
-                        self).get_context_data(**kwargs)
-        context['facilitator'] = Facilitator.objects.get(pk=self.kwargs['pk'])
-        return context
+    def get_object(self):
+        return get_object_or_404(Facilitator, pk=self.kwargs['pk'])
 
 
 class FacilitatorPromptView(CreateView):
@@ -193,7 +200,29 @@ class FacilitatorGroupView(generic.ListView):
 
 # Crud things
 
+def register_facilitator(request):
+    username = request.POST.get('username')
+    # Get first and last name as well
+    if request.method == 'POST':
+        form = FacilitatorForm(request.POST) 
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            # Validate first and last name
 
+            # Enter first and last name 
+            facilitator = Facilitator(username=username)
+            
+            # Add permission to facilitator (code in discord)
+            facilitator.save()
+            return redirect(reverse('facilitator-profile', kwargs={'pk': facilitator.pk}))
+
+        return HttpResponse("Error with the form", status=400)
+
+    else:
+        form = FacilitatorForm()
+    return render(request, 'index.html', {'form': form})
+     
+    
 @csrf_exempt
 @require_POST
 def update_prompt(request):
@@ -206,8 +235,7 @@ def update_prompt(request):
     context['facilitator'] = Facilitator.objects.get(pk=pk)
     context['discussion'] = Discussion.objects.get(code=code)
     return redirect(reverse('facilitator-prompts', kwargs={'pk': pk}))
-
-
+        
 def create_prompt(request, pk):
     facilitator = get_object_or_404(Facilitator, pk=pk)
     if request.method == 'POST':

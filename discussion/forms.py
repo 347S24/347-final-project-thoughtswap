@@ -1,7 +1,21 @@
 from django import forms
 from django.forms import ModelForm
 from .models import Group, Prompt, Facilitator, Discussion
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
+
+
+class FacilitatorForm(ModelForm):
+    class Meta:
+        model = Facilitator
+        fields = ['first_name', 'last_name', 'username']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].required = False
+        self.fields['last_name'].required = False
+        self.fields['username'].required = True
 
 class GroupModelForm(ModelForm):
     # add logged in user
