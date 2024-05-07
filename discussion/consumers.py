@@ -24,7 +24,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         await self.accept()
-    
+
     # @channel_session
     async def disconnect(self, close_code):
         # Leave room group
@@ -42,10 +42,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 prompt = prompt.strip()
                 facilitator = Facilitator.objects.get(pk=facilitator_id)
                 discussion = Discussion.objects.get(code=code)
-                prompt_obj = Prompt.objects.create(author=facilitator,
-                                                   content=prompt, discussion=discussion)
-                discussion.prompt_set.add(prompt_obj)
-                print('saved prompt: ', prompt)
+                if prompt not in Prompt.objects.values_list('content', flat=True):
+                    prompt_obj = Prompt.objects.create(author=facilitator,
+                                                       content=prompt, discussion=discussion)
+                    discussion.prompt_set.add(prompt_obj)
+                    print('saved prompt: ', prompt)
 
             if message:
                 facilitator = Facilitator.objects.get(pk=facilitator_id)
@@ -62,7 +63,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     Thought.objects.create(
                         content=message, prompt=prompt_obj, author=partipant)
                     print('saved message: ', message, "with prompt: ",
-                        prompt_obj, "and author: ", partipant)
+                          prompt_obj, "and author: ", partipant)
 
     @database_sync_to_async
     def delete_from_db(self, message):
@@ -84,6 +85,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         author = text_data_json["author"]
         save = text_data_json["save"]
         swap = text_data_json["swap"]
+        thoughts = await self.get_thoughts(prompt)
 
         if swap:
             if save:
@@ -93,8 +95,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             # if 'distribution' in self.__dict__:
             swap = await database_sync_to_async(self.distribution.to_dict)()
             await self.channel_layer.group_send(
-            self.room_group_name, {"type": "chat_message", "message": message,
-                                "prompt": prompt, "facilitator_id": facilitator_id, "author": author, "code": code, 'swap': swap, 'save': save})
+                self.room_group_name, {"type": "chat_message", "message": message,
+                                       "prompt": prompt, "facilitator_id": facilitator_id,
+                                       "author": author, "code": code, 'swap': swap, 'save': save, 'thoughts': thoughts})
         else:
             if save:
                 await self.save_to_db(message, prompt, facilitator_id, code, author)
@@ -104,10 +107,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
             # Send message to room group
             await self.channel_layer.group_send(
                 self.room_group_name, {"type": "chat_message", "message": message,
-                                    "prompt": prompt, "facilitator_id": facilitator_id, "author": author, "code": code, 'save': save}
+                                       "prompt": prompt, "facilitator_id": facilitator_id,
+                                       "author": author, "code": code, 'save': save, 'thoughts': thoughts}
             )
     # Receive message from room group
     # @channel_session
+
     async def chat_message(self, event):
         message = event["message"]
         prompt = event["prompt"]
@@ -119,14 +124,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
             swap = event["swap"]
         else:
             swap = False
-
+        thoughts = await self.get_thoughts(prompt)
         # Send message to WebSocket
-        # if 'distribution' in self.__dict__:
-        #     swap = await database_sync_to_async(self.distribution.to_dict)()
-        #     await self.send(text_data=json.dumps({"message": message, "prompt": prompt, "facilitator_id": facilitator_id, "code": code, "author": author, 'swap': swap}))
-        # else:
-        await self.send(text_data=json.dumps({"message": message, "prompt": prompt, "facilitator_id": facilitator_id, "code": code, "author": author, 'swap': swap, 'save': save}))
-
+        await self.send(text_data=json.dumps({"message": message, "prompt": prompt,
+                                              "facilitator_id": facilitator_id, "code": code, "author": author, 'swap': swap, 'save': save, 'thoughts': thoughts}))
 
     @database_sync_to_async
     def thought_swap(self, code, prompt):
@@ -189,6 +190,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         except MultipleObjectsReturned:
             print("Multiple Distributions found for this prompt.")
         return None
+
+    @database_sync_to_async
+    def get_thoughts(self, prompt):
+        return Prompt.objects.get(content=prompt).to_dict()
 
     # async def receive_json(self, content, **kwargs):
     #     prompt_text = content.get('prompt')

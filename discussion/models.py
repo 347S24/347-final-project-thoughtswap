@@ -99,6 +99,14 @@ class Prompt(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this prompt."""
         return reverse('prompt-detail', args=[str(self.id), str(self.author.id)])
+    
+
+
+    def to_dict(self):
+        dict = {}
+        for thought in self.thought_set.all():
+            dict[thought.author.username] = thought.content
+        return dict
 # A discussion is a collection of thoughts and prompts
 # A discussion may have one group, and many prompts
 

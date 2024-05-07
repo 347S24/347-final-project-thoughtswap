@@ -26,8 +26,11 @@ function connectChat(code, user) {
             const data = JSON.parse(e.data);
             console.log('data', data)
             console.log('data', data.swap)
+            console.log('thoughts', data.thoughts)
 
             if (data.swap) {
+                // Get participant and assign the new, swapped thought
+                console.log('Swapping thought', data.swap, "with user", author)
                 if (data.swap[author]) {
                     console.log('swap[user]', data.swap[author])
                     let container = document.querySelector('.swap-display');
@@ -37,8 +40,9 @@ function connectChat(code, user) {
                     container.classList.toggle('show-swap-response');
                     response_container.classList.toggle('show-swap-response');
                 }
-
             } else if (data.save == false && data.prompt == '') {
+                // Delete Thought
+                console.log("deleting thought", data.message)
                 let parent = document.querySelector('.response');
                 let children = document.querySelectorAll('.response-item');
                 children.forEach(function (child) {
@@ -47,8 +51,9 @@ function connectChat(code, user) {
                     }
                 });
             } else {
+                // Display a message
                 if (data.message) {
-                    console.log('message', data.message)
+                    console.log('Sending message', data.message)
                     let div = document.createElement('div');
                     div.className = 'response-item';
                     div.innerHTML = data.message;
@@ -73,14 +78,53 @@ function connectChat(code, user) {
                         tip_container.appendChild(btn);
                         div.appendChild(tip_container);
                     }
-                    document.querySelector('#response-board').appendChild(div);
+                    parent = document.querySelector('#response-board')
+                    parent.insertBefore(div, parent.children[1]);
                 }
+                // Display a prompt and it's thoughts
                 if (data.prompt) {
-                    console.log('prompt', prompt)
+                    console.log('Sending prompt', prompt)
                     let p = document.createElement('p');
                     p.textContent = data.prompt.trim();
                     document.querySelector('.prompt-display').innerHTML = p.textContent;
-                    document.querySelector('#prompt-message-input').value = data.prompt;
+                    let input = document.querySelector('#prompt-message-input')
+                    if (input) {
+                        input.value = data.prompt;
+                    }
+                }
+                // Display thoughts
+                console.log('Displaying thoughts', data.thoughts)
+                var parent = document.querySelector('#response-board');
+                while (parent.children.length > 1) {
+                    parent.removeChild(parent.lastChild);
+                }
+                let thoughts = Object.values(data.thoughts);
+                if (thoughts) {
+                    thoughts.forEach(function (thought) {
+                        let div = document.createElement('div');
+                        div.className = 'response-item';
+                        div.innerHTML = thought;
+                        if (deleteGroupUrl) {
+                            console.log('fac view delete element')
+                            let img = document.createElement('img');
+                            img.src = "/static//media/trash-svgrepo-com.svg";
+                            img.alt = 'delete thought';
+
+                            let btn = document.createElement('button');
+                            btn.className = 'ud-button delete-thought';
+                            // console.log(deleteGroupUrl)
+                            // link.href = deleteGroupUrl;
+                            btn.type = "button"
+                            btn.onclick = deleteThought;
+                            btn.appendChild(img);
+
+                            let tip_container = document.createElement('div');
+                            tip_container.className = 'tip-container';
+                            tip_container.appendChild(btn);
+                            div.appendChild(tip_container);
+                        }
+                        document.querySelector('.response').appendChild(div);
+                    });
                 }
             }
         });

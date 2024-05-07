@@ -1,3 +1,5 @@
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 from datetime import timezone
 import random
 from django.db.models.query import QuerySet
@@ -20,16 +22,6 @@ def index(request):
     """View function for home page of site."""
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html')
-
-# CHANNELS VIEWS
-
-
-def chat(request):
-    return render(request, 'discussion/chat.html')
-
-
-def room(request, room_name):
-    return render(request, "discussion/room.html", {"room_name": room_name})
 
 
 class FacilitatorDiscussionView(generic.ListView):
@@ -56,7 +48,8 @@ class FacilitatorDiscussionView(generic.ListView):
             initial={'content': None, 'discussion': context['discussion'].code})
         context['form'] = form
         if context['discussion'].prompt_set.last():
-            context['thoughts'] = context['discussion'].prompt_set.last().thought_set.all()
+            context['thoughts'] = context['discussion'].prompt_set.last(
+            ).thought_set.all()
         return context
 
 
@@ -79,8 +72,6 @@ class FacilitatorPromptView(CreateView):
     # eventually need LoginRequiredMixin
     model = Facilitator
     form_class = PromptModelForm
-    # context_object_name = 'facilitator_list'
-    # queryset = Facilitator.objects.all()
     template_name = 'discussion/profile/prompt_display.html'
     # paginate_by = 10
 
@@ -90,13 +81,14 @@ class FacilitatorPromptView(CreateView):
         pk = self.kwargs['pk']
         context['facilitator'] = Facilitator.objects.get(
             pk=pk)
-        facilitator = get_object_or_404(Facilitator, pk=pk)
         form = PromptModelForm(initial={'content': None, 'discussion': None})
         context['form'] = form
         return context
 
+
 class LoginPromptView(LoginView):
     template_name = 'discussion/registration/login.html'
+
 
 class PromptDetailView(generic.DetailView):
     model = Prompt
@@ -140,32 +132,6 @@ def DiscussionDetailView(request, pk, code, name):
         'discussion': disc,
     }
     return render(request, 'discussion/profile/discussion_detail.html', context=context)
-    # template_name = 'discussion/profile/discussion_detail.html'
-    # queryset =
-
-    # def get_queryset(self):
-    #     print("HELLO???\n\n\n\n\n\n\n\n\n")
-    #     self.facilitator = Facilitator.objects.get(pk=self.kwargs['pk'])
-    #     if ('code' in self.kwargs and 'name' in self.kwargs):
-    #         group = Group.objects.get(facilitator=self.facilitator, name=self.kwargs['name'])
-    #         self.discussion = Discussion.objects.filter(group=group, code=self.kwargs['code'])
-    #     else:
-    #         self.discussion = Discussion.objects.all()
-    #     print('disc', self.discussion)
-    #     return self.discussion
-
-    # def get_context_data(self, **kwargs):
-    #     print("running context data\n\n\n\n\n\n\n\n\n")
-    #     context = super(DiscussionDetailView,
-    #                     self).get_context_data(**kwargs)
-    #     context['facilitator'] = self.facilitator
-
-    #     context['discussion'] = self.discussion
-    #     print('\n\n\n\n\n\n\n')
-    #     print('group', context['group'])
-    #     print('code', self.kwargs['code'])
-    #     print('\n\n\n\n\n\n\n')
-    #     return context
 
 
 class ParticipantLogin(generic.ListView):
@@ -187,62 +153,16 @@ class ParticipantDiscussionView(generic.ListView):
             print('code given and its', code)
         else:
             code = self.request.GET.get('code')
-            # print('large code')
-            # group = get_object_or_404(
-            #     Group, name=self.request.GET.get('group-name'))
-            # code = group.discussion_set.first().code
-            # print('part list', group.participant_set.all(
-            # ).values_list('username', flat=True))
-            # if context['username'] not in group.participant_set.all().values_list('username', flat=True):
-            #     context['message'] = f"Error: User not in group {group.name}"
 
         context['discussion'] = Discussion.objects.get(
             code=code)
         if context['discussion'].prompt_set.last():
-            context['thoughts'] = context['discussion'].prompt_set.last().thought_set.all()
+            context['thoughts'] = context['discussion'].prompt_set.last(
+            ).thought_set.all()
         print('thoughts', context['thoughts'])
         # print('message recieved', context['message'], '\n\n\n\n\n\n\n\n\n')
         return context
     # paginate_by = 10
-
-
-class ParticipantSwapView(generic.ListView):
-    # eventually need LoginRequiredMixin
-    model = Distribution
-    # context_object_name = 'facilitator_list'
-    # queryset = Facilitator.objects.all()
-    template_name = 'discussion/post_swap.html'
-    # paginate_by = 10
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(PastDiscussionView,
-    #                     self).get_context_data(**kwargs)
-    #     context['distribution'] = Facilitator.objects.get(
-    #         id=self.kwargs['swapid'])
-    #     return context
-
-
-class SwapView(generic.ListView):
-    # eventually need LoginRequiredMixin
-    model = Distribution
-    # context_object_name = 'facilitator_list'
-    # queryset = Facilitator.objects.all()
-    template_name = 'discussion/post_swap.html'
-    # paginate_by = 10
-    
-    def get_context_data(self, **kwargs):
-        context = super(SwapView,
-                        self).get_context_data(**kwargs)
-        context['discussion'] = Discussion.objects.get(
-            code=self.kwargs['code'])
-        context['facilitator'] = Facilitator.objects.get(
-            pk=self.kwargs['pk'])
-        context['prompt'] = Prompt.objects.get(
-            content=self.kwargs['prompt'])
-        thought_swap(context.get('discussion'), context.get('prompt').id)
-        context['distribution'] = Distribution.objects.get(
-            prompt=context['prompt'])
-        return context
 
 
 class ParticipantGroupView(generic.ListView):
@@ -270,7 +190,22 @@ class FacilitatorGroupView(generic.ListView):
         context['form'] = form
         return context
 
+
 # Crud things
+
+
+@csrf_exempt
+@require_POST
+def update_prompt(request):
+    prompt = request.POST.get('prompt')
+    pk = request.POST.get('pk')
+    code = request.POST.get('code')
+    context = {}
+    context['prompt'] = prompt
+    context['thoughts'] = prompt.thought_set.all()
+    context['facilitator'] = Facilitator.objects.get(pk=pk)
+    context['discussion'] = Discussion.objects.get(code=code)
+    return redirect(reverse('facilitator-prompts', kwargs={'pk': pk}))
 
 
 def create_prompt(request, pk):
@@ -305,9 +240,6 @@ def save_prompt(request, pk):
             prompt.save()
             return redirect(reverse('facilitator-view', kwargs={'pk': pk, 'code': discussion.code}))
     return HttpResponse("Error creating prompt")
-
-
-# class PromptUpdate(PermissionRequiredMixin, UpdateView):
 
 
 class PromptUpdateView(UpdateView):
@@ -375,15 +307,6 @@ def create_group(request, pk):
 
             return redirect(reverse('view-group', kwargs={'pk': pk, 'name': group.name}))
     return HttpResponse("Error creating group: Group with that name already exists")
-    # else:
-    #     form = GroupModelForm(
-    #         initial={'facilitator': facilitator, 'size': 0, 'name': 'Group Name'})
-
-    # context = {
-    #     'facilitator': facilitator,
-    #     'form': form,
-    #     'group': group,
-    # }
 
 
 class GroupView(CreateView):
@@ -399,32 +322,10 @@ class GroupView(CreateView):
                         self).get_context_data(**kwargs)
         context['facilitator'] = Facilitator.objects.get(
             pk=self.kwargs['pk'])
-        # context['group'] = Group.objects.get(
-        #     name=self.kwargs['name'])
         context['group'] = get_object_or_404(Group, name=self.kwargs['name'])
 
         return context
 
-
-# class GroupUpdateView(UpdateView):
-#     model = Group
-#     # Not recommended (potential security issue if more fields added)
-#     fields = ['name', 'size']
-#     template_name = 'discussion/profile/group_update.html'
-#     # permission_required = 'catalog.change_prompt'
-
-#     def get_context_data(self, **kwargs):
-#         context = super(GroupUpdateView,
-#                         self).get_context_data(**kwargs)
-#         facilitator = Facilitator.objects.get(pk=self.kwargs['pk'])
-#         group = Group.objects.get(name=self.kwargs['name'])
-#         print(group)
-#         context['facilitator'] = facilitator
-#         context['group'] = group
-#         form = GroupModelForm(
-#             initial={'facilitator': facilitator, 'name': group.name, 'size': group.size})
-#         context['form'] = form
-#         return context
 
 def GroupUpdateView(request, pk, name):
     facilitator = Facilitator.objects.get(pk=pk)
@@ -498,16 +399,6 @@ class ThoughtDelete(DeleteView):
         code = self.kwargs['code']
         return reverse_lazy('facilitator-view', kwargs={'pk': pk, 'code': code})
 
-# other methods
-# generates a numerical random username
-
-# def CreateDiscussionView():
-#     form = DiscussionModelForm(
-#         initial={'code': 0, 'name': 'Discussion 0', 'group': None})
-#     context['form'] = form
-
-#     return redirect(reverse('facilitator-view', kwargs={'pk': pk}))
-
 
 def create_discussion(request):
     context = {}
@@ -540,9 +431,6 @@ def create_discussion(request):
             initial={'code': 0, 'name': 'Discussion 0', 'group': None})
     context['form'] = form
     return render(request, 'discussion/start_discussion.html', context=context)
-
-    # else:
-    #     redirect(reverse('login-view'))
 
 
 def generate_username(group):

@@ -70,7 +70,6 @@ Dark Blue: #23596d
 
 .discussion-board {
     margin: 1em;
-    /* width: 100%; */
 }
 
 .discussion-bio {
@@ -79,7 +78,6 @@ Dark Blue: #23596d
 }
 
 .response-board {
-
     padding: 1rem;
     display: grid;
 }
@@ -88,6 +86,7 @@ Dark Blue: #23596d
     /* fix to sixe of container */
     max-height: 550px;
     overflow-y: auto;
+    min-width: 50%;
 }
 
 /* form design */
