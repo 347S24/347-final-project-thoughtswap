@@ -6,12 +6,8 @@ urlpatterns = [
     # path('signup/', register_facilitator, name='register-facilitator'),
     # Homepage
     path('', views.index, name='index'),
-    path("signup/", views.SignUpView.as_view(), name="signup"),
-    path("register/", views.register_facilitator, name="register-facilitator"),
-
-    # Channel pages
-    # path('chat', views.chat, name='chat'),
-    path("room/<str:room_name>/", views.room, name="room"),
+    # path("signup/", views.SignUpView.as_view(), name="signup"),
+    # path("register/", views.register_facilitator, name="register-facilitator"),
 
     # Discussion pages
     path('<int:code>', views.ParticipantDiscussionView.as_view(), name='participant-view'),
