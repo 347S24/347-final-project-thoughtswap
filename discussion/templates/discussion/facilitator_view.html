@@ -18,18 +18,8 @@
         {{ discussion.prompt_set.last }}
         {% endif %}
         </textarea><br>
-            <!-- <form class="discussion-create-prompt" action="{% url 'save-prompt' pk=facilitator.pk %}" method="post">
-            {% csrf_token %}
-            <table>
-                {{ form.as_table }}
-            </table>
-            <button class="create-group-btn" type="submit">Submit Prompt</button>
-        </form> -->
             {% if discussion.prompt_set.count != 0 %}
             <h1>Choose An Existing Prompt</h1>
-            <!-- <form method="GET" action="{% url 'facilitator-view' pk=facilitator.pk code=discussion.code %}">
-                <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Prompt"></textarea>
-                <h1>Choose An Existing Prompt</h1> -->
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm" id="dropdown-title" type="button">
                     Choose Prompt
@@ -49,11 +39,6 @@
                 <div class="prompt-display" id="distributed-thought">
                 </div>
             </div>
-            <!-- <div class="prompt-btn-container">
-                <button class="prompt-btn" type="submit">Submit Prompt</button>
-                <button class="prompt-btn" type="button">Distribute Thoughts</button>
-            </div>
-        </form> -->
             <hr>
             <h1> Start a Thought Swap </h1>
             <p style="margin-left: 1rem;"> A 'Thought Swap' is a mode of discussion that allows students to anonymously
@@ -115,20 +100,6 @@
                     sendChatMessage("", prompt, fid, code, "");
                     console.log("prompt sent");
                     promptInputDom.value = '';
-                    // fetch('/update-prompt/', {
-                    //     method: 'POST',
-                    //     headers: {
-                    //         'Content-Type': 'application/json',
-                    //         'X-CSRFToken': csrftoken
-                    //     },
-                    //     body: JSON.stringify({ 'prompt': prompt,
-                    //         'code': code,
-                    //         'pk': fid })
-                    // })
-                    //     .then(response => response.json())
-                    //     .catch(error => {
-                    //         console.error('Error:', error);
-                    //     });
                 };
 
                 function promptClick(e) {
@@ -149,27 +120,14 @@
                         const span = document.getElementById("thought");
                         span.innerText = thought;
                         popup.classList.toggle("show-delete");
-                        // let parent_board = e.target.parentElement.parentElement.parentElement.parentElement;
-                        // let item = e.target.parentElement.parentElement.parentElement;
-                        // curr_delete = [parent_board, item];
                     };
                 });
 
 
                 document.querySelector('#delete-submit').onclick = function (e) {
                     var thought = document.querySelector('#thought').innerText;
-                    // console.log('deleting thought after sbmit', thought, thought_obj)
-                    // console.log('deleting thought after sbmit', thought)
                     deleteChatMessage(thought, "", fid, code, "")
                     document.getElementById("delete-popup").classList.toggle("show-delete");
-                    // console.log(curr_delete)
-                    // if (curr_delete != null) {
-                    //     let parent_board = curr_delete[0];
-                    //     let item = curr_delete[1];
-                    //     parent_board.removeChild(item);
-                    // }
-
-                    // window.location.pathname = '/discussion/facilitator/' + fid + '/' + code;
                 };
 
                 let dropdownItems = document.querySelectorAll('.dropdown-item')

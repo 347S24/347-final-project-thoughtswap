@@ -35,16 +35,6 @@
                             <img src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                 class="ms-1 d-none d-sm-inline">Discussions</span>
                         </a>
-                        <!-- <ul class="fac-nav-list" id="submenu1" data-bs-parent="#menu">
-                            <li class="fac-nav-item">
-                                <a class="fac-nav-link"href="#" class=""> <span class="">Item</span> 1
-                                </a>
-                            </li>
-                            <li class="fac-nav-item">
-                                <a href="#" class=""> <span class="">Item</span> 2
-                                </a>
-                            </li>
-                        </ul> -->
                     </li>
                 </ul>
                 <hr>
@@ -56,16 +46,6 @@
                                 src="/static/media/chevron-right-svgrepo-com.svg" alt="bullet point"><span
                                 class="ms-1 d-none d-sm-inline">Sign out</span></button></li>
                         </form>
-                        
-                       
-                        <!-- Alredy have these links above! -->
-
-                        <!-- <ul class="nav-list">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'facilitator-profile' pk=facilitator.pk %}">Profile</a></li>
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Sign out</a></li>
-                        </form> -->
                     </ul>
                 </div>
             </div>
@@ -73,7 +53,11 @@
     </div>
     {% block profileContent %}
     <div class="facilitator-profile">
+        {% if facilitator.first_name %}
         <h1 class="discussion-header">Welcome {{ facilitator.first_name }} {{ facilitator.last_name }}</h1>
+        {% else %}
+        <h1 class="discussion-header">Welcome {{ facilitator.username }}</h1>
+        {% endif %}
         <h2 class="discussion-header">This is the profile area to display info like past discussions and prompts
         </h2>
         <div class="profile-container" id="create-prompt">

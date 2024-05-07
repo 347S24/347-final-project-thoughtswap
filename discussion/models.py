@@ -101,7 +101,6 @@ class Prompt(models.Model):
         return reverse('prompt-detail', args=[str(self.id), str(self.author.id)])
     
 
-
     def to_dict(self):
         dict = {}
         for thought in self.thought_set.all():
