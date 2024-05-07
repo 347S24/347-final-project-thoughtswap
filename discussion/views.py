@@ -27,14 +27,14 @@ def index(request):
     return render(request, 'index.html', {"user": request.user})
 
 
-# class SignUpView(CreateView):
-#     form_class = UserCreationForm
-#     success_url = reverse_lazy("login")
-#     template_name = "signup.html"
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "signup.html"
 
-#     def get(self, request, *args, **kwargs):
-#         print('signup view')
-#         return super().get(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        print('signup view')
+        return super().get(request, *args, **kwargs)
 
 class FacilitatorDiscussionView(generic.ListView):
     # eventually need LoginRequiredMixin
@@ -94,6 +94,7 @@ class FacilitatorPromptView(CreateView):
 
 
 class LoginPromptView(LoginView):
+    print("login working?")
     template_name = 'discussion/registration/login.html'
 
 

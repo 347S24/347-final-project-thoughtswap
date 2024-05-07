@@ -17,9 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
-from discussion.views import LoginPromptView
-from accounts.views import SignUpView
-
+from discussion.views import LoginPromptView, SignUpView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
