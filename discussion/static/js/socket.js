@@ -30,15 +30,21 @@ function connectChat(code, user) {
 
             if (data.swap) {
                 // Get participant and assign the new, swapped thought
-                console.log('Swapping thought', data.swap, "with user", author)
-                if (data.swap[author]) {
-                    console.log('swap[user]', data.swap[author])
+                console.log('Swapping thought', data.swap, "with user", user)
+                if (!user) {
+                    console.log('author is null')
+                    user = 'testuser'
+                }
+                if (data.swap[user]) {
+                    console.log('swap[user]', data.swap[user])
                     let container = document.querySelector('.swap-display');
                     let response_container = document.querySelector('.participant-response');
                     let div = document.querySelector('#distributed-thought');
-                    div.innerHTML = data.swap[author];
+                    div.innerHTML = data.swap[user];
                     container.classList.toggle('show-swap-response');
-                    response_container.classList.toggle('show-swap-response');
+                    if (response_container) {
+                        response_container.classList.toggle('show-swap-response');
+                    }
                 }
             } else if (data.save == false && data.prompt == '') {
                 // Delete Thought
@@ -82,7 +88,7 @@ function connectChat(code, user) {
                     parent.insertBefore(div, parent.children[1]);
                 }
                 // Display a prompt and it's thoughts
-                if (data.prompt) {
+                if (!data.message && data.prompt) {
                     console.log('Sending prompt', prompt)
                     let p = document.createElement('p');
                     p.textContent = data.prompt.trim();

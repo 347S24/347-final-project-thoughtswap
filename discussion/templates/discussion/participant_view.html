@@ -5,11 +5,7 @@
 {% endblock %}
 
 <body>
-    <!-- {% if message %}
-    <div>
-        {{ message }}
-    </div>
-    {% else %} -->
+
 
     {% block container %}
     <div class="discussion-page-container">
@@ -20,7 +16,6 @@
             <h2 class="discussion-bio"> Discussion Name: {{ discussion.name }} </h2>
             <h2 class="discussion-bio"> Group: {{ discussion.group }} </h2>
             <h2 class="discussion-bio"> Facilitator: {{ discussion.group.facilitator }} </h2>
-            <!-- <h2 class="discussion-bio"> Message: {{ message }} </h2> -->
             <div class="participant-response">
                 <h1>Prompt:</h1>
                 <div class="prompt-display">
@@ -43,12 +38,6 @@
                 <textarea id="swap-message-input" type="text" rows="5" cols="75" class="prompt-display"></textarea><br>
                 <input id="swap-message-submit" type="button" value="Submit Answer" class="create-group-btn">
             </div>
-            <!-- <form method="GET"> -->
-            <!-- <textarea class="textarea" rows="5" cols="33" name="answer" placeholder="Enter Your Answer"></textarea>
-                <div class="prompt-btn-container">
-                    <button class="prompt-btn" type="submit">Submit Answer</button>
-                </div> -->
-            <!-- </form> -->
         </div>
         {% endblock %}
 
@@ -67,7 +56,6 @@
         </script>
         <script>
             const code = JSON.parse('{{ discussion.code|escapejs }}');
-            // HARD CODED TO SELECT FIRST PROMPT
             const pk = '{{ discussion.group.facilitator.pk|escapejs }}' ? JSON.parse('{{ discussion.group.facilitator.pk|escapejs }}') : 0;
             var deleteGroupUrl = null;
             var author = '{{ username|escapejs }}';
@@ -76,70 +64,6 @@
 
             // user:value to socket
             connectChat(code, author).then((sock) => {
-                console.log("entered", sock);
-                // sock.onmessage = function (e) {
-                //     const data = JSON.parse(e.data);
-                //     console.log('data', data)
-                //     console.log('data', data.swap)
-
-                //     if (data.swap) {
-                //         if (data.swap[author]) {
-                //             console.log('swap[user]', data.swap[author])
-                //             let container = document.querySelector('.swap-display');
-                //             let response_container = document.querySelector('.participant-response');
-                //             let div = document.querySelector('#distributed-thought');
-                //             div.innerHTML = data.swap[author];
-                //             container.classList.toggle('show-swap-response');
-                //             response_container.classList.toggle('show-swap-response');
-                //         }
-
-                //     } else if (data.save == false && data.prompt == '') {
-                //         let parent = document.querySelector('.response');
-                //         let children = document.querySelectorAll('.response-item');
-                //         children.forEach(function (child) {
-                //             if (child.textContent.trim() == data.message.trim()) {
-                //                 parent.removeChild(child);
-                //             }
-                //         });
-                //     } else {
-                //         if (data.message) {
-                //             console.log('message', data.message)
-                //             let div = document.createElement('div');
-                //             div.className = 'response-item';
-                //             div.innerHTML = data.message;
-
-                //             // if no url, do not display delete button
-                //             if (deleteGroupUrl) {
-                //                 console.log('fac view delete element')
-                //                 let img = document.createElement('img');
-                //                 img.src = "/static//media/trash-svgrepo-com.svg";
-                //                 img.alt = 'delete thought';
-
-                //                 let btn = document.createElement('button');
-                //                 btn.className = 'ud-button delete-thought';
-                //                 // console.log(deleteGroupUrl)
-                //                 // link.href = deleteGroupUrl;
-                //                 btn.type = "button"
-                //                 btn.onclick = deleteThought;
-                //                 btn.appendChild(img);
-
-                //                 let tip_container = document.createElement('div');
-                //                 tip_container.className = 'tip-container';
-                //                 tip_container.appendChild(btn);
-                //                 div.appendChild(tip_container);
-                //             }
-                //             document.querySelector('#response-board').appendChild(div);
-                //         }
-                //         if (data.prompt) {
-                //             console.log('prompt', prompt)
-                //             let p = document.createElement('p');
-                //             p.textContent = data.prompt.trim();
-                //             document.querySelector('.prompt-display').innerHTML = p.textContent;
-                //             document.querySelector('#prompt-message-input').value = data.prompt;
-                //         }
-                //     }
-                // };
-
             document.querySelector('#chat-message-input').focus();
             document.querySelector('#chat-message-input').onkeyup = function (e) {
                 if (e.keyCode === 13) {  // enter, return
@@ -150,7 +74,10 @@
             document.querySelector('#chat-message-submit').onclick = function (e) {
                 const messageInputDom = document.querySelector('#chat-message-input');
                 const message = messageInputDom.value;
-                sendChatMessage(message, "", pk, code, author);
+
+                let prompt = document.querySelector('.prompt-display').textContent.trim();
+                console.log('prompt= ', prompt)
+                sendChatMessage(message, prompt, pk, code, author);
                 messageInputDom.value = '';
             };
 
@@ -180,4 +107,4 @@
         {% endblock %}
     </div>
 </body>
-<!-- {% endif %} -->
+

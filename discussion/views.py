@@ -27,14 +27,14 @@ def index(request):
     return render(request, 'index.html', {"user": request.user})
 
 
-class SignUpView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "signup.html"
+# class SignUpView(CreateView):
+#     form_class = UserCreationForm
+#     success_url = reverse_lazy("login")
+#     template_name = "signup.html"
 
-    def get(self, request, *args, **kwargs):
-        print('signup view')
-        return super().get(request, *args, **kwargs)
+#     def get(self, request, *args, **kwargs):
+#         print('signup view')
+#         return super().get(request, *args, **kwargs)
 
 class FacilitatorDiscussionView(generic.ListView):
     # eventually need LoginRequiredMixin
@@ -216,7 +216,7 @@ def register_facilitator(request):
             facilitator.save()
             return redirect(reverse('facilitator-profile', kwargs={'pk': facilitator.pk}))
 
-        return HttpResponse("Error with the form", status=400)
+        return HttpResponse(f'Error with the form {form.errors}', status=400)
 
     else:
         form = FacilitatorForm()
@@ -439,20 +439,17 @@ def create_discussion(request):
             code = form.cleaned_data['code']
             group = form.cleaned_data['group']
 
-            discussion = Discussion(name=name, group=group, code=code)
-            # This saves the model to the DB
-            discussion.save()
-            print("saved disc,", discussion)
-            return redirect(reverse('facilitator-view', kwargs={'pk': group.facilitator.pk, 'code': code}))
-        else:
-            code = request.POST.get('code')
-            for e in form.errors.as_data()['__all__']:
-                if e.message == "Discussion Exists":
-                    print('exists')
+            if (Discussion.objects.get(code=code, name=name, group=group)):
                     # TODO: Get correct group facilitator to put into pk
                     return redirect(reverse('facilitator-view', kwargs={'pk': 1, 'code': code}))
             else:
-                context['errors'] = form.errors
+                discussion = Discussion(name=name, group=group, code=code)
+                # This saves the model to the DB
+                discussion.save()
+                print("saved disc,", discussion)
+                return redirect(reverse('facilitator-view', kwargs={'pk': group.facilitator.pk, 'code': code}))
+        else:
+            context['errors'] = form.errors
     else:
         print('no data\n\n\n\n\n\n\n\n\n')
         form = DiscussionModelForm(

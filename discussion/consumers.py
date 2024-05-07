@@ -38,6 +38,26 @@ class ChatConsumer(AsyncWebsocketConsumer):
             thought.answer = message
             thought.save()
         else:
+            if message:
+                facilitator = Facilitator.objects.get(pk=facilitator_id)
+                discussion = Discussion.objects.get(code=code)
+                group = discussion.group
+                prompt_obj = Prompt.objects.get(content=prompt)
+                # group = discussion.group
+
+                # partipant = Participant.objects.get(
+                #     username=author, group=group)
+                if author in Participant.objects.values_list('username', flat=True):
+                    partipant = Participant.objects.get(
+                        username=author)
+                else:
+                    partipant = Participant.objects.get(
+                        username='testuser', group=group)
+                message = message.strip()
+                Thought.objects.create(
+                    content=message, prompt=prompt_obj, author=partipant)
+                print('saved message: ', message, "with prompt: ",
+                        prompt_obj, "and author: ", partipant)
             if prompt:
                 prompt = prompt.strip()
                 facilitator = Facilitator.objects.get(pk=facilitator_id)
@@ -48,22 +68,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     discussion.prompt_set.add(prompt_obj)
                     print('saved prompt: ', prompt)
 
-            if message:
-                facilitator = Facilitator.objects.get(pk=facilitator_id)
-                discussion = Discussion.objects.get(code=code)
-                prompt_obj = discussion.prompt_set.last()
-                # group = discussion.group
-
-                # partipant = Participant.objects.get(
-                #     username=author, group=group)
-                if author in Participant.objects.values_list('username', flat=True):
-                    partipant = Participant.objects.get(
-                        username=author)
-                    message = message.strip()
-                    Thought.objects.create(
-                        content=message, prompt=prompt_obj, author=partipant)
-                    print('saved message: ', message, "with prompt: ",
-                          prompt_obj, "and author: ", partipant)
 
     @database_sync_to_async
     def delete_from_db(self, message):
